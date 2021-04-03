@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e3498a205b3a49b9ab8aad0806242fdb" Name="Diagram1">
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Lvl_Access" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.User" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Device" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Built_Tech" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Control_Type" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Device_Type" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Enviroment" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Function" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Kind" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.LA_Type" Width="1.5" PointX="0.75" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Literature" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Measure" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Measure_Dims" Width="1.5" PointX="0.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Measure_Processing" Width="1.5" PointX="0.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Producer" Width="1.5" PointX="0.75" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Sens_Element" Width="1.5" PointX="0.75" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Avia_and_Space_DeviceModel.Type" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_User_Lvl_Access" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Avia_Device_Control_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Avia_Device_Device_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Avia_Device_Measure_Processing" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Avia_Device_Producer" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Avia_Device_Sens_Element" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Device_Built_Tech" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Device_Function" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Device_Kind" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Device_LA_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.FK_Device_Measure_Dims" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.Device_Envi" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.Device_Lit" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.Device_Measure" ManuallyRouted="false" />
+        <AssociationConnector Association="Avia_and_Space_DeviceModel.Type_Kind" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
