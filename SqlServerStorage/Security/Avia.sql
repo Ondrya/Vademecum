@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Avia]
+    AUTHORIZATION [dbo];
+
