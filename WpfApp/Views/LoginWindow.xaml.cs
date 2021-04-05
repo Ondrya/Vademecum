@@ -23,5 +23,19 @@ namespace WpfApp.Views
         {
             InitializeComponent();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = ((LoginWindow)sender).DataContext as ViewModels.LoginViewModel;
+            if (vm.DbRemindMe == "True")
+            {
+                ((App)Application.Current).CurrentDb = vm.Db;
+            }
+            else
+            {
+                ((App)Application.Current).CurrentDb.Clear();
+            }
+            ((App)Application.Current).CurrentDb.Save();
+        }
     }
 }

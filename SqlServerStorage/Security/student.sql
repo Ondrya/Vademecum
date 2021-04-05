@@ -1,2 +1,3 @@
-﻿CREATE USER [student];
+﻿CREATE USER [student] --;
+	WITHOUT LOGIN;
 

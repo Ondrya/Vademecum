@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using WpfApp.Models;
 using WpfApp.Validators;
 using WpfApp.Commands;
+using DataLayer;
+using System.Windows;
+using System.Windows.Input;
 
 namespace WpfApp.ViewModels
 {
@@ -13,7 +16,65 @@ namespace WpfApp.ViewModels
     {
         private string _userLogin;
         private string _userPassword;
-        private DbConnectionSetting _db;
+        public DbConnectionSetting Db;
+
+        private string _dbHost;
+        private string _dbName;
+        private string _dbLogin;
+        private string _dbPassword;
+        private string _dbRemindMe;
+
+        public string DbHost
+        {
+            get => _dbHost;
+            set 
+            { 
+                _dbHost = value;
+                OnPropertyChanged(nameof(DbHost));
+                Db.Host = value;
+            }
+        }
+        public string DbName
+        {
+            get => _dbName;
+            set
+            {
+                _dbName = value;
+                OnPropertyChanged(nameof(DbName));
+                Db.Name = value;
+            }
+        }
+        public string DbLogin
+        {
+            get => _dbLogin;
+            set
+            {
+                _dbLogin = value;
+                OnPropertyChanged(nameof(DbLogin));
+                Db.Login = value;
+            }
+        }
+        public string DbPassword
+        {
+            get => _dbPassword;
+            set
+            {
+                _dbPassword = value;
+                OnPropertyChanged(nameof(DbPassword));
+                Db.Password = value;
+            }
+        }
+        public string DbRemindMe
+        {
+            get => _dbRemindMe;
+            set
+            {
+                _dbRemindMe = value;
+                OnPropertyChanged(nameof(DbRemindMe));
+                Db.RemindMe = value;
+            }
+        }
+
 
         public string UserLogin
         {
@@ -33,14 +94,6 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(UserPassword));
             }
         }
-        public DbConnectionSetting Db
-        {
-            get => _db;
-            set {
-                _db = value;
-                OnPropertyChanged(nameof(Db));
-            }
-        }
 
 
         #region Команды
@@ -52,30 +105,73 @@ namespace WpfApp.ViewModels
         {
             // проверить действительно ли это новый пользователь - открыть окно регистрации нового пользователя
             //throw new NotImplementedException();
-        }
+        }, (obj) => Db != null
         ));
+
+
+        private RelayCommand _loginAsGuestCommand;
+
+
+        public RelayCommand LoginAsGuestCommand => _loginAsGuestCommand ?? (_loginAsGuestCommand = new RelayCommand(obj =>
+        {
+            // авторизуем гостя
+            DoLogin(AppConfig.GuestLogin, AppConfig.GuestPassword);
+        }, (obj) => Db != null));
+
 
         public RelayCommand LoginCommand => _loginCommand ?? (_loginCommand = new RelayCommand(obj =>
         {
-           //throw new NotImplementedException();
-        }, (obj) => ValidateLoginPassword(obj.ToString() == "user") 
-        ));
+            // авторизуем пользователя
+            DoLogin(UserLogin, UserPassword);
+        }, (obj) => Db != null));
 
-        private bool ValidateLoginPassword(bool isUser)
+        private void DoLogin(string login, string password)
         {
-            // если гость - разрешить авторизацию
-            if (!isUser) return true;
-            // проверить логин пароль и тип подключения
-            //throw new NotImplementedException();
-            return false;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            var cn = Db.ToString();
+            using (var context = new DataContext(cn))
+            {
+                var user = context.Users.SingleOrDefault(x => x.login == login && x.password == password);
+                if (user != null)
+                {
+                    ((App)Application.Current).CurrentUser = new Models.User()
+                    {
+                        Login = user.login,
+                        Level = (AccessLevel)user.lvl_access
+                    };
+
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    Mouse.OverrideCursor = null;
+                    CloseWindow();
+                    
+                }
+                else
+                {
+                    Mouse.OverrideCursor = null;
+                    MessageBox.Show("Неверный логин/пароль", "Ошибка авторизации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
+        private void CloseWindow()
+        {
+            foreach (Window item in Application.Current.Windows)
+                if (item.DataContext == this) item.Close();
         }
 
 
-        #endregion
+#endregion
 
         public LoginViewModel()
         {
+            Db = ((App)Application.Current).CurrentDb;
 
+            DbHost = Db.Host;
+            DbName = Db.Name;
+            DbLogin = DbLogin;
+            DbPassword = Db.Password;
+            DbRemindMe = Db.RemindMe;
         }
     }
 }

@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConnectionStringHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ondrya\sqlexpress</Value>
+    </Setting>
+    <Setting Name="ConnectionStringDbName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Avia_and_Space_Device</Value>
+    </Setting>
+    <Setting Name="ConnectionStringUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ConnectionStringUserPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ConnectionStringRemindMe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

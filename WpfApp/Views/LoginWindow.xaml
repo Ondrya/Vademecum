@@ -6,13 +6,22 @@
         xmlns:local="clr-namespace:WpfApp.Views"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WpfApp.ViewModels"
-        Title="База данных по навигационным измерительным устройствам" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing"
+        Title="База данных по навигационным измерительным устройствам" 
+        Height="380" Width="500">
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
-    <StackPanel>
-        <Label Content="Навигационные измерительные устройства"/>
-        <Label Content="Введите учётные данные пользователя или зарегистрируйтесь в системе"/>
+    <StackPanel
+        Margin="30 5"
+        >
+        <Label 
+            HorizontalContentAlignment="Center"
+            Content="Навигационные измерительные устройства"/>
+        <Label 
+            HorizontalContentAlignment="Center"
+            Content="Введите учётные данные пользователя или зарегистрируйтесь в системе"/>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -44,14 +53,12 @@
             <Button 
                 Grid.Row="2" Grid.Column="1"
                 Content="Войти в систему" 
-                Command="{Binding LoginCommand}"
-                CommandParameter="user"/>
+                Command="{Binding LoginCommand}"/>
 
             <Button 
                 Grid.Row="3" Grid.Column="1"
                 Content="Просмотр данных без регистрации" 
-                Command="{Binding LoginCommand}"
-                CommandParameter="guest"/>
+                Command="{Binding LoginAsGuestCommand}"/>
 
             <Button 
                 Grid.Row="4" Grid.Column="1"
@@ -79,33 +86,33 @@
                         Content="Сервер"/>
                     <TextBox 
                         Grid.Row="0" Grid.Column="1"
-                        Text="{Binding Db.Host}"/>
+                        Text="{Binding DbHost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <Label 
                         Grid.Row="1" Grid.Column="0"
                         Content="База данных"/>
                     <TextBox 
                         Grid.Row="1" Grid.Column="1"
-                        Text="{Binding Db.Name}"/>
+                        Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <Label 
                         Grid.Row="2" Grid.Column="0"
                         Content="Логин"/>
                     <TextBox 
                         Grid.Row="2" Grid.Column="1"
-                        Text="{Binding Db.Login}"/>
+                        Text="{Binding DbLogin, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <Label 
                         Grid.Row="3" Grid.Column="0"
                         Content="Пароль"/>
                     <TextBox 
                         Grid.Row="3" Grid.Column="1"
-                        Text="{Binding Db.Password}"/>
+                        Text="{Binding DbPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                     <CheckBox 
                         Grid.Row="4" Grid.Column="1"
                         Content="Запомнить"
-                        IsChecked="{Binding Db.RemindMe}"/>
+                        IsChecked="{Binding DbRemindMe, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
             </Expander>
 

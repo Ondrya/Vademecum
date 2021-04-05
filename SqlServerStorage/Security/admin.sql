@@ -1,2 +1,3 @@
-﻿CREATE USER [admin];
+﻿CREATE USER [admin] --;
+	WITHOUT LOGIN;
 
