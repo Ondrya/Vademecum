@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         Closing="Window_Closing"
         Title="База данных по навигационным измерительным устройствам" 
-        Height="380" Width="500">
+        Height="450" Width="500">
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
@@ -52,16 +52,22 @@
 
             <Button 
                 Grid.Row="2" Grid.Column="1"
+                Width="270"
+                Margin="5"
                 Content="Войти в систему" 
                 Command="{Binding LoginCommand}"/>
 
             <Button 
                 Grid.Row="3" Grid.Column="1"
+                Width="270"
+                Margin="5"
                 Content="Просмотр данных без регистрации" 
                 Command="{Binding LoginAsGuestCommand}"/>
 
             <Button 
                 Grid.Row="4" Grid.Column="1"
+                Width="270"
+                Margin="5"
                 Content="Зарегистрироваться в системе" 
                 Command="{Binding RegistrationCommand}"/>
 

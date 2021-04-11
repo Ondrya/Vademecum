@@ -18,6 +18,7 @@ namespace WpfApp
 
         public User CurrentUser { get; set; }
         public DbConnectionSetting CurrentDb { get; set; }
+        public SessionSetting CurrentSession { get; set; }
 
         #endregion
 
@@ -42,6 +43,7 @@ namespace WpfApp
             base.OnStartup(e);
 
             CurrentDb = LoadCurrentDbSetting();
+            CurrentSession = new SessionSetting();
         }
 
         private DbConnectionSetting LoadCurrentDbSetting()

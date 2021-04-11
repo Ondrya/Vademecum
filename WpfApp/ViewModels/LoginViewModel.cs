@@ -9,6 +9,8 @@ using WpfApp.Commands;
 using DataLayer;
 using System.Windows;
 using System.Windows.Input;
+using WpfApp.Views;
+using WpfApp.Interfaces;
 
 namespace WpfApp.ViewModels
 {
@@ -103,8 +105,10 @@ namespace WpfApp.ViewModels
 
         public RelayCommand RegistrationCommand => _registrationCommand ?? (_registrationCommand = new RelayCommand(obj =>
         {
-            // проверить действительно ли это новый пользователь - открыть окно регистрации нового пользователя
-            //throw new NotImplementedException();
+            var registrationWindow = new RegistrationWindow();
+            foreach (Window item in Application.Current.Windows)
+                if (item.DataContext == this) registrationWindow.Owner = item;
+            registrationWindow.Show();
         }, (obj) => Db != null
         ));
 
@@ -140,8 +144,14 @@ namespace WpfApp.ViewModels
                         Level = (AccessLevel)user.lvl_access
                     };
 
-                    var mainWindow = new MainWindow();
-                    mainWindow.Show();
+                    ((App)Application.Current).CurrentSession = new Models.SessionSetting()
+                    {
+                        CurrentUser = ((App)Application.Current).CurrentUser,
+                        SelectedLaType = LaType.Undefined
+                    };
+
+                    var selectWindow = new SelectWindow();
+                    selectWindow.Show();
                     Mouse.OverrideCursor = null;
                     CloseWindow();
                     
@@ -161,7 +171,7 @@ namespace WpfApp.ViewModels
         }
 
 
-#endregion
+        #endregion
 
         public LoginViewModel()
         {

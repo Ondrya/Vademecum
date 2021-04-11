@@ -17,7 +17,16 @@
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Текущий пользователь"/>
                     <Label 
-                        Content="{Binding CurrentUser.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        Content="{Binding CurrentSession.CurrentUser.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        FontStyle="Italic"/>
+                </StackPanel>
+            </StatusBarItem>
+            
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Тип ЛА"/>
+                    <Label 
+                        Content="{Binding CurrentSession.SelectedLaType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         FontStyle="Italic"/>
                 </StackPanel>
             </StatusBarItem>

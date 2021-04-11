@@ -11,22 +11,23 @@ namespace WpfApp.ViewModels
 {
     public class MainViewModel : NotifyDataErrorInfoBase
     {
-        private User _currentUser;
 
+        private SessionSetting _currentSession;
 
-        public User CurrentUser
+        public SessionSetting CurrentSession
         {
-            get => _currentUser;
+            get => _currentSession;
             set 
-            {
-                _currentUser = value;
-                OnPropertyChanged(nameof(CurrentUser));
+            { 
+                _currentSession = value;
+                OnPropertyChanged(nameof(CurrentSession));
             }
         }
 
+
         public MainViewModel()
         {
-            CurrentUser = ((App)Application.Current).CurrentUser;
+            CurrentSession = ((App)Application.Current).CurrentSession;
         }
     }
 }
