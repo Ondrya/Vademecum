@@ -1,0 +1,114 @@
+﻿<Window x:Class="WpfApp.Views.Administration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp.Views" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:vm="clr-namespace:WpfApp.ViewModels"
+        xmlns:models="clr-namespace:WpfApp.Models"
+        xmlns:converters="clr-namespace:WpfApp.Converters"
+        mc:Ignorable="d"
+        Title="Администрирование" Height="450" Width="750">
+    <Window.DataContext>
+        <vm:AdministrationViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:EnumConverter x:Key="enumToStringConverter"/>
+        <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+        <converters:IntAccessLevelDescriptionConverter x:Key="IntAccessLevelDescriptionConverter"/>
+    </Window.Resources>
+    <StackPanel Margin="5">
+        <DataGrid 
+            ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+            SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            IsReadOnly="True" 
+            AutoGenerateColumns="False" 
+            Height="220" >
+            <DataGrid.Columns>
+                <DataGridTextColumn 
+                    Header="Логин" Binding="{Binding Path=login, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="150"/>
+                <DataGridTextColumn 
+                    Header="Фамилия" Binding="{Binding Path=surname, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="150"/>
+                <DataGridTextColumn 
+                    Header="Имя" Binding="{Binding Path=name, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="150"/>
+                <DataGridTextColumn 
+                    Header="Отчество" Binding="{Binding Path=patronymic, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="150"/>
+                <!--<DataGridTextColumn 
+                    Header="Статус" Binding="{Binding Path=lvl_access, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource enumToStringConverter}}" 
+                    Width="*"/>-->
+                <DataGridTextColumn 
+                    Header="Статус" 
+                    Binding="{Binding Path=lvl_access, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntAccessLevelDescriptionConverter},  ConverterParameter={x:Type models:AccessLevel}}"
+                    Width="*"/>
+
+                
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Редактирование"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <DockPanel Margin="1">
+                    <Label Content="Фамилия: " Width="100"/>
+                    <TextBox Text="{Binding Path=Selected.surname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
+                </DockPanel>
+                <DockPanel Margin="1">
+                    <Label Content="Имя: " Width="100"/>
+                    <TextBox Text="{Binding Path=Selected.name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
+                </DockPanel>
+                <DockPanel Margin="1">
+                    <Label Content="Отчество: " Width="100"/>
+                    <TextBox Text="{Binding Path=Selected.patronymic, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <DockPanel Margin="1">
+                    <Label Content="* Логин: " Width="100"/>
+                    <TextBox 
+                        Text="{Binding Path=Selected.login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                        Height="26" BorderThickness="1" />
+                </DockPanel>
+                <DockPanel Margin="1">
+                    <Label Content="Новый пароль: " Width="100" DockPanel.Dock="Left"/>
+                    <CheckBox IsChecked="{Binding UpdatePassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+                    <TextBox 
+                        Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                        BorderThickness="1" 
+                        Visibility="{Binding UpdatePassword, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </DockPanel>
+                <DockPanel Margin="1">
+                    <Label Content="Статус: " Width="100"/>
+                    <ComboBox 
+                        ItemsSource="{Binding Source={converters:EnumToItemsSource {x:Type models:AccessLevel}}}" 
+                        SelectedValue="{Binding Selected.lvl_access, Converter={StaticResource IntAccessLevelDescriptionConverter},  ConverterParameter={x:Type models:AccessLevel}}"/>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button 
+                Background="Red" Margin="10"
+                Command="{Binding DeleteCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                    <Label Content="Удалить"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="Gold" Margin="10"
+                Command="{Binding UpdateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                    <Label Content="Обновить"/>
+                </DockPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

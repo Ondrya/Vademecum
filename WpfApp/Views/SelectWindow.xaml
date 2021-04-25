@@ -8,6 +8,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WpfApp.ViewModels"
+        WindowStartupLocation="CenterScreen"
         Title="Выбор ЛА с приборными устройствами" 
         Height="370" Width="600">
     <Window.DataContext>

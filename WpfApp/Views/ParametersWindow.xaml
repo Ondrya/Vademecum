@@ -30,7 +30,8 @@
             <Button x:Name="Type" Content="Типы приборов" Margin="2" Click="Type_Click" Background="CadetBlue"/>
             <Button Content="Назначения" Margin="2"/>
             <Button x:Name="ControlType" Content="Способы управления" Margin="2" Click="ControlType_Click" Background="CadetBlue"/>
-            <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>
+            <!--<Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>-->
+            <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click"/>
         </WrapPanel>
     </StackPanel>
 </Window>

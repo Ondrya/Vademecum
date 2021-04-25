@@ -90,6 +90,11 @@
     </ApplicationDefinition>
     <Compile Include="AppConfig.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\AccessLevelParse.cs" />
+    <Compile Include="Converters\EnumConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\IntAccessLevelDescriptionConverter.cs" />
+    <Compile Include="Converters\EnumToItemsSource.cs" />
     <Compile Include="DataProvider.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Functions.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ParamControlTypeViewModel.cs" />
+    <Compile Include="ViewModels\AdministrationViewModel.cs" />
     <Compile Include="ViewModels\ParamMeasureViewModel.cs" />
     <Compile Include="ViewModels\ParamSensElementViewModel.cs" />
     <Compile Include="ViewModels\ParamTypeViewModel.cs" />
@@ -123,6 +129,9 @@
     </Compile>
     <Compile Include="Views\ParamControlType.xaml.cs">
       <DependentUpon>ParamControlType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Administration.xaml.cs">
+      <DependentUpon>Administration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ParamMeasure.xaml.cs">
       <DependentUpon>ParamMeasure.xaml</DependentUpon>
@@ -178,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ParamControlType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Administration.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

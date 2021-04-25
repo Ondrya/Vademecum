@@ -60,8 +60,11 @@
             (возможности создавать новые записи нет – только посредством регистрации в окне запуска); -->
             <Button 
                 Content="Администрирование"
+                Background="LightGreen"
+                Foreground="Black"
                 Margin="3"
-                Grid.Row="0" Grid.Column="2"/>
+                Grid.Row="0" Grid.Column="2"
+                Command="{Binding ShowAdminWindowCommand}"/>
             <Button 
                 Content="Сменить пользователя"
                 Background="LightGreen"

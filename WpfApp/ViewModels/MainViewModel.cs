@@ -19,8 +19,23 @@ namespace WpfApp.ViewModels
             CurrentSession = ((App)Application.Current).CurrentSession;
             ShowDevices = true;
             ShowSensors = true;
-
+            isAdmin = CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
             Fill();
+        }
+
+        private bool CheckIsAdmin(AccessLevel level)
+        {
+            switch (level)
+            {
+                case AccessLevel.Administrator:
+                    return true;
+                case AccessLevel.Developer:
+                    return true;
+                case AccessLevel.Student:
+                case AccessLevel.Guest:
+                default:
+                    return false;
+            }
         }
 
         private void Fill()
@@ -36,6 +51,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<DeviceSensorLookUp> _dataGridCollection;
         private DeviceSensorLookUp _selectedItem;
         private List<DeviceSensorLookUp> _items;
+        private bool isAdmin;
 
         public bool ShowDevices
         {
@@ -96,6 +112,7 @@ namespace WpfApp.ViewModels
         private RelayCommand _createCommand;
         private RelayCommand _updateCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _showAdminWindowCommand;
 
         private RelayCommand _parametersCommand;
 
@@ -133,11 +150,18 @@ namespace WpfApp.ViewModels
             throw new NotImplementedException();
         }
 
-        
 
-        
 
-        
+
+        public RelayCommand ShowAdminWindowCommand => _showAdminWindowCommand ?? (_showAdminWindowCommand = new RelayCommand(obj =>
+        {
+            var popUpWindow = new Administration();
+            popUpWindow.Show();
+            foreach (Window item in Application.Current.Windows)
+                if (item.DataContext == this) popUpWindow.Owner = item;
+        }, (obj) => isAdmin));
+
+
 
 
 
