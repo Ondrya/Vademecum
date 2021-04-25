@@ -1,0 +1,36 @@
+﻿<Window x:Class="WpfApp.Views.ParametersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp.Views"
+        mc:Ignorable="d"
+        Title="Параметры" Height="350" Width="600">
+    <StackPanel>
+        <Label Content="Общие параметры" FontSize="16" FontWeight="Bold"/>
+        <WrapPanel Orientation="Horizontal">
+            <Button x:Name="Producer" Content="Производители" Margin="2" Click="Producer_Click" Background="CadetBlue"/>
+            <Button x:Name="Enviroment" Content="Среды измерения" Margin="2" Click="Enviroment_Click" Background="CadetBlue"/>
+            <!--<Button Content="Области применения" Margin="2"/>-->
+            <Button x:Name="BuiltTech" Content="Технологии изготовления" Margin="2" Click="BuiltTech_Click" Background="CadetBlue"/>
+            <Button x:Name="Kind" Content="Принципы действия" Margin="2" Click="Kind_Click" Background="CadetBlue"/>
+            <Button x:Name="Literature" Content="Литература" Margin="2" Click="Literature_Click" Background="CadetBlue"/>
+        </WrapPanel>
+
+        <Label Content="Для датчиков" FontSize="16" FontWeight="Bold"/>
+        <WrapPanel>
+            <Button Content="Типы датчиков" Margin="2"/>
+            <Button x:Name="SensElement" Content="Чувствительные элементы" Margin="2" Click="SensElement_Click" Background="CadetBlue"/>
+            <Button Content="Типы выходных сигналов" Margin="2"/>
+            <Button Content="Типы преобр. сигнала" Margin="2"/>
+        </WrapPanel>
+
+        <Label Content="Для приборов" FontSize="16" FontWeight="Bold"/>
+        <WrapPanel Orientation="Horizontal">
+            <Button x:Name="Type" Content="Типы приборов" Margin="2" Click="Type_Click" Background="CadetBlue"/>
+            <Button Content="Назначения" Margin="2"/>
+            <Button x:Name="ControlType" Content="Способы управления" Margin="2" Click="ControlType_Click" Background="CadetBlue"/>
+            <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>
+        </WrapPanel>
+    </StackPanel>
+</Window>

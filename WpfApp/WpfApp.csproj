@@ -90,7 +90,9 @@
     </ApplicationDefinition>
     <Compile Include="AppConfig.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="DataProvider.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Interfaces\ICloseView.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\DbConnectionSetting.cs" />
@@ -99,12 +101,55 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Validators\NotifyDataErrorInfoBase.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ParamControlTypeViewModel.cs" />
+    <Compile Include="ViewModels\ParamMeasureViewModel.cs" />
+    <Compile Include="ViewModels\ParamSensElementViewModel.cs" />
+    <Compile Include="ViewModels\ParamTypeViewModel.cs" />
+    <Compile Include="ViewModels\ParamLiteratureViewModel.cs" />
+    <Compile Include="ViewModels\ParamKindViewModel.cs" />
+    <Compile Include="ViewModels\ParamBuiltTechViewModel.cs" />
+    <Compile Include="ViewModels\ParamEnviromentViewModel.cs" />
+    <Compile Include="ViewModels\ParamProducerViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\SelectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\Item.xaml.cs">
+      <DependentUpon>Item.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamControlType.xaml.cs">
+      <DependentUpon>ParamControlType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamMeasure.xaml.cs">
+      <DependentUpon>ParamMeasure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamSensElement.xaml.cs">
+      <DependentUpon>ParamSensElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamType.xaml.cs">
+      <DependentUpon>ParamType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamLiterature.xaml.cs">
+      <DependentUpon>ParamLiterature.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamKind.xaml.cs">
+      <DependentUpon>ParamKind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamBuiltTech.xaml.cs">
+      <DependentUpon>ParamBuiltTech.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParametersWindow.xaml.cs">
+      <DependentUpon>ParametersWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamEnviroment.xaml.cs">
+      <DependentUpon>ParamEnviroment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamProducer.xaml.cs">
+      <DependentUpon>ParamProducer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
@@ -112,6 +157,10 @@
     <Compile Include="Views\SelectWindow.xaml.cs">
       <DependentUpon>SelectWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Item.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,6 +174,46 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParamControlType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamMeasure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamSensElement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamLiterature.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamKind.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamBuiltTech.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParametersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParamEnviroment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamProducer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,13 +272,93 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Images\avia.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\space.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\0d93fb-rfid-sensor-512.png" />
+    <Resource Include="Images\1.png" />
+    <Resource Include="Images\1211794659.png" />
+    <Resource Include="Images\122.png" />
+    <Resource Include="Images\569dbb668223c.jpeg" />
+    <Resource Include="Images\5a42a5cfcecd.jpg" />
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\adduser.png" />
+    <Resource Include="Images\admin_button.png" />
+    <Resource Include="Images\Admin_Zamena.png" />
+    <Resource Include="Images\adobe-digital-editions.jpg" />
+    <Resource Include="Images\apply_ic.jpg" />
+    <Resource Include="Images\artificial-horizon-146532_1280.png" />
+    <Resource Include="Images\av_gor_ico.ico" />
+    <Resource Include="Images\av_gor_ico2.bmp" />
+    <Resource Include="Images\Bitmap1.bmp" />
+    <Resource Include="Images\Bitmap2.bmp" />
+    <Resource Include="Images\book_reading_read.png" />
+    <Resource Include="Images\Button_Close.png" />
+    <Resource Include="Images\change_user.png" />
+    <Resource Include="Images\close_icon.png" />
+    <Resource Include="Images\datchik_zamena.png" />
+    <Resource Include="Images\delete-512.png" />
+    <Resource Include="Images\deletebut.jpg" />
+    <Resource Include="Images\deleteIco.png" />
+    <Resource Include="Images\Detelete_use.jpg" />
+    <Resource Include="Images\device_icon.jpg" />
+    <Resource Include="Images\document-filetype-word-icon.png" />
+    <Resource Include="Images\download.jpg" />
+    <Resource Include="Images\edit-512.png" />
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\entr_ic.png" />
+    <Resource Include="Images\eye_icon.png" />
+    <Resource Include="Images\Find-someone.png" />
+    <Resource Include="Images\find.png" />
+    <Resource Include="Images\Find_b.jpg" />
+    <Resource Include="Images\Fon.jpg" />
+    <Resource Include="Images\FON2.jpg" />
+    <Resource Include="Images\galka.png" />
+    <Resource Include="Images\galochka.png" />
+    <Resource Include="Images\Galochka1.png" />
+    <Resource Include="Images\iBooks.png" />
+    <Resource Include="Images\icon-master-score.png" />
+    <Resource Include="Images\icon1.jpg" />
+    <Resource Include="Images\IMG_9853.png" />
+    <Resource Include="Images\Kompas.png" />
+    <Resource Include="Images\Kompas1.bmp.png" />
+    <Resource Include="Images\krestik.jpg" />
+    <Resource Include="Images\list_ic.png" />
+    <Resource Include="Images\list_icon.png" />
+    <Resource Include="Images\Literatura.png" />
+    <Resource Include="Images\Load1.png" />
+    <Resource Include="Images\login.png" />
+    <Resource Include="Images\loopa.png" />
+    <Resource Include="Images\MAI2.ico" />
+    <Resource Include="Images\man_user_avatar_delete_people_community.png" />
+    <Resource Include="Images\Nastoyki.png" />
+    <Resource Include="Images\noimage.jpg" />
+    <Resource Include="Images\Options.png" />
+    <Resource Include="Images\photo.jpg" />
+    <Resource Include="Images\PLUSE_1.png" />
+    <Resource Include="Images\poisk_zamena.png" />
+    <Resource Include="Images\propert_icon.png" />
+    <Resource Include="Images\RabochiyStol_zamena.png" />
+    <Resource Include="Images\recyclebin.png" />
+    <Resource Include="Images\Redaktirovanie_zamena.png" />
+    <Resource Include="Images\review3.jpg" />
+    <Resource Include="Images\sam_6.png" />
+    <Resource Include="Images\Sensor.png" />
+    <Resource Include="Images\sensor_ic.jpg" />
+    <Resource Include="Images\serv_1.jpg" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\setup-icon.png" />
+    <Resource Include="Images\Spravka.png" />
+    <Resource Include="Images\Table.png" />
+    <Resource Include="Images\Tech.png" />
+    <Resource Include="Images\useradd.png" />
+    <Resource Include="Images\user_monitor.png" />
+    <Resource Include="Images\Ustroistvo_zamena.png" />
+    <Resource Include="Images\Uzers_zamena.png" />
+    <Resource Include="Images\vakuumnyj_aviagorizont.jpg" />
+    <Resource Include="Images\Word.png" />
+    <Resource Include="Images\Zastavka.png" />
+    <Resource Include="Resources\Images\avia.jpg" />
+    <Resource Include="Resources\Images\space.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

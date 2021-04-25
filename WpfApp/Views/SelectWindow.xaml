@@ -56,13 +56,9 @@
             Command="{Binding SetLaTypeCommand}"
             CommandParameter="{x:Static models:LaType.Aero}">
             <StackPanel>
-                <Image 
-                    Source="/Resources/Images/avia.jpg" 
-                    Stretch="Uniform"
-                    Height="auto"
-                    MinHeight="150"/>
+                <Image Source="../Resources/Images/avia.jpg"/>
                 <Label 
-                    Content="Авиационное оборудование" 
+                    Content="Авиационное" 
                     Margin="0 -25 0 0"
                     FontWeight="Bold"
                     Foreground="Black"
@@ -82,15 +78,12 @@
             Command="{Binding SetLaTypeCommand}"
             CommandParameter="{x:Static models:LaType.Space}">
             <StackPanel>
-                <Image 
-                    Source="/Resources/Images/space.jpg" 
-                    Stretch="Uniform"
-                   />
+                <Image Source="../Resources/Images/space.jpg"/>
                 <Label 
-                    Content="Космическое оборудование" 
+                    Content="Космическое" 
                     Margin="0 -25 0 0"
                     FontWeight="Bold"
-                    Foreground="Black"
+                    Foreground="White"
                     HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
