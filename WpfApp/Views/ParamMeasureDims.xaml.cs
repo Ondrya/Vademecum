@@ -17,9 +17,9 @@ namespace WpfApp.Views
     /// <summary>
     /// Interaction logic for ParamProducer.xaml
     /// </summary>
-    public partial class ParamMeasureDims : Window
+    public partial class ParamMeasure : Window
     {
-        public ParamMeasureDims()
+        public ParamMeasure()
         {
             InitializeComponent();
         }

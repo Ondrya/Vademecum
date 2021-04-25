@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
         Title="Параметры" Height="350" Width="600">
     <StackPanel>
         <Label Content="Общие параметры" FontSize="16" FontWeight="Bold"/>
@@ -21,7 +22,7 @@
 
         <Label Content="Для датчиков" FontSize="16" FontWeight="Bold"/>
         <WrapPanel>
-            <Button Content="Типы датчиков" Margin="2"/>
+            <!--<Button Content="Типы датчиков" Margin="2"/>-->
             <Button x:Name="SensElement" Content="Чувствительные элементы" Margin="2" Click="SensElement_Click" Background="CadetBlue"/>
             <Button Content="Типы преобр. сигнала" Margin="2"/>
         </WrapPanel>
@@ -30,7 +31,8 @@
         <WrapPanel Orientation="Horizontal">
             <Button x:Name="ControlType" Content="Способы управления" Margin="2" Click="ControlType_Click" Background="CadetBlue"/>
             <!--<Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>-->
-            <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click"/>
+            <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>
+            <Button x:Name="MeasureDims" Content="Единицы измерения" Margin="2" Click="MeasureDims_Click"  Background="CadetBlue"/>
             <Button x:Name="MeasureProccessing" Content="Возможные операции" Margin="2" Click="MeasureProccessing_Click" Background="CadetBlue"/>
         </WrapPanel>
     </StackPanel>

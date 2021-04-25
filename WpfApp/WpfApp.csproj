@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\AdministrationViewModel.cs" />
     <Compile Include="ViewModels\ParamMeasureProccessingViewModel.cs" />
     <Compile Include="ViewModels\ParamFunctionViewModel.cs" />
+    <Compile Include="ViewModels\ParamMeasureDimsViewModel.cs" />
     <Compile Include="ViewModels\ParamMeasureViewModel.cs" />
     <Compile Include="ViewModels\ParamSensElementViewModel.cs" />
     <Compile Include="ViewModels\ParamTypeViewModel.cs" />
@@ -135,6 +136,9 @@
     </Compile>
     <Compile Include="Views\Administration.xaml.cs">
       <DependentUpon>Administration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamMeasureDims.xaml.cs">
+      <DependentUpon>ParamMeasureDims.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ParamMeasureProccessing.xaml.cs">
       <DependentUpon>ParamMeasureProccessing.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Administration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamMeasureDims.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
