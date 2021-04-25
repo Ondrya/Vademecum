@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using DataLayer;
 using WpfApp.Commands;
@@ -11,9 +8,9 @@ using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamFunctionViewModel : NotifyDataErrorInfoBase, IParamViewModel
+    public class ParamMeasureProccessingViewModel : NotifyDataErrorInfoBase, IParamViewModel
     {
-        public ParamFunctionViewModel()
+        public ParamMeasureProccessingViewModel()
         {
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
@@ -23,22 +20,22 @@ namespace WpfApp.ViewModels
         {
             using (var context = new DataContext(cn))
             {
-                DataCollection = new ObservableCollection<Function>(context.Functions.ToList());
-                NewItem = new Function();
+                DataCollection = new ObservableCollection<Measure_Processing>(context.Measure_Processing.ToList());
+                NewItem = new Measure_Processing();
                 Selected = null;
             }
         }
 
-        private ObservableCollection<Function> _dataCollection;
-        private Function _selected;
-        private Function _newItem;
+        private ObservableCollection<Measure_Processing> _dataCollection;
+        private Measure_Processing _selected;
+        private Measure_Processing _newItem;
         private string cn;
         private RelayCommand _addCommand;
         private RelayCommand _createCommand;
         private RelayCommand _updateCommand;
         private RelayCommand _deleteCommand;
 
-        public Function Selected
+        public Measure_Processing Selected
         {
             get => _selected;
             set
@@ -47,7 +44,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(Selected));
             }
         }
-        public Function NewItem
+        public Measure_Processing NewItem
         {
             get => _newItem;
             set
@@ -56,7 +53,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(NewItem));
             }
         }
-        public ObservableCollection<Function> DataCollection
+        public ObservableCollection<Measure_Processing> DataCollection
         {
             get => _dataCollection;
             set
@@ -68,7 +65,7 @@ namespace WpfApp.ViewModels
 
         public RelayCommand AddCommand => _addCommand ?? (new RelayCommand(obj =>
         {
-            NewItem = new Function();
+            NewItem = new Measure_Processing();
             Selected = NewItem;
         }));
 
@@ -78,7 +75,7 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    context.Functions.Add(Selected);
+                    context.Measure_Processing.Add(Selected);
                     context.SaveChanges();
                     Fill();
                 }
@@ -112,7 +109,7 @@ namespace WpfApp.ViewModels
         /// <returns></returns>
         public bool ExistInDb()
         {
-            return Selected != null && Selected?.id_func > 0;
+            return Selected != null && Selected?.id_measure_proc > 0;
         }
 
         public RelayCommand DeleteCommand => _deleteCommand ?? (new RelayCommand(obj =>
@@ -121,10 +118,10 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    var item = context.Functions.Find(Selected.id_func);
+                    var item = context.Measure_Processing.Find(Selected.id_measure_proc);
                     if (item != null)
                     {
-                        context.Functions.Remove(item);
+                        context.Measure_Processing.Remove(item);
                         context.SaveChanges();
                         Fill();
                     }
@@ -138,7 +135,7 @@ namespace WpfApp.ViewModels
 
         public bool CheckItem()
         {
-            if (string.IsNullOrWhiteSpace(Selected?.name_func) || Selected?.id_func > 0) return false;
+            if (string.IsNullOrWhiteSpace(Selected?.name_measure_proc) || Selected?.id_measure_proc > 0) return false;
             return true;
         }
     }

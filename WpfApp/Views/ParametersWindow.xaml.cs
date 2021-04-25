@@ -93,5 +93,12 @@ namespace WpfApp.Views
             popUpWindow.Show();
             popUpWindow.Owner = this;
         }
+
+        private void MeasureProccessing_Click(object sender, RoutedEventArgs e)
+        {
+            var popUpWindow = new ParamMeasureProccessing();
+            popUpWindow.Show();
+            popUpWindow.Owner = this;
+        }
     }
 }
