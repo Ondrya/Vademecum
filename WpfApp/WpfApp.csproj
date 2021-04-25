@@ -110,6 +110,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ParamControlTypeViewModel.cs" />
     <Compile Include="ViewModels\AdministrationViewModel.cs" />
+    <Compile Include="ViewModels\ParamFunctionViewModel.cs" />
     <Compile Include="ViewModels\ParamMeasureViewModel.cs" />
     <Compile Include="ViewModels\ParamSensElementViewModel.cs" />
     <Compile Include="ViewModels\ParamTypeViewModel.cs" />
@@ -135,6 +136,9 @@
     </Compile>
     <Compile Include="Views\ParamMeasure.xaml.cs">
       <DependentUpon>ParamMeasure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParamFunction.xaml.cs">
+      <DependentUpon>ParamFunction.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ParamSensElement.xaml.cs">
       <DependentUpon>ParamSensElement.xaml</DependentUpon>
@@ -195,6 +199,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ParamMeasure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParamFunction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

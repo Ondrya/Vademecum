@@ -15,20 +15,19 @@
             <Button x:Name="BuiltTech" Content="Технологии изготовления" Margin="2" Click="BuiltTech_Click" Background="CadetBlue"/>
             <Button x:Name="Kind" Content="Принципы действия" Margin="2" Click="Kind_Click" Background="CadetBlue"/>
             <Button x:Name="Literature" Content="Литература" Margin="2" Click="Literature_Click" Background="CadetBlue"/>
+            <Button x:Name="Function" Content="Назначения" Margin="2" Click="Function_Click" Background="CadetBlue"/>
         </WrapPanel>
 
         <Label Content="Для датчиков" FontSize="16" FontWeight="Bold"/>
         <WrapPanel>
             <Button Content="Типы датчиков" Margin="2"/>
             <Button x:Name="SensElement" Content="Чувствительные элементы" Margin="2" Click="SensElement_Click" Background="CadetBlue"/>
-            <Button Content="Типы выходных сигналов" Margin="2"/>
             <Button Content="Типы преобр. сигнала" Margin="2"/>
         </WrapPanel>
 
         <Label Content="Для приборов" FontSize="16" FontWeight="Bold"/>
         <WrapPanel Orientation="Horizontal">
             <Button x:Name="Type" Content="Типы приборов" Margin="2" Click="Type_Click" Background="CadetBlue"/>
-            <Button Content="Назначения" Margin="2"/>
             <Button x:Name="ControlType" Content="Способы управления" Margin="2" Click="ControlType_Click" Background="CadetBlue"/>
             <!--<Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click" Background="CadetBlue"/>-->
             <Button x:Name="Measure" Content="Измеряемые величины" Margin="2" Click="Measure_Click"/>
