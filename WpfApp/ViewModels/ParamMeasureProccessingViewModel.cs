@@ -103,15 +103,6 @@ namespace WpfApp.ViewModels
             }
         }, (obj) => ExistInDb()));
 
-        /// <summary>
-        /// Объект not null и есть в базе (id>0)
-        /// </summary>
-        /// <returns></returns>
-        public bool ExistInDb()
-        {
-            return Selected != null && Selected?.id_measure_proc > 0;
-        }
-
         public RelayCommand DeleteCommand => _deleteCommand ?? (new RelayCommand(obj =>
         {
             try
@@ -137,6 +128,14 @@ namespace WpfApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Selected?.name_measure_proc) || Selected?.id_measure_proc > 0) return false;
             return true;
+        }
+        /// <summary>
+        /// Объект not null и есть в базе (id>0)
+        /// </summary>
+        /// <returns></returns>
+        public bool ExistInDb()
+        {
+            return Selected != null && Selected?.id_measure_proc > 0;
         }
     }
 }

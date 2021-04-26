@@ -13,7 +13,7 @@ using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamLiteratureViewModel : NotifyDataErrorInfoBase
+    public class ParamLiteratureViewModel : NotifyDataErrorInfoBase, IParamViewModel
     {
         public ParamLiteratureViewModel()
         {
@@ -21,12 +21,13 @@ namespace WpfApp.ViewModels
             Fill();
         }
 
-        private void Fill()
+        public void Fill()
         {
             using (var context = new DataContext(cn))
             {
                 DataCollection = new ObservableCollection<Literature>(context.Literatures.ToList());
                 NewItem = new Literature();
+                Selected = null;
                 FilePath = null;
                 FileDel = false;
             }
@@ -38,6 +39,8 @@ namespace WpfApp.ViewModels
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _addCommand;
+        private RelayCommand _updateCommand;
         private RelayCommand _selectFileCommand;
         private RelayCommand _deleteFileCommand;
         private string _filePath;
@@ -91,15 +94,19 @@ namespace WpfApp.ViewModels
             }
         }
 
+        public RelayCommand AddCommand => _addCommand ?? (new RelayCommand(obj =>
+        {
+            NewItem = new Literature();
+            Selected = NewItem;
+        }));
         public RelayCommand CreateCommand => _createCommand ?? (new RelayCommand(obj =>
         {
             try
             {
-                
                 using (var context = new DataContext(cn))
                 {
-                    if (FilePath != null) NewItem.lit_file = File.ReadAllBytes(FilePath);
-                    context.Literatures.Add(NewItem);
+                    if (FilePath != null) Selected.lit_file = File.ReadAllBytes(FilePath);
+                    context.Literatures.Add(Selected);
                     context.SaveChanges();
                     Fill();
                 }
@@ -128,7 +135,25 @@ namespace WpfApp.ViewModels
             {
                 MessageBox.Show($"{e.Message} => {e}", "Не удалось удалить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }, (obj) => Selected != null));
+        }, (obj) => ExistInDb()));
+        public RelayCommand UpdateCommand => _updateCommand ?? (new RelayCommand(obj =>
+        {
+            try
+            {
+                if (FileDel) Selected.lit_file = null;
+                if (FilePath != null) Selected.lit_file = File.ReadAllBytes(FilePath);
+                using (var context = new DataContext(cn))
+                {
+                    context.Entry(Selected).State = System.Data.Entity.EntityState.Modified; ;
+                    context.SaveChanges();
+                    Fill();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message} => {e}", "Не удалось обновить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }, (obj) => ExistInDb()));
 
         public RelayCommand SelectFileCommand => _selectFileCommand ?? (new RelayCommand(obj =>
         {
@@ -143,10 +168,15 @@ namespace WpfApp.ViewModels
         }));
 
 
-        private bool CheckItem()
+        public bool CheckItem()
         {
-            if (string.IsNullOrWhiteSpace(NewItem.lit_name)) return false;
+            if (string.IsNullOrWhiteSpace(Selected?.lit_name) || Selected?.id_lit > 0) return false;
             return true;
+        }
+
+        public bool ExistInDb()
+        {
+            return Selected != null && Selected?.id_lit > 0;
         }
     }
 }

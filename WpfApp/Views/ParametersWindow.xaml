@@ -24,7 +24,6 @@
         <WrapPanel>
             <!--<Button Content="Типы датчиков" Margin="2"/>-->
             <Button x:Name="SensElement" Content="Чувствительные элементы" Margin="2" Click="SensElement_Click" Background="CadetBlue"/>
-            <Button Content="Типы преобр. сигнала" Margin="2"/>
         </WrapPanel>
 
         <Label Content="Для приборов" FontSize="16" FontWeight="Bold"/>

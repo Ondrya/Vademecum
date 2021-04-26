@@ -36,6 +36,11 @@ namespace DataLayer
 
         public byte[] lit_file { get; set; }
 
+        /// <summary>
+        /// Загружен ли файл
+        /// </summary>
+        public string lit_file_uploaded => lit_file == null ? "" : "загружен";
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }
     }

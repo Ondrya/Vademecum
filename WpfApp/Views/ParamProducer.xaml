@@ -11,13 +11,17 @@
     <Window.DataContext>
         <vm:ParamProducerViewModel/>
     </Window.DataContext>
-    <StackPanel Margin="5">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <DataGrid 
+            Grid.Row="0"
             ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             IsReadOnly="True" 
-            AutoGenerateColumns="False" 
-            Height="220" >
+            AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Наименование производителя" Binding="{Binding Path=name_prod, UpdateSourceTrigger=PropertyChanged}" 
@@ -36,43 +40,67 @@
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label Content="* Наименование: "/>
-                <Label Content="Адрес: "/>
-                <Label Content="Телефон: "/>
-                <Label Content="Веб адрес:"/>
-                <Label Content="E-mail:"/>
+        <StackPanel Grid.Row="1">
+            <StackPanel DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <DockPanel>
+                    <Label Content="* Наименование: " VerticalContentAlignment="Center" Width="100"/>
+                    <TextBox Text="{Binding name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Адрес: " VerticalContentAlignment="Center" Width="100"/>
+                    <TextBox Text="{Binding address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Телефон: " VerticalContentAlignment="Center" Width="100"/>
+                    <TextBox Text="{Binding phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Веб адрес:" VerticalContentAlignment="Center" Width="100"/>
+                    <TextBox Text="{Binding web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="E-mail:" VerticalContentAlignment="Center" Width="100"/>
+                    <TextBox Text="{Binding email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                </DockPanel>
             </StackPanel>
-            <StackPanel Grid.Column="1" DataContext="{Binding NewItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                <TextBox Text="{Binding name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1" />
-                <TextBox Text="{Binding address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1"/>
-                <TextBox Text="{Binding phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1"/>
-                <TextBox Text="{Binding web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1"/>
-                <TextBox Text="{Binding email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1"/>
-            </StackPanel>
-        </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button 
                 Background="Red" Margin="10"
                 Command="{Binding DeleteCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
-                    <Label Content="Удалить"/>
-                </DockPanel>
-            </Button>
-            <Button 
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                        <Label Content="Удалить"/>
+                    </DockPanel>
+                </Button>
+                <Button 
+                Background="Gold" Margin="10"
+                Command="{Binding UpdateCommand}">
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
+                        <Label Content="Редактировать"/>
+                    </DockPanel>
+                </Button>
+
+                <Button 
+                Background="Green" Margin="10"
+                Command="{Binding AddCommand}">
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Button>
+
+                <Button 
                 Background="Green" Margin="10"
                 Command="{Binding CreateCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
-                    <Label Content="Добавить"/>
-                </DockPanel>
-            </Button>
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                        <Label Content="Сохранить"/>
+                    </DockPanel>
+                </Button>
+            </StackPanel>
+
+
+
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Window>

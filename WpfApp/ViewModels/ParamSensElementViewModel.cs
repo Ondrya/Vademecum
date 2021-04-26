@@ -11,7 +11,7 @@ using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamSensElementViewModel : NotifyDataErrorInfoBase
+    public class ParamSensElementViewModel : NotifyDataErrorInfoBase, IParamViewModel
     {
         public ParamSensElementViewModel()
         {
@@ -19,12 +19,13 @@ namespace WpfApp.ViewModels
             Fill();
         }
 
-        private void Fill()
+        public void Fill()
         {
             using (var context = new DataContext(cn))
             {
                 DataCollection = new ObservableCollection<Sens_Element>(context.Sens_Element.ToList());
                 NewItem = new Sens_Element();
+                Selected = null;
             }
         }
 
@@ -34,6 +35,8 @@ namespace WpfApp.ViewModels
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _addCommand;
+        private RelayCommand _updateCommand;
 
         public Sens_Element Selected
         {
@@ -99,12 +102,40 @@ namespace WpfApp.ViewModels
             {
                 MessageBox.Show($"{e.Message} => {e}", "Не удалось удалить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }, (obj) => Selected != null));
+        }, (obj) => ExistInDb()));
 
-        private bool CheckItem()
+        public RelayCommand AddCommand => _addCommand ?? (new RelayCommand(obj =>
         {
-            if (string.IsNullOrWhiteSpace(NewItem.name_se)) return false;
+            NewItem = new Sens_Element();
+            Selected = NewItem;
+        }));
+
+        public RelayCommand UpdateCommand => _updateCommand ?? (new RelayCommand(obj =>
+        {
+            try
+            {
+                using (var context = new DataContext(cn))
+                {
+                    context.Entry(Selected).State = System.Data.Entity.EntityState.Modified; ;
+                    context.SaveChanges();
+                    Fill();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e.Message} => {e}", "Не удалось обновить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }, (obj) => ExistInDb()));
+
+        public bool CheckItem()
+        {
+            if (string.IsNullOrWhiteSpace(Selected?.name_se) || Selected?.id_se > 0) return false;
             return true;
+        }
+
+        public bool ExistInDb()
+        {
+            return Selected != null && Selected?.id_se > 0;
         }
     }
 }

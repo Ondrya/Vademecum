@@ -11,32 +11,37 @@
     <Window.DataContext>
         <vm:ParamBuiltTechViewModel/>
     </Window.DataContext>
-    <StackPanel Margin="5">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <DataGrid 
+            Grid.Row="0"
             ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             IsReadOnly="True" 
-            AutoGenerateColumns="False" 
-            Height="220" >
+            AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Наименование" Binding="{Binding Path=built_tech1, UpdateSourceTrigger=PropertyChanged}" 
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label Content="* Наименование: "/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" DataContext="{Binding NewItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                <TextBox Text="{Binding Path=built_tech1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1" />
-            </StackPanel>
-        </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label Content="* Наименование: "/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    <TextBox Text="{Binding Path=built_tech1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1" />
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button 
                 Background="Red" Margin="10"
                 Command="{Binding DeleteCommand}">
@@ -46,13 +51,31 @@
                 </DockPanel>
             </Button>
             <Button 
+                Background="Gold" Margin="10"
+                Command="{Binding UpdateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
+                    <Label Content="Редактировать"/>
+                </DockPanel>
+            </Button>
+
+            <Button 
+                Background="Green" Margin="10"
+                Command="{Binding AddCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
+                </DockPanel>
+            </Button>
+
+            <Button 
                 Background="Green" Margin="10"
                 Command="{Binding CreateCommand}">
                 <DockPanel>
-                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
-                    <Label Content="Добавить"/>
+                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                    <Label Content="Сохранить"/>
                 </DockPanel>
             </Button>
         </StackPanel>
-    </StackPanel>
+        </StackPanel>
+    </Grid>
 </Window>
