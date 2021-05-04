@@ -6,23 +6,22 @@ namespace DataLayer
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Param.Device_Type")]
-    public partial class Device_Type
+    [Table("LvlAccess")]
+    public partial class LvlAccess
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Device_Type()
+        public LvlAccess()
         {
-            Devices = new HashSet<Device>();
+            Users = new HashSet<User>();
         }
 
         [Key]
-        public int id_device { get; set; }
+        public int lvl_access { get; set; }
 
-        [Column("device_type")]
-        [StringLength(100)]
-        public string device_type1 { get; set; }
+        [StringLength(50)]
+        public string lvl_name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Device> Devices { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

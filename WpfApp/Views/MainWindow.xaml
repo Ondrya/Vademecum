@@ -4,15 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views"
-        xmlns:vm="clr-namespace:WpfApp.ViewModels"
+        xmlns:vm="clr-namespace:WpfApp.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Главное окно" Height="600" Width="800">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
-    <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel 
+            Grid.Row="1" LastChildFill="False">
+            <Button 
+                Background="Green" Margin="10"
+                Command="{Binding CreateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
+                    <Label Content="Добавить"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="Gold" Margin="10"
+                Command="{Binding UpdateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="Редактировать"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="Red" Margin="10"
+                Command="{Binding DeleteCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="Удалить"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="LightGreen" Margin="10"
+                DockPanel.Dock="Right" 
+                Command="{Binding RefreshCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="RefreshCircle" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="Обновить"/>
+                </DockPanel>
+            </Button>
+        </DockPanel>
+        <StatusBar Grid.Row="2">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Текущий пользователь"/>
@@ -21,7 +62,6 @@
                         FontStyle="Italic"/>
                 </StackPanel>
             </StatusBarItem>
-
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Тип ЛА"/>
@@ -31,7 +71,7 @@
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
-        <Grid>
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -124,29 +164,15 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Margin="3 5 3 0" Header="Действия">
-                    <StackPanel Height="30" Orientation="Horizontal">
-                        <Button 
-                            Content="Добавить" Margin="5 0" Height="25" FontSize="14" Background="Green"
-                            Command="{Binding CreateCommand}"/>
-                        <Button 
-                            Content="Редактировать" Margin="5 0" Height="25" FontSize="14" Background="Gold" Foreground="Black"
-                            Command="{Binding UpdateCommand}"/>
-                        <Button 
-                            Content="Удалить" Margin="5 0" Height="25" FontSize="14" Background="Red"
-                            Command="{Binding DeleteCommand}"/>
-                    </StackPanel>
-                </GroupBox>
-
                 <GroupBox Margin="3 5 3 0" Header="Список датчиков и устройств">
-                    <DockPanel LastChildFill="True">
-                        <DataGrid 
-                            ItemsSource="{Binding DataGridCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            />
-                    </DockPanel>
+                    <DataGrid
+                        Grid.Row="0"
+                        MinHeight="200"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding DataGridCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </GroupBox>
             </StackPanel>
         </Grid>
-    </DockPanel>
+    </Grid>
 </Window>

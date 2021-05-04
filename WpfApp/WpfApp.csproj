@@ -96,6 +96,7 @@
     <Compile Include="Converters\IntAccessLevelDescriptionConverter.cs" />
     <Compile Include="Converters\EnumToItemsSource.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="Helpers\Dict.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Interfaces\ICloseView.cs" />

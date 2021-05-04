@@ -29,6 +29,6 @@ namespace DataLayer
 
         public int? lvl_access { get; set; }
 
-        public virtual Lvl_Access Lvl_Access1 { get; set; }
+        public virtual LvlAccess LvlAccess { get; set; }
     }
 }

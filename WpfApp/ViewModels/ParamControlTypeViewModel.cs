@@ -23,22 +23,22 @@ namespace WpfApp.ViewModels
         {
             using (var context = new DataContext(cn))
             {
-                DataCollection = new ObservableCollection<Control_Type>(context.Control_Type.ToList());
-                NewItem = new Control_Type();
+                DataCollection = new ObservableCollection<Control>(context.Controls.ToList());
+                NewItem = new Control();
                 Selected = null;
             }
         }
 
-        private ObservableCollection<Control_Type> _dataCollection;
-        private Control_Type _selected;
-        private Control_Type _newItem;
+        private ObservableCollection<Control> _dataCollection;
+        private Control _selected;
+        private Control _newItem;
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;
         private RelayCommand _addCommand;
         private RelayCommand _updateCommand;
 
-        public Control_Type Selected
+        public Control Selected
         {
             get => _selected;
             set
@@ -47,7 +47,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(Selected));
             }
         }
-        public Control_Type NewItem
+        public Control NewItem
         {
             get => _newItem;
             set
@@ -56,7 +56,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(NewItem));
             }
         }
-        public ObservableCollection<Control_Type> DataCollection
+        public ObservableCollection<Control> DataCollection
         {
             get => _dataCollection;
             set
@@ -72,7 +72,7 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    context.Control_Type.Add(NewItem);
+                    context.Controls.Add(NewItem);
                     context.SaveChanges();
                     Fill();
                 }
@@ -89,10 +89,10 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    var item = context.Control_Type.Find(Selected.id_control);
+                    var item = context.Controls.Find(Selected.id_control);
                     if (item != null)
                     {
-                        context.Control_Type.Remove(item);
+                        context.Controls.Remove(item);
                         context.SaveChanges();
                         Fill();
                     }
@@ -106,7 +106,7 @@ namespace WpfApp.ViewModels
 
         public RelayCommand AddCommand => _addCommand ?? (new RelayCommand(obj =>
         {
-            NewItem = new Control_Type();
+            NewItem = new Control();
             Selected = NewItem;
         }));
 

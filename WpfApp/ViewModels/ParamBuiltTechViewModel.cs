@@ -23,22 +23,22 @@ namespace WpfApp.ViewModels
         {
             using (var context = new DataContext(cn))
             {
-                DataCollection = new ObservableCollection<Built_Tech>(context.Built_Tech.ToList());
-                NewItem = new Built_Tech();
+                DataCollection = new ObservableCollection<BuiltTech>(context.BuiltTeches.ToList());
+                NewItem = new BuiltTech();
                 Selected = null;
             }
         }
 
-        private ObservableCollection<Built_Tech> _dataCollection;
-        private Built_Tech _selected;
-        private Built_Tech _newItem;
+        private ObservableCollection<BuiltTech> _dataCollection;
+        private BuiltTech _selected;
+        private BuiltTech _newItem;
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;
         private RelayCommand _addCommand;
         private RelayCommand _updateCommand;
 
-        public Built_Tech Selected
+        public BuiltTech Selected
         {
             get => _selected;
             set
@@ -47,7 +47,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(Selected));
             }
         }
-        public Built_Tech NewItem
+        public BuiltTech NewItem
         {
             get => _newItem;
             set
@@ -56,7 +56,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(NewItem));
             }
         }
-        public ObservableCollection<Built_Tech> DataCollection
+        public ObservableCollection<BuiltTech> DataCollection
         {
             get => _dataCollection;
             set
@@ -72,7 +72,7 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    context.Built_Tech.Add(NewItem);
+                    context.BuiltTeches.Add(NewItem);
                     context.SaveChanges();
                     Fill();
                 }
@@ -89,10 +89,10 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    var item = context.Built_Tech.Find(Selected.id_built_tech);
+                    var item = context.BuiltTeches.Find(Selected.id_built_tech);
                     if (item != null)
                     {
-                        context.Built_Tech.Remove(item);
+                        context.BuiltTeches.Remove(item);
                         context.SaveChanges();
                         Fill();
                     }
@@ -106,7 +106,7 @@ namespace WpfApp.ViewModels
 
         public RelayCommand AddCommand => _addCommand ?? (new RelayCommand(obj =>
         {
-            NewItem = new Built_Tech();
+            NewItem = new BuiltTech();
             Selected = NewItem;
         }));
 
@@ -129,7 +129,7 @@ namespace WpfApp.ViewModels
 
         public bool CheckItem()
         {
-            if (string.IsNullOrWhiteSpace(Selected?.built_tech1) || Selected?.id_built_tech > 0) return false;
+            if (string.IsNullOrWhiteSpace(Selected?.built_tech) || Selected?.id_built_tech > 0) return false;
             return true;
         }
 

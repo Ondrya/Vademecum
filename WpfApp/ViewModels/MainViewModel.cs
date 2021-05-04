@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using WpfApp.Commands;
 using WpfApp.Models;
@@ -37,12 +36,43 @@ namespace WpfApp.ViewModels
                     return false;
             }
         }
+        private string cn;
 
         private void Fill()
         {
-            // todo получить данные из базы данных
-            _items = new List<DeviceSensorLookUp>();
-            DataGridCollection = new ObservableCollection<DeviceSensorLookUp>(_items.Where(t => t.IsSensor == ShowSensors || t.IsDevice == _showDevices));
+            cn = ((App)Application.Current).CurrentDb.ToString();
+            using (var context = new DataContext(cn))
+            {
+                var result = context.Devices.ToList();
+
+                _items = new List<DeviceSensorLookUp>();
+
+                foreach (var x in result)
+                {
+                    _items.Add(new DeviceSensorLookUp()
+                    {
+                        Id = x.id,
+                        Name = x?.name,
+                        DeviceTypeId = x?.id_type,
+                        DeviceTypeName = GetDeviceType(x?.id_type),
+                        Vendor = x?.Producer?.name_prod,
+                        IsSensor = x?.id_type == 1,
+                        IsDevice = x?.id_type == 2
+                    });
+                }
+
+                //DataGridCollection = new ObservableCollection<DeviceSensorLookUp>(_items.Where(t => t.IsSensor == ShowSensors || t.IsDevice == _showDevices));
+                DataGridCollection = new ObservableCollection<DeviceSensorLookUp>(_items);
+            }
+            
+        }
+
+        private string GetDeviceType(int? id_type)
+        {
+            if (id_type == null) return "";
+            if (id_type == 1) return "Датчик";
+            if (id_type == 2) return "Прибор";
+            return "";
         }
 
         private SessionSetting _currentSession;
@@ -89,10 +119,6 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
-
-
-
-
         public SessionSetting CurrentSession
         {
             get => _currentSession;
@@ -112,8 +138,8 @@ namespace WpfApp.ViewModels
         private RelayCommand _createCommand;
         private RelayCommand _updateCommand;
         private RelayCommand _deleteCommand;
+        private RelayCommand _refreshCommand;
         private RelayCommand _showAdminWindowCommand;
-
         private RelayCommand _parametersCommand;
 
         public RelayCommand ParametersCommand => _parametersCommand ?? (_parametersCommand = new RelayCommand(obj =>
@@ -125,9 +151,10 @@ namespace WpfApp.ViewModels
         }, (obj) => isAdmin));
 
 
+        public RelayCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(obj => { Fill(); }));
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(obj =>
         {
-            var popUpWindow = new Item();
+            var popUpWindow = new Item(SelectedItem.Id);
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
@@ -182,6 +209,7 @@ namespace WpfApp.ViewModels
         private void FilterDataGrid()
         {
             DataGridCollection = new ObservableCollection<DeviceSensorLookUp>(_items.Where(t => t.IsSensor == ShowSensors || t.IsDevice == _showDevices));
+            //DataGridCollection = new ObservableCollection<Device>(_items.Where(t => t.IsSensor == ShowSensors || t.IsDevice == _showDevices));
         }
 
         public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(obj =>
@@ -215,7 +243,8 @@ namespace WpfApp.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        public int? DeviceTypeId { get; set; }
+        public string DeviceTypeName { get; set; }
         public string Vendor { get; set; }
         public bool IsSensor { get; set; }
         public bool IsDevice { get; set; }

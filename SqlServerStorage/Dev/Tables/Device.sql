@@ -3,6 +3,7 @@
     [name]            NVARCHAR (150) NULL,
     [id_LA]           INT            NULL,
     [id_device]       INT            NULL,
+    [id_type]         INT            NULL,
     [id_kind]         INT            NULL,
     [id_se]           INT            NULL,
     [id_func]         INT            NULL,
@@ -26,7 +27,7 @@
     [view]            IMAGE          NULL,
     [schema]          IMAGE          NULL,
     CONSTRAINT [PK_Av_Device] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_Avia_Device_Control_Type] FOREIGN KEY ([id_control]) REFERENCES [Param].[Control_Type] ([id_control]),
+    CONSTRAINT [FK_Avia_Device_Control_Type] FOREIGN KEY ([id_control]) REFERENCES [Param].[Control] ([id_control]),
     CONSTRAINT [FK_Avia_Device_Device_Type] FOREIGN KEY ([id_device]) REFERENCES [Param].[Device_Type] ([id_device]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Avia_Device_Measure_Processing] FOREIGN KEY ([id_measure_proc]) REFERENCES [Param].[Measure_Processing] ([id_measure_proc]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Avia_Device_Producer] FOREIGN KEY ([id_prod]) REFERENCES [Param].[Producer] ([id_prod]) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -35,6 +36,9 @@
     CONSTRAINT [FK_Device_Function] FOREIGN KEY ([id_func]) REFERENCES [Param].[Function] ([id_func]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Device_Kind] FOREIGN KEY ([id_kind]) REFERENCES [Param].[Kind] ([id_kind]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Device_LA_Type] FOREIGN KEY ([id_LA]) REFERENCES [Param].[LA_Type] ([id_LA]) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT [FK_Device_Measure_Dims] FOREIGN KEY ([id_dim_measure]) REFERENCES [Param].[Measure_Dims] ([id_dim_measure]) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT [FK_Device_Measure_Dims] FOREIGN KEY ([id_dim_measure]) REFERENCES [Param].[Measure_Dims] ([id_dim_measure]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_Device_Type] FOREIGN KEY ([id_type]) REFERENCES [Param].[Type] ([id_type]) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 

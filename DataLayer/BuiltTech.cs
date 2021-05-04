@@ -6,22 +6,24 @@ namespace DataLayer
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Lvl_Access
+    [Table("Param.BuiltTech")]
+    public partial class BuiltTech
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Lvl_Access()
+        public BuiltTech()
         {
-            Users = new HashSet<User>();
+            Devices = new HashSet<Device>();
         }
 
         [Key]
-        [Column("lvl_access")]
-        public int lvl_access1 { get; set; }
+        public int id_built_tech { get; set; }
 
         [StringLength(50)]
-        public string lvl_name { get; set; }
+        public string built_tech { get; set; }
+
+        public string spec_built { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Device> Devices { get; set; }
     }
 }

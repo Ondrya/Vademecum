@@ -6,21 +6,20 @@ namespace DataLayer
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Param.Built_Tech")]
-    public partial class Built_Tech
+    [Table("Param.LAType")]
+    public partial class LAType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Built_Tech()
+        public LAType()
         {
             Devices = new HashSet<Device>();
         }
 
         [Key]
-        public int id_built_tech { get; set; }
+        public int id_LA { get; set; }
 
-        [Column("built_tech")]
-        [StringLength(50)]
-        public string built_tech1 { get; set; }
+        [StringLength(100)]
+        public string name_LA { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }

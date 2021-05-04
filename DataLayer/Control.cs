@@ -6,11 +6,11 @@ namespace DataLayer
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Param.Control_Type")]
-    public partial class Control_Type
+    [Table("Param.Control")]
+    public partial class Control
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Control_Type()
+        public Control()
         {
             Devices = new HashSet<Device>();
         }
@@ -20,6 +20,8 @@ namespace DataLayer
 
         [StringLength(100)]
         public string name_control { get; set; }
+
+        public string spec_control { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }

@@ -24,58 +24,59 @@
             AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn 
-                    Header="Наименование" Binding="{Binding Path=built_tech1, UpdateSourceTrigger=PropertyChanged}" 
+                    Header="Наименование" Binding="{Binding Path=built_tech, UpdateSourceTrigger=PropertyChanged}" 
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
+            <StackPanel Margin="2" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <DockPanel>
                     <Label Content="* Наименование: "/>
-                </StackPanel>
-                <StackPanel Grid.Column="1" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    <TextBox Text="{Binding Path=built_tech1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1" />
-                </StackPanel>
-            </Grid>
+                    <TextBox Text="{Binding Path=built_tech, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </DockPanel>
+                <Label Content="Описание:"/>
+                <TextBox 
+                    Text="{Binding Path=spec_built, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                    Height="60" TextWrapping="Wrap"
+                    MinLines="4"
+                    BorderThickness="1"
+                    Margin="1"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button 
+                <Button 
                 Background="Red" Margin="10"
                 Command="{Binding DeleteCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
-                    <Label Content="Удалить"/>
-                </DockPanel>
-            </Button>
-            <Button 
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                        <Label Content="Удалить"/>
+                    </DockPanel>
+                </Button>
+                <Button 
                 Background="Gold" Margin="10"
                 Command="{Binding UpdateCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
-                    <Label Content="Редактировать"/>
-                </DockPanel>
-            </Button>
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
+                        <Label Content="Редактировать"/>
+                    </DockPanel>
+                </Button>
 
-            <Button 
+                <Button 
                 Background="Green" Margin="10"
                 Command="{Binding AddCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
-                </DockPanel>
-            </Button>
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Button>
 
-            <Button 
+                <Button 
                 Background="Green" Margin="10"
                 Command="{Binding CreateCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
-                    <Label Content="Сохранить"/>
-                </DockPanel>
-            </Button>
-        </StackPanel>
+                    <DockPanel>
+                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                        <Label Content="Сохранить"/>
+                    </DockPanel>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

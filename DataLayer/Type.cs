@@ -12,6 +12,8 @@ namespace DataLayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Type()
         {
+            Devices = new HashSet<Device>();
+            DeviceTypes = new HashSet<DeviceType>();
             Kinds = new HashSet<Kind>();
         }
 
@@ -23,6 +25,12 @@ namespace DataLayer
         public string name_type { get; set; }
 
         public string spec_type { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Device> Devices { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeviceType> DeviceTypes { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kind> Kinds { get; set; }

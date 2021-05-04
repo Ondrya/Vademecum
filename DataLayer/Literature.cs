@@ -34,12 +34,10 @@ namespace DataLayer
 
         public string lit_web { get; set; }
 
-        public byte[] lit_file { get; set; }
+        [StringLength(200)]
+        public string file_name { get; set; }
 
-        /// <summary>
-        /// Загружен ли файл
-        /// </summary>
-        public string lit_file_uploaded => lit_file == null ? "" : "загружен";
+        public byte[] lit_file { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }

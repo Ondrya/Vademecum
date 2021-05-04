@@ -6,66 +6,43 @@
         xmlns:local="clr-namespace:WpfApp.Views" 
         xmlns:vm="clr-namespace:WpfApp.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Добавить или изменить информацию о датчике/устройстве" Height="750" Width="800">
+        Title="Добавить или изменить информацию о датчике/устройстве" Height="500" Width="800">
     <Window.DataContext>
         <vm:ItemViewModel/>
     </Window.DataContext>
     <StackPanel>
         <DockPanel>
-            <Label Content="Наименование" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
-            <Button Content="Добавить" DockPanel.Dock="Right" Height="25" Margin="1"/>
-            <TextBox Text=""/>
+            <Label 
+                Content="Тип устройства"
+                VerticalContentAlignment="Center"/>
+            <ComboBox 
+                ItemsSource="{Binding DeviceTypeCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                SelectedItem="{Binding SelectedDeviceType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                DisplayMemberPath="device_type"
+                Width="150" VerticalContentAlignment="Center"/>
+            <Label Content="* Наименование" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
+            <Button 
+                Content="{Binding ButtonName, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                Command="{Binding SaveCommand}"
+                DockPanel.Dock="Right" Height="30" Margin="1"/>
+            <TextBox 
+                Text="{Binding CurrentDevice.name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                VerticalContentAlignment="Center"/>
         </DockPanel>
         <TabControl>
             <TabItem Header="Описание" IsSelected="True">
-                <StackPanel >
-                    <Label Content="Описание устройства:" FontSize="16"/>
-                    <TextBlock Text="" Margin="4" Height="496" TextWrapping="Wrap" FontSize="16" />
-                </StackPanel>
-            </TabItem>
-            <!--<TabItem Header="Доп.характеристики"></TabItem>-->
-            <TabItem Header="Динамические характеристики">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="260"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Label Content="Коэффициент смещения:"/>
-                            <Label Content="Коэффициент статической чувствительности:"/>
-                            <Label Content="Коэффициент демпфирования:"/>
-                            <Label Content="Постоянная времени (сек.):"/>
-                            <Label Content="Время разогрева:"/>
-                            <Label Content="Минимальная частота среза(Герц):"/>
-                            <Label Content="Максиимальная частота среза(Герц):"/>
-                            <Label Content="Резонансная частота (Герц):"/>
-                            <Label Content="Динамическая погрешность (%):"/>
-                            <Label Content="Дополнительные сведения:"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Grid.ColumnSpan="2">
-                            <Label Content="{Binding din_k_smesch_ad}" Margin="1" />
-                            <Label Content="{Binding din_k_stat_ad}" Margin="1" />
-                            <Label Content="{Binding din_k_dempf_ad}" Margin="1" />
-                            <Label Content="{Binding din_t_ad}" Margin="1" />
-                            <StackPanel Orientation="Horizontal" >
-                                <Label Content="{Binding din_t_heat_ad}" />
-                                <Label Content="{Binding din_t_heat_ed_ad}"/>
-                            </StackPanel>
-                            <Label Content="{Binding din_f_sreza_ad}" Margin="1" />
-                            <Label Content="{Binding din_f_sreza_max_ad}" Margin="1" />
-                            <Label Content="{Binding din_f_rez_ad}" Margin="1" />
-                            <Label Content="{Binding din_error_ad}" Margin="1" />
-                            <TextBlock Text="{Binding din_diskr_ad}" Height="112" Width="307" TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Grid>
-                    <GroupBox Header="Частотная характерисика">
-                        <StackPanel>
-                            <Image Width="160" Height="160" Source="../Images/noimage.jpg"/>
-                            <Button Content="Полный размер изображения" Margin="5" Width="250" />
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox 
+                        Text="{Binding CurrentDevice.spec, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                        Margin="4" BorderThickness="1" Padding="4" FontSize="14"
+                        TextWrapping="Wrap"
+                        Height="400"
+                        VerticalScrollBarVisibility="Auto"
+                        Grid.Row="0"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Литература">
                 <StackPanel>
@@ -82,134 +59,212 @@
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0">
-                                    <Label Content="Наименование:"/>
-                                    <Label Content="Автор:"/>
-                                    <Label Content="Издательство:"/>
-                                    <Label Content="Год:"/>
-                                </StackPanel>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
+                                <Label Grid.Row="1" Grid.Column="0" Content="Автор"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Издательство"/>
+                                <Label Grid.Row="3" Grid.Column="0" Content="Год"/>
 
-                                <StackPanel Grid.Column="1">
-                                    <Label Margin="1" />
-                                    <Label Margin="1" />
-                                    <Label Margin="1" />
-                                    <Label Margin="1" />
-                                </StackPanel>
-
+                                <Label Grid.Row="0" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="1" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="2" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="3" Grid.Column="1" Margin="1" />
                             </Grid>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Параметры">
-                <StackPanel>
-                    <GroupBox Header="Основные параметры">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Основные параметры"
+                              Grid.Row="0" Grid.Column="0" Margin="1">
                         <StackPanel>
-                            <DockPanel>
-                                <Label Content="Тип датчика" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!-- датчика/устройства-->
+                                <Label Grid.Row="0" Grid.Column="0" Content="Тип"/>
+                                <ComboBox Grid.Row="0" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="0" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
-                            </DockPanel>
-                            <DockPanel>
-                                <Label Content="Чувствительный элемент" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                
+                                <Label Grid.Row="1" Grid.Column="0" Content="Назначение"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="1" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
-                            </DockPanel>
-                            <DockPanel>
-                                <Label Content="Принцип действия" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                
+                                <Label Grid.Row="2" Grid.Column="0" Content="Чувствительный элемент"/>
+                                <ComboBox Grid.Row="2" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="2" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
-                            </DockPanel>
-                            <DockPanel>
-                                <Label Content="Характер выходного сигнала" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                
+                                <Label Grid.Row="3" Grid.Column="0" Content="Принцип действия"/>
+                                <ComboBox Grid.Row="3" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="3" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
-                            </DockPanel>
-                            <DockPanel>
-                                <Label Content="Характери преобразованного сигнала" VerticalContentAlignment="Center" Width="220" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                
+                                <Label Grid.Row="4" Grid.Column="0" Content="Метод управления"/>
+                                <ComboBox Grid.Row="4" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="4" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
-                            </DockPanel>
-                            <DockPanel>
-                                <Label Content="Технология изготовления" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                
+                                <Label Grid.Row="5" Grid.Column="0" Content="Действие с информацией"/>
+                                <ComboBox Grid.Row="5" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="5" Grid.Column="2" Height="25" Margin="1">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                <ComboBox/>
+                                
+                                <Label Grid.Row="6" Grid.Column="0" Content="Технология изготовления"/>
+                                <ComboBox Grid.Row="6" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <Button Grid.Row="6" Grid.Column="2" Height="25" Margin="1">
+                                    <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Параметры изменений"
+                              Grid.Row="0" Grid.Column="1"
+                              Margin="1">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Измеряемая величина"
+                                   Grid.Row="0" Grid.Column="0"/>
+                                <DockPanel Grid.Row="0" Grid.Column="1">
+                                    <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                        <materialDesign:PackIcon Kind="AddCircle" />
+                                    </Button>
+                                    <ComboBox BorderThickness="1" Margin="1"/>
+                                </DockPanel>
+                                <Label Content="Нижняя граница"
+                                   Grid.Row="1" Grid.Column="0"/>
+                                <TextBox 
+                                    Text="{Binding CurrentDevice.min_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                    BorderThickness="1" Margin="1"
+                                    Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="Верхняя граница"
+                                   Grid.Row="2" Grid.Column="0"/>
+                                <TextBox 
+                                    Text="{Binding CurrentDevice.max_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                    BorderThickness="1" Margin="1"
+                                    Grid.Row="2" Grid.Column="1" />
+                                <Label Content="Единицы измерений"
+                                   Grid.Row="3" Grid.Column="0"/>
+                                <DockPanel Grid.Row="3" Grid.Column="1">
+                                    <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                        <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
+                                    </Button>
+                                    <ComboBox BorderThickness="1" Margin="1"/>
+                                </DockPanel>
+                                <Label Content="Погрешнсть, %"
+                                   Grid.Row="4" Grid.Column="0"/>
+                                <TextBox 
+                                    Text="{Binding CurrentDevice.error_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                    BorderThickness="1" Margin="1"
+                                    Grid.Row="4" Grid.Column="1" />
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="МГХ"
+                              Grid.Row="1" Grid.Column="0"
+                              Margin="1">
+                        <StackPanel>
+                            <DockPanel Margin="1" LastChildFill="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Длина"/>
+                                    <TextBox Text="{Binding CurrentDevice.length, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Ширина"/>
+                                    <TextBox Text="{Binding CurrentDevice.width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Высота"/>
+                                    <TextBox Text="{Binding CurrentDevice.height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                    <Label Content="Единица измерения"/>
+                                    <TextBox Text="{Binding CurrentDevice.dim_unit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
                             </DockPanel>
-                            <DockPanel>
-                                <Label Content="Погрешность (%)" VerticalContentAlignment="Center" Width="200" DockPanel.Dock="Left"/>
-                                <TextBox Text=""/>
+                            <DockPanel Margin="1" LastChildFill="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Масса"/>
+                                    <TextBox Text="{Binding CurrentDevice.weight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                    <Label Content="Единица измерения"/>
+                                    <TextBox Text="{Binding CurrentDevice.dim_weight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="45" BorderThickness="1"/>
+                                </StackPanel>
                             </DockPanel>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Диапазон измерений">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Нижняя граница"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                            <Label Content="Верхняя граница"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                            <Label Content="Единица измерения"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Габаритные размеры и масса">
+                    <GroupBox Header="Диапазон рабочих температур"
+                              Grid.Row="1" Grid.Column="1"
+                              Margin="1">
                         <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <Label Content="Длина"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                                <Label Content="Ширина"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                                <Label Content="Высота"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
+                            <Grid Margin="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Минимальная" Grid.Column="0"/>
+                                <TextBox Text="{Binding CurrentDevice.min_temp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" Grid.Column="1"/>
+                                <Label Content="Максимальная" Grid.Column="2"/>
+                                <TextBox Text="{Binding CurrentDevice.max_temp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" Grid.Column="3"/>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="1">
                                 <Label Content="Единица измерения"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <Label Content="Масса"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                                <Label Content="Единица измерения"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
+                                <TextBox Text="{Binding CurrentDevice.temp_unit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="50" BorderThickness="1"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Header="Диапазон температур окружающей среды">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Минимальная"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                            <Label Content="Максимальная"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                            <Label Content="Единица измерения"/>
-                            <TextBox Text="" Width="50" BorderThickness="1"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Дополнительно">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <Label Content="Питание (Вольт)" Width="100"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                                <Label Content="Ресурс работы (Часов)" Width="210"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <Label Content="Класс защиты" Width="100"/>
-                                <TextBox Text="" Width="50" BorderThickness="1"/>
-                                <Label Content="Количество измерительных каналов" Width="210"/>
-                                <TextBox Text="" Width="50" BorderThickness="1" />
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+                    
+                </Grid>
             </TabItem>
             <TabItem Header="Изображения">
                 <Grid>
@@ -219,7 +274,7 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox
                         Header="Электрическая схема"
-                        Grid.Column="0">
+                        Grid.Column="0" Margin="2">
                         <StackPanel>
                             <Border BorderBrush="Black" BorderThickness="1">
                                 <Image Width="160" Height="160" Source="../Images/noimage.jpg"/>
@@ -232,7 +287,7 @@
                     </GroupBox>
                     <GroupBox 
                         Header="Изображение"
-                        Grid.Column="1">
+                        Grid.Column="1" Margin="1">
                         <StackPanel >
                             <Border BorderBrush="Black" BorderThickness="1">
                                 <Image Width="160" Height="160" Source="../Images/noimage.jpg"/>
@@ -246,21 +301,29 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Среда измерения">
-                <StackPanel>
-                    <GroupBox Header="Список сред измерения">
-                        <DataGrid IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="5">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Наименование"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid 
+                        IsReadOnly="True" 
+                        SelectionMode="Single" 
+                        AutoGenerateColumns="False" 
+                        Margin="5"
+                        Grid.Row="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Header="Описание среды" Grid.Row="1">
+                        <TextBlock 
+                            TextWrapping="Wrap" 
+                            Margin="5" 
+                            ScrollViewer.CanContentScroll="True" 
+                            Height="250"/>
                     </GroupBox>
-                    <GroupBox Header="Описание среды">
-                        <TextBlock TextWrapping="Wrap" Background="White" Margin="5" ScrollViewer.CanContentScroll="True" Height="100"/>
-                    </GroupBox>
-                    <GroupBox Header="Подсказка" Margin="5">
-                        <TextBlock Text="Для просмотра подробной информации о среде измерения выделите указателем мыши поле в списке." TextWrapping="Wrap"/>
-                    </GroupBox>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Область применения">
                 <StackPanel>
@@ -279,23 +342,24 @@
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <Label Content="Наименование" Margin="2"/>
-                        <Label Content="Адрес" Margin="2"/>
-                        <Label Content="Телефон" Margin="2"/>
-                        <Label Content="Веб сайт" Margin="2"/>
-                        <Label Content="E-mail" Margin="2"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <Label Content="" Background="White" Height="26" Margin="2"/>
-                        <Label Content="" Background="White" Height="26" Margin="2"/>
-                        <Label Content="" Background="White" Height="26" Margin="2"/>
-                        <Label Content="" Background="White" Height="26" Margin="2"/>
-                        <Label Content="" Background="White" Height="26" Margin="2"/>
-                    </StackPanel>
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Адрес"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Телефон"/>
+                    <Label Grid.Row="3" Grid.Column="0" Content="Веб сайт"/>
+                    <Label Grid.Row="4" Grid.Column="0" Content="E-mail"/>
+                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding CurrentDeviceProducer.name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentDeviceProducer.address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentDeviceProducer.phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentDeviceProducer.web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="4" Grid.Column="1" Content="{Binding CurrentDeviceProducer.email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </Grid>
-
             </TabItem>
         </TabControl>
     </StackPanel>
