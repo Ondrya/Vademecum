@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:vm="clr-namespace:WpfApp.ViewModels"
         mc:Ignorable="d"
-        Title="Что устройство делает с измерениями" Height="450" Width="600">
+        Title="Что устройство делает с измерениями (возможные оперции)" Height="450" Width="600">
     <Window.DataContext>
         <vm:ParamMeasureProccessingViewModel/>
     </Window.DataContext>

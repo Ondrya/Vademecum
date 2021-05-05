@@ -44,41 +44,6 @@
                         Grid.Row="0"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Литература">
-                <StackPanel>
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование"/>
-                        </DataGrid.Columns>
-
-                    </DataGrid>
-                    <GroupBox Header="Подробная информация">
-                        <StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
-                                <Label Grid.Row="1" Grid.Column="0" Content="Автор"/>
-                                <Label Grid.Row="2" Grid.Column="0" Content="Издательство"/>
-                                <Label Grid.Row="3" Grid.Column="0" Content="Год"/>
-
-                                <Label Grid.Row="0" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="1" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="2" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="3" Grid.Column="1" Margin="1" />
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
-            </TabItem>
             <TabItem Header="Параметры">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -111,43 +76,57 @@
                                 <!-- датчика/устройства-->
                                 <Label Grid.Row="0" Grid.Column="0" Content="Тип"/>
                                 <ComboBox Grid.Row="0" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="0" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="0" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamType">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="1" Grid.Column="0" Content="Назначение"/>
                                 <ComboBox Grid.Row="1" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="1" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="1" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamFunction">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="2" Grid.Column="0" Content="Чувствительный элемент"/>
                                 <ComboBox Grid.Row="2" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="2" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="2" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamSensElement">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="3" Grid.Column="0" Content="Принцип действия"/>
                                 <ComboBox Grid.Row="3" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="3" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="3" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamKind">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="4" Grid.Column="0" Content="Метод управления"/>
                                 <ComboBox Grid.Row="4" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="4" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="4" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamControlType">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="5" Grid.Column="0" Content="Действие с информацией"/>
                                 <ComboBox Grid.Row="5" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="5" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="5" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamMeasureProccessing">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
-                                
+
                                 <Label Grid.Row="6" Grid.Column="0" Content="Технология изготовления"/>
                                 <ComboBox Grid.Row="6" Grid.Column="1" BorderThickness="1" Margin="1"/>
-                                <Button Grid.Row="6" Grid.Column="2" Height="25" Margin="1">
+                                <Button Grid.Row="6" Grid.Column="2" Height="25" Margin="1"
+                                        Command="{Binding OpenParamWindowCommand}"
+                                        CommandParameter="ParamBuiltTech">
                                     <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                 </Button>
                             </Grid>
@@ -172,7 +151,9 @@
                                 <Label Content="Измеряемая величина"
                                    Grid.Row="0" Grid.Column="0"/>
                                 <DockPanel Grid.Row="0" Grid.Column="1">
-                                    <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                    <Button DockPanel.Dock="Right" Height="25" Margin="1"
+                                            Command="{Binding OpenParamWindowCommand}"
+                                            CommandParameter="ParamMeasure">
                                         <materialDesign:PackIcon Kind="AddCircle" />
                                     </Button>
                                     <ComboBox BorderThickness="1" Margin="1"/>
@@ -192,7 +173,9 @@
                                 <Label Content="Единицы измерений"
                                    Grid.Row="3" Grid.Column="0"/>
                                 <DockPanel Grid.Row="3" Grid.Column="1">
-                                    <Button DockPanel.Dock="Right" Height="25" Margin="1">
+                                    <Button DockPanel.Dock="Right" Height="25" Margin="1"
+                                            Command="{Binding OpenParamWindowCommand}"
+                                            CommandParameter="ParamMeasureDims">
                                         <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                     </Button>
                                     <ComboBox BorderThickness="1" Margin="1"/>
@@ -263,8 +246,43 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    
+
                 </Grid>
+            </TabItem>
+            <TabItem Header="Литература">
+                <StackPanel>
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    <GroupBox Header="Подробная информация">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
+                                <Label Grid.Row="1" Grid.Column="0" Content="Автор"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Издательство"/>
+                                <Label Grid.Row="3" Grid.Column="0" Content="Год"/>
+
+                                <Label Grid.Row="0" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="1" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="2" Grid.Column="1" Margin="1" />
+                                <Label Grid.Row="3" Grid.Column="1" Margin="1" />
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Изображения">
                 <Grid>
@@ -324,17 +342,6 @@
                             Height="250"/>
                     </GroupBox>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Область применения">
-                <StackPanel>
-                    <GroupBox Header="Список областей применения">
-                        <DataGrid x:Name="dg_obl" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Margin="5">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Наименование" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </GroupBox>
-                </StackPanel>
             </TabItem>
             <TabItem Header="Производитель">
                 <Grid>

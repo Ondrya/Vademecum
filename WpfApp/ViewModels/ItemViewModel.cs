@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using WpfApp.Commands;
 using WpfApp.Models;
 using System.Collections.ObjectModel;
+using WpfApp.Views;
 
 namespace WpfApp.ViewModels
 {
@@ -26,6 +27,7 @@ namespace WpfApp.ViewModels
         private string cn;
         private LaType LaType;
         private RelayCommand _saveCommand;
+        private RelayCommand _openParamWindowCommand;
         private DeviceType _selectedDeviceType;
         private ObservableCollection<DeviceType> _deviceTypeCollection;
         private string _buttonName;
@@ -123,6 +125,63 @@ namespace WpfApp.ViewModels
                 DeviceUpdate();
             }
         }, (obj) => CanSave()));
+        public RelayCommand OpenParamWindowCommand => _openParamWindowCommand ?? (_openParamWindowCommand = 
+            new RelayCommand( obj => {
+                var windowName = obj.ToString();
+                switch (windowName)
+                {
+                    // Тип 
+                    case "ParamType":
+                        var ParamTypeWindow = new ParamType();
+                        ParamTypeWindow.Show();
+                        break;
+                    //Назначение
+                    case "ParamFunction":
+                        var ParamFunctionWindow = new ParamFunction();
+                        ParamFunctionWindow.Show();
+                        break;
+                    //Чувствительный элемент
+                    case "ParamSensElement":
+                        var ParamSensElementWindow = new ParamSensElement();
+                        ParamSensElementWindow.Show();
+                        break;
+                    //Принцип действия
+                    case "ParamKind":
+                        var ParamKindWindow = new ParamKind();
+                        ParamKindWindow.Show();
+                        break;
+                    //Метод управления
+                    case "ParamControlType":
+                        var ParamControlTypeWindow = new ParamControlType();
+                        ParamControlTypeWindow.Show();
+                        break;
+                    //Возможные операции
+                    case "ParamMeasureProccessing":
+                        var ParamMeasureProccessingWindow = new ParamMeasureProccessing();
+                        ParamMeasureProccessingWindow.Show();
+                        break;
+                    //Технология изготовления
+                    case "ParamBuiltTech":
+                        var ParamBuiltTechWindow = new ParamBuiltTech();
+                        ParamBuiltTechWindow.Show();
+                        break;
+                    //Измеряемая величина
+                    case "ParamMeasure":
+                        var ParamMeasureWindow = new ParamMeasure();
+                        ParamMeasureWindow.Show();
+                        break;
+                    //Единицы измерений
+                    case "ParamMeasureDims":
+                        var ParamMeasureDimsWindow = new ParamMeasureDims();
+                        ParamMeasureDimsWindow.Show();
+                        break;
+                    default:
+                        MessageBox.Show("Такого справочника нет", "Элемент не найден", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        throw new ArgumentException();
+                        break;
+                }
+            }));
+
 
         private bool CanSave()
         {
