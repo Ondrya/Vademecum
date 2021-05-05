@@ -11,16 +11,19 @@ using WpfApp.Commands;
 using WpfApp.Models;
 using System.Collections.ObjectModel;
 using WpfApp.Views;
+using Prism.Events;
 
 namespace WpfApp.ViewModels
 {
     public class ItemViewModel : NotifyDataErrorInfoBase
     {
-        public ItemViewModel()
+        public ItemViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             DeviceTypeCollection = new ObservableCollection<DeviceType>();
         }
 
+        private IEventAggregator _eventAggregator;
         private Device _currentDevice;
         private Producer _currentDeviceProducer;
         private int _currentDeviceId;
@@ -41,7 +44,6 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(ButtonName));
             }
         }
-
 
         public ObservableCollection<DeviceType> DeviceTypeCollection
         {

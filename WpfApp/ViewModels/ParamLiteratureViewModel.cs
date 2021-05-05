@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using DataLayer;
+using Prism.Events;
 using WpfApp.Commands;
 using WpfApp.Helpers;
 using WpfApp.Validators;
@@ -15,8 +16,9 @@ namespace WpfApp.ViewModels
 {
     public class ParamLiteratureViewModel : NotifyDataErrorInfoBase, IParamViewModel
     {
-        public ParamLiteratureViewModel()
+        public ParamLiteratureViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
         }
@@ -36,6 +38,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<Literature> _dataCollection;
         private Literature _selected;
         private Literature _newItem;
+        private IEventAggregator _eventAggregator;
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;

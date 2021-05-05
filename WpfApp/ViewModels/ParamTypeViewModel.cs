@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using DataLayer;
+using Prism.Events;
 using WpfApp.Commands;
 using WpfApp.Validators;
 
@@ -13,8 +14,9 @@ namespace WpfApp.ViewModels
 {
     public class ParamTypeViewModel : NotifyDataErrorInfoBase, IParamViewModel
     {
-        public ParamTypeViewModel()
+        public ParamTypeViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
         }
@@ -32,6 +34,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<DataLayer.Type> _dataCollection;
         private DataLayer.Type _selected;
         private DataLayer.Type _newItem;
+        private IEventAggregator _eventAggregator;
         private string cn;
         private RelayCommand _createCommand;
         private RelayCommand _deleteCommand;
