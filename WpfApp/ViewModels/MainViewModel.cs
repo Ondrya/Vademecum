@@ -40,6 +40,7 @@ namespace WpfApp.ViewModels
 
         private void Fill()
         {
+            HeaderList = "Список датчиков и устройств";
             cn = ((App)Application.Current).CurrentDb.ToString();
             using (var context = new DataContext(cn))
             {
@@ -82,7 +83,17 @@ namespace WpfApp.ViewModels
         private DeviceSensorLookUp _selectedItem;
         private List<DeviceSensorLookUp> _items;
         private bool isAdmin;
+        private string _headerList;
 
+        public string HeaderList
+        {
+            get => _headerList;
+            set 
+            { 
+                _headerList = value;
+                OnPropertyChanged(nameof(HeaderList));
+            }
+        }
         public bool ShowDevices
         {
             get => _showDevices;
@@ -90,6 +101,7 @@ namespace WpfApp.ViewModels
             {
                 _showDevices = value;
                 OnPropertyChanged(nameof(ShowDevices));
+                if (value) HeaderList = "Список устройств";
             }
         }
         public bool ShowSensors
@@ -99,6 +111,7 @@ namespace WpfApp.ViewModels
             {
                 _showSensors = value;
                 OnPropertyChanged(nameof(ShowSensors));
+                if (value) HeaderList = "Список датчиков";
             }
         }
         public ObservableCollection<DeviceSensorLookUp> DataGridCollection
@@ -149,8 +162,6 @@ namespace WpfApp.ViewModels
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
         }, (obj) => isAdmin));
-
-
         public RelayCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(obj => { Fill(); }));
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(obj =>
         {
@@ -158,27 +169,24 @@ namespace WpfApp.ViewModels
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
-        }, (obj) => SelectedItem != null));
+        }, (obj) => SelectedItem != null && isAdmin));
         public RelayCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(obj =>
         {
             var res = MessageBox.Show("Удалить выбранный элемент?", "Требуется подтверждение.", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (res == MessageBoxResult.OK) DeleteItem(SelectedItem);
-        }, (obj) => SelectedItem != null));
+        }, (obj) => SelectedItem != null && isAdmin));
         public RelayCommand CreateCommand => _createCommand ?? (_createCommand = new RelayCommand(obj =>
         {
             var popUpWindow = new Item();
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
-        }));
+        }, (obj) => isAdmin));
 
         private void DeleteItem(DeviceSensorLookUp selectedItem)
         {
             throw new NotImplementedException();
         }
-
-
-
 
         public RelayCommand ShowAdminWindowCommand => _showAdminWindowCommand ?? (_showAdminWindowCommand = new RelayCommand(obj =>
         {
@@ -187,21 +195,17 @@ namespace WpfApp.ViewModels
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
         }, (obj) => isAdmin));
-
-
-
-
-
         public RelayCommand FilterSensorCommand => _filterSensorCommand ?? (_filterSensorCommand = new RelayCommand(obj =>
         {
-            ShowSensors = !ShowDevices;
+            ShowDevices = false;
+            ShowSensors = true; ;
             // отвильтровать датчики
             FilterDataGrid();
         }));
-
         public RelayCommand FilterDeviceCommand => _filterDeviceCommand ?? (_filterDeviceCommand = new RelayCommand(obj =>
         {
-            ShowDevices = !ShowDevices;
+            ShowSensors = false;
+            ShowDevices = true;
             // отвильтровать устройства
             FilterDataGrid();
         }));

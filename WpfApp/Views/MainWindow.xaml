@@ -20,7 +20,7 @@
         <DockPanel 
             Grid.Row="1" LastChildFill="False">
             <Button 
-                Background="Green" Margin="10"
+                Background="Green" Margin="5"
                 Command="{Binding CreateCommand}">
                 <DockPanel>
                     <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
@@ -28,7 +28,7 @@
                 </DockPanel>
             </Button>
             <Button 
-                Background="Gold" Margin="10"
+                Background="Gold" Margin="5"
                 Command="{Binding UpdateCommand}">
                 <DockPanel>
                     <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Foreground="Black"/>
@@ -36,7 +36,7 @@
                 </DockPanel>
             </Button>
             <Button 
-                Background="Red" Margin="10"
+                Background="Red" Margin="5"
                 Command="{Binding DeleteCommand}">
                 <DockPanel>
                     <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Foreground="Black"/>
@@ -44,7 +44,7 @@
                 </DockPanel>
             </Button>
             <Button 
-                Background="LightGreen" Margin="10"
+                Background="LightGreen" Margin="5"
                 DockPanel.Dock="Right" 
                 Command="{Binding RefreshCommand}">
                 <DockPanel>
@@ -164,10 +164,10 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Margin="3 5 3 0" Header="Список датчиков и устройств">
+                <GroupBox Margin="3 5 3 0" Header="{Binding HeaderList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <DataGrid
                         Grid.Row="0"
-                        MinHeight="200"
+                        MinHeight="240"
                         IsReadOnly="True"
                         ItemsSource="{Binding DataGridCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
