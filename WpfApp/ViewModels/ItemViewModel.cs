@@ -23,6 +23,15 @@ namespace WpfApp.ViewModels
                 .Subscribe(HandleParamEvent);
 
             DeviceTypeCollection = new ObservableCollection<DeviceType>();
+            TypeCollection = new ObservableCollection<DataLayer.Type>();
+            FunctionCollection = new ObservableCollection<Function>();
+            SensElementCollection = new ObservableCollection<Sens_Element>();
+            KindCollection = new ObservableCollection<Kind>();
+            ControlCollection = new ObservableCollection<Control>();
+            MeasureProcessingCollection = new ObservableCollection<Measure_Processing>();
+            BuiltTechCollection = new ObservableCollection<BuiltTech>();
+            MeasureCollection = new ObservableCollection<Measure>();
+            MeasureDimCollection = new ObservableCollection<Measure_Dims>();
         }
 
         IEventAggregator _eventAggregator;
@@ -33,19 +42,141 @@ namespace WpfApp.ViewModels
         private LaType LaType;
         private RelayCommand _saveCommand;
         private RelayCommand _openParamWindowCommand;
-        private DeviceType _selectedDeviceType;
+        
         private ObservableCollection<DeviceType> _deviceTypeCollection;
+        private ObservableCollection<DataLayer.Type> _typeCollection;
+        private ObservableCollection<Function> _functionCollection;
+        private ObservableCollection<Sens_Element> _sensElementCollection;
+        private ObservableCollection<Kind> _kindCollection;
+        private ObservableCollection<Control> _controlCollection;
+        private ObservableCollection<Measure_Processing> _measureProcessingCollection;
+        private ObservableCollection<BuiltTech> _builtTechCollection;
+        private ObservableCollection<Measure> _measureCollection;
+        private ObservableCollection<Measure_Dims> _measureDimCollection;
         private string _buttonName;
 
-        public string ButtonName
+        public DeviceType SelectedDeviceType
         {
-            get => _buttonName;
+            get => _selectedDeviceType;
             set 
             { 
-                _buttonName = value;
-                OnPropertyChanged(nameof(ButtonName));
+                _selectedDeviceType = value;
+                OnPropertyChanged(nameof(SelectedDeviceType));
+                CurrentDevice.id_device = value?.id_device;
             }
         }
+        private DeviceType _selectedDeviceType;
+
+        public DataLayer.Type SelectedType
+        {
+            get => _selectedType;
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged(nameof(SelectedType));
+                CurrentDevice.id_type = value?.id_type;
+            }
+        }
+        private DataLayer.Type _selectedType;
+        
+        public Function SelectedFunction
+        {
+            get => _selectedFunction;
+            set
+            {
+                _selectedFunction = value;
+                OnPropertyChanged(nameof(SelectedFunction));
+                CurrentDevice.id_func = value?.id_func;
+            }
+        }
+        private Function _selectedFunction;
+
+        public Sens_Element SelectedSensElement
+        {
+            get => _selectedSensElement;
+            set
+            {
+                _selectedSensElement = value;
+                OnPropertyChanged(nameof(SelectedSensElement));
+                CurrentDevice.id_se = value?.id_se;
+            }
+        }
+        private Sens_Element _selectedSensElement;
+
+        public Kind SelectedKind
+        {
+            get => _selectedKind;
+            set
+            {
+                _selectedKind = value;
+                OnPropertyChanged(nameof(SelectedKind));
+                CurrentDevice.id_kind = value?.id_kind;
+            }
+        }
+        private Kind _selectedKind;
+
+        public Control SelectedControl
+        {
+            get => _selectedControl;
+            set
+            {
+                _selectedControl = value;
+                OnPropertyChanged(nameof(SelectedControl));
+                CurrentDevice.id_control = value?.id_control;
+            }
+        }
+        private Control _selectedControl;
+
+        public Measure_Processing SelectedMeasureProcessing
+        {
+            get => _selectedMeasureProcessing;
+            set
+            {
+                _selectedMeasureProcessing = value;
+                OnPropertyChanged(nameof(SelectedMeasureProcessing));
+                CurrentDevice.id_measure_proc = value?.id_measure_proc;
+            }
+        }
+        private Measure_Processing _selectedMeasureProcessing;
+
+        public BuiltTech SelectedBuiltTech
+        {
+            get => _selectedBuiltTech;
+            set
+            {
+                _selectedBuiltTech = value;
+                OnPropertyChanged(nameof(SelectedBuiltTech));
+                CurrentDevice.id_built_tech = value?.id_built_tech;
+            }
+        }
+        private BuiltTech _selectedBuiltTech;
+
+        public Measure SelectedMeasure
+        {
+            get => _selectedMeasure;
+            set
+            {
+                _selectedMeasure = value;
+                OnPropertyChanged(nameof(SelectedMeasure));
+                // todo переопределить
+                //CurrentDevice.id_device = value?.id_measure;
+            }
+        }
+        private Measure _selectedMeasure;
+
+        public Measure_Dims SelectedMeasureDim
+        {
+            get => _selectedMeasureDim;
+            set
+            {
+                _selectedMeasureDim = value;
+                OnPropertyChanged(nameof(SelectedMeasureDim));
+                CurrentDevice.id_dim_measure = value?.id_dim_measure;
+            }
+        }
+        private Measure_Dims _selectedMeasureDim;
+
+
 
         public ObservableCollection<DeviceType> DeviceTypeCollection
         {
@@ -56,18 +187,98 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(DeviceTypeCollection));
             }
         }
-
-
-        public DeviceType SelectedDeviceType
-        {
-            get => _selectedDeviceType;
+        public ObservableCollection<DataLayer.Type> TypeCollection 
+        { 
+            get => _typeCollection;
             set 
-            { 
-                _selectedDeviceType = value;
-                OnPropertyChanged(nameof(SelectedDeviceType));
-                CurrentDevice.id_type = value?.id_device;
+            {
+                _typeCollection = value;
+                OnPropertyChanged(nameof(TypeCollection));
+            } 
+        }
+        public ObservableCollection<Function> FunctionCollection
+        {
+            get => _functionCollection;
+            set
+            {
+                _functionCollection = value;
+                OnPropertyChanged(nameof(FunctionCollection));
             }
         }
+        public ObservableCollection<Sens_Element> SensElementCollection
+        {
+            get => _sensElementCollection;
+            set
+            {
+                _sensElementCollection = value;
+                OnPropertyChanged(nameof(SensElementCollection));
+            }
+        }
+        public ObservableCollection<Kind> KindCollection
+        {
+            get => _kindCollection;
+            set
+            {
+                _kindCollection = value;
+                OnPropertyChanged(nameof(KindCollection));
+            }
+        }
+        public ObservableCollection<Control> ControlCollection
+        {
+            get => _controlCollection;
+            set
+            {
+                _controlCollection = value;
+                OnPropertyChanged(nameof(ControlCollection));
+            }
+        }
+        public ObservableCollection<Measure_Processing> MeasureProcessingCollection
+        {
+            get => _measureProcessingCollection;
+            set
+            {
+                _measureProcessingCollection = value;
+                OnPropertyChanged(nameof(MeasureProcessingCollection));
+            }
+        }
+        public ObservableCollection<BuiltTech> BuiltTechCollection
+        {
+            get => _builtTechCollection;
+            set
+            {
+                _builtTechCollection = value;
+                OnPropertyChanged(nameof(BuiltTechCollection));
+            }
+        }
+        public ObservableCollection<Measure> MeasureCollection
+        {
+            get => _measureCollection;
+            set
+            {
+                _measureCollection = value;
+                OnPropertyChanged(nameof(MeasureCollection));
+            }
+        }
+        public ObservableCollection<Measure_Dims> MeasureDimCollection
+        {
+            get => _measureDimCollection;
+            set
+            {
+                _measureDimCollection = value;
+                OnPropertyChanged(nameof(MeasureDimCollection));
+            }
+        }
+
+        public string ButtonName
+        {
+            get => _buttonName;
+            set
+            {
+                _buttonName = value;
+                OnPropertyChanged(nameof(ButtonName));
+            }
+        }
+        
         public Device CurrentDevice
         {
             get => _currentDevice;
@@ -75,7 +286,20 @@ namespace WpfApp.ViewModels
             {
                 _currentDevice = value;
                 OnPropertyChanged(nameof(CurrentDevice));
+
                 SelectedDeviceType = DeviceTypeCollection.FirstOrDefault(x => x.id_device == value?.id_type);
+                SelectedType = TypeCollection.FirstOrDefault(x => x.id_type == value?.id_type);
+                SelectedFunction = FunctionCollection.FirstOrDefault(x => x.id_func == value?.id_func);
+                SelectedSensElement = SensElementCollection.FirstOrDefault(x => x.id_se == value?.id_se);
+                SelectedKind = KindCollection.FirstOrDefault(x => x.id_kind == value?.id_kind);
+                SelectedControl = ControlCollection.FirstOrDefault(x => x.id_control == value?.id_control);
+                SelectedMeasureProcessing = MeasureProcessingCollection.FirstOrDefault(x => x.id_measure_proc == value?.id_measure_proc);
+                SelectedBuiltTech = BuiltTechCollection.FirstOrDefault(x => x.id_built_tech == value?.id_built_tech);
+                SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
+
+                // todo обсудить правку таблицы Devices
+                // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
+                //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
             }
         }
         public Producer CurrentDeviceProducer
@@ -105,8 +329,19 @@ namespace WpfApp.ViewModels
         {
             cn = ((App)Application.Current).CurrentDb.ToString();
             LaType = ((App)Application.Current).CurrentSession.SelectedLaType;
-            DeviceTypeCollection = new ObservableCollection<DeviceType>(Helpers.Dict.GetDevices());
             ButtonName = CurrentDeviceId == 0 ? "Создать" : "Сохранить";
+
+            DeviceTypeCollection = new ObservableCollection<DeviceType>(Helpers.Dict.GetDeviceTypes());
+            TypeCollection = new ObservableCollection<DataLayer.Type>(Helpers.Dict.GetTypes());
+            FunctionCollection = new ObservableCollection<Function>(Helpers.Dict.GetFunctions());
+            SensElementCollection = new ObservableCollection<Sens_Element>(Helpers.Dict.GetSensElements());
+            KindCollection = new ObservableCollection<Kind>(Helpers.Dict.GetKinds());
+            ControlCollection = new ObservableCollection<Control>(Helpers.Dict.GetControls());
+            MeasureProcessingCollection = new ObservableCollection<Measure_Processing>(Helpers.Dict.GetMeasureProcessing());
+            BuiltTechCollection = new ObservableCollection<BuiltTech>(Helpers.Dict.GetBuiltTeches());
+            MeasureCollection = new ObservableCollection<Measure>(Helpers.Dict.GetMeasures());
+            MeasureDimCollection = new ObservableCollection<Measure_Dims>(Helpers.Dict.GetMeasureDims());
+
 
             using (var context = new DataContext(cn))
             {
@@ -186,7 +421,6 @@ namespace WpfApp.ViewModels
                 }
             }));
 
-
         private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(CurrentDevice?.name) && SelectedDeviceType != null;
@@ -194,7 +428,21 @@ namespace WpfApp.ViewModels
 
         private void DeviceUpdate()
         {
-            throw new NotImplementedException();
+            using (var context = new DataContext(cn))
+            {
+                try
+                {
+                    context.Entry(CurrentDevice).State = System.Data.Entity.EntityState.Modified; ;
+                    context.SaveChanges();
+                    MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CloseWindow();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+
+            }
         }
 
         private void DeviceCreate()
@@ -208,6 +456,8 @@ namespace WpfApp.ViewModels
                     context.SaveChanges();
                     CurrentDeviceId = CurrentDevice.id;
                     MessageBox.Show($"id: {CurrentDevice.id}", "Устройство сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Устройство ДОБАВЛЕНО в базу данных - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CloseWindow();
                 }
                 catch (Exception e)
                 {
@@ -217,13 +467,19 @@ namespace WpfApp.ViewModels
             }
         }
 
+        private void CloseWindow()
+        {
+            foreach (Window item in Application.Current.Windows)
+                if (item.DataContext == this) item.Close();
+        }
+
         /// <summary>
         /// Обработка входящего сообщения от словарей
         /// </summary>
         /// <param name="paramEvent"></param>
         private void HandleParamEvent(DbEntityEventParam msg)
         {
-            // todo обработать параметр - обновить нужную Collection - add, remove, update
+            // todo обработать параметр - обновить нужную Collection - add, remove, update на основе Dict
             MessageBox.Show($"{msg.Crud} - {msg.Item} - {msg.EntityId}");
         }
     }

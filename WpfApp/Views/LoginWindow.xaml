@@ -4,76 +4,69 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WpfApp.ViewModels"
         WindowStartupLocation="CenterScreen"
         Closing="Window_Closing"
-        Title="База данных по навигационным измерительным устройствам" 
-        Height="450" Width="500">
+        Title="Навигационные измерительные устройства" 
+        Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
-    <StackPanel
-        Margin="30 5"
+    <StackPanel Margin="10 5"
         >
-        <Label 
-            HorizontalContentAlignment="Center"
-            Content="Навигационные измерительные устройства"/>
-        <Label 
-            HorizontalContentAlignment="Center"
-            Content="Введите учётные данные пользователя или зарегистрируйтесь в системе"/>
-
+        <!--<Label HorizontalContentAlignment="Center" Content="Навигационные" FontSize="20"/>
+        <Label HorizontalContentAlignment="Center" Content="измерительные устройства"  FontSize="20"/>-->
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <Label 
-                Grid.Row="0" Grid.Column="0"
-                Content="Логин"/>
-            <TextBox 
-                Grid.Row="0" Grid.Column="1"
-                Text="{Binding UserLogin}"/>
-            <Label 
-                Grid.Row="1" Grid.Column="0"
-                Content="Пароль"/>
-            <TextBox 
-                Grid.Row="1" Grid.Column="1"
-                Text="{Binding UserPassword}"/>
+            <TextBox
+                Grid.Row="0"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                VerticalAlignment="Top"
+                Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"
+                materialDesign:HintAssist.Hint="Логин" />
+            <TextBox
+                Grid.Row="1"
+                Style="{StaticResource MaterialDesignFilledTextBox}"
+                VerticalAlignment="Top"
+                Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"
+                materialDesign:HintAssist.Hint="Пароль" />
 
             <Button 
-                Grid.Row="2" Grid.Column="1"
-                Width="270"
-                Margin="5"
-                Content="Войти в систему" 
+                Grid.Row="2"
+                Margin="2"
+                IsDefault="True"
+                Content="Войти" 
+                Background="Green"
                 Command="{Binding LoginCommand}"/>
 
             <Button 
-                Grid.Row="3" Grid.Column="1"
-                Width="270"
-                Margin="5"
-                Content="Просмотр данных без регистрации" 
+                Grid.Row="3"
+                Margin="2"
+                Content="Просмотр без регистрации" 
+                Background="Gold"
+                Foreground="Black"
                 Command="{Binding LoginAsGuestCommand}"/>
 
             <Button 
-                Grid.Row="4" Grid.Column="1"
-                Width="270"
-                Margin="5"
-                Content="Зарегистрироваться в системе" 
+                Grid.Row="4"
+                Margin="2"
+                Content="Зарегистрироваться" 
+                Background="OrangeRed"
                 Command="{Binding RegistrationCommand}"/>
 
             <Expander 
                 Grid.Row="5" Grid.Column="1"
-                Header="Параметры подключения к базе данных">
+                Header="Параметры подключения">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>

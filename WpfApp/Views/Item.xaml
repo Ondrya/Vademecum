@@ -75,7 +75,13 @@
                                 </Grid.RowDefinitions>
                                 <!-- датчика/устройства-->
                                 <Label Grid.Row="0" Grid.Column="0" Content="Тип"/>
-                                <ComboBox Grid.Row="0" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="0" Grid.Column="1" 
+                                    ItemsSource="{Binding TypeCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_type"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="0" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamType">
@@ -83,7 +89,13 @@
                                 </Button>
 
                                 <Label Grid.Row="1" Grid.Column="0" Content="Назначение"/>
-                                <ComboBox Grid.Row="1" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="1" Grid.Column="1" 
+                                    ItemsSource="{Binding FunctionCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedFunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_func"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="1" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamFunction">
@@ -91,7 +103,13 @@
                                 </Button>
 
                                 <Label Grid.Row="2" Grid.Column="0" Content="Чувствительный элемент"/>
-                                <ComboBox Grid.Row="2" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="2" Grid.Column="1" 
+                                    ItemsSource="{Binding SensElementCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedSensElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_se"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="2" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamSensElement">
@@ -99,7 +117,13 @@
                                 </Button>
 
                                 <Label Grid.Row="3" Grid.Column="0" Content="Принцип действия"/>
-                                <ComboBox Grid.Row="3" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="3" Grid.Column="1" 
+                                    ItemsSource="{Binding KindCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedKind, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_kind"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="3" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamKind">
@@ -107,7 +131,13 @@
                                 </Button>
 
                                 <Label Grid.Row="4" Grid.Column="0" Content="Метод управления"/>
-                                <ComboBox Grid.Row="4" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="4" Grid.Column="1" 
+                                    ItemsSource="{Binding ControlCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_control"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="4" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamControlType">
@@ -115,7 +145,13 @@
                                 </Button>
 
                                 <Label Grid.Row="5" Grid.Column="0" Content="Действие с информацией"/>
-                                <ComboBox Grid.Row="5" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="5" Grid.Column="1" 
+                                    ItemsSource="{Binding MeasureProcessingCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedMeasureProcessing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="name_measure_proc"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="5" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamMeasureProccessing">
@@ -123,7 +159,13 @@
                                 </Button>
 
                                 <Label Grid.Row="6" Grid.Column="0" Content="Технология изготовления"/>
-                                <ComboBox Grid.Row="6" Grid.Column="1" BorderThickness="1" Margin="1"/>
+                                <ComboBox 
+                                    Grid.Row="6" Grid.Column="1" 
+                                    ItemsSource="{Binding BuiltTechCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    SelectedItem="{Binding SelectedBuiltTech, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    DisplayMemberPath="built_tech"
+                                    Padding="2"
+                                    BorderThickness="1" Margin="1"/>
                                 <Button Grid.Row="6" Grid.Column="2" Height="25" Margin="1"
                                         Command="{Binding OpenParamWindowCommand}"
                                         CommandParameter="ParamBuiltTech">
@@ -156,7 +198,12 @@
                                             CommandParameter="ParamMeasure">
                                         <materialDesign:PackIcon Kind="AddCircle" />
                                     </Button>
-                                    <ComboBox BorderThickness="1" Margin="1"/>
+                                    <ComboBox 
+                                        ItemsSource="{Binding MeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        SelectedItem="{Binding SelectedMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        DisplayMemberPath="name_measure"
+                                        Padding="2"
+                                        BorderThickness="1" Margin="1"/>
                                 </DockPanel>
                                 <Label Content="Нижняя граница"
                                    Grid.Row="1" Grid.Column="0"/>
@@ -178,7 +225,12 @@
                                             CommandParameter="ParamMeasureDims">
                                         <materialDesign:PackIcon Kind="AddCircle"  VerticalAlignment="Center"/>
                                     </Button>
-                                    <ComboBox BorderThickness="1" Margin="1"/>
+                                    <ComboBox 
+                                        ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        SelectedItem="{Binding SelectedMeasureDim, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        DisplayMemberPath="dim_measure"
+                                        Padding="2"
+                                        BorderThickness="1" Margin="1"/>
                                 </DockPanel>
                                 <Label Content="Погрешнсть, %"
                                    Grid.Row="4" Grid.Column="0"/>

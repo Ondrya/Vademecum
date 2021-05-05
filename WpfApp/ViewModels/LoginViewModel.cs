@@ -127,7 +127,7 @@ namespace WpfApp.ViewModels
         {
             // авторизуем пользователя
             DoLogin(UserLogin, UserPassword);
-        }, (obj) => Db != null));
+        }, (obj) => Db != null && !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword)));
 
         private void DoLogin(string login, string password)
         {
