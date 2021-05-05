@@ -8,15 +8,17 @@ using System.Windows;
 using DataLayer;
 using Prism.Events;
 using WpfApp.Commands;
+using WpfApp.Events;
+using WpfApp.Interfaces;
 using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamMeasureViewModel : NotifyDataErrorInfoBase, IParamViewModel
+    public class ParamMeasureViewModel : NotifyDataErrorInfoBase, IParamViewModel, IPublishEventDbEntityEvent
     {
-        public ParamMeasureViewModel(IEventAggregator eventAggregator)
+        public ParamMeasureViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = ApplicationService.Instance.EventAggregator;
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
         }
@@ -77,6 +79,7 @@ namespace WpfApp.ViewModels
                 {
                     context.Measures.Add(NewItem);
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Create, Dict.ParamMeasure, NewItem.id_measure));
                     Fill();
                 }
             }
@@ -97,6 +100,7 @@ namespace WpfApp.ViewModels
                     {
                         context.Measures.Remove(item);
                         context.SaveChanges();
+                        PublishDbEntityEvent(new DbEntityEventParam(EventType.Delete, Dict.ParamMeasure, Selected.id_measure));
                         Fill();
                     }
                 }
@@ -121,6 +125,7 @@ namespace WpfApp.ViewModels
                 {
                     context.Entry(Selected).State = System.Data.Entity.EntityState.Modified; ;
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Update, Dict.ParamMeasure, Selected.id_measure));
                     Fill();
                 }
             }
@@ -139,6 +144,13 @@ namespace WpfApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Selected?.name_measure) || Selected?.id_measure > 0) return false;
             return true;
+        }
+
+        public void PublishDbEntityEvent(DbEntityEventParam dbEntityEventParam)
+        {
+            _eventAggregator
+              .GetEvent<DbEntityEvent>()
+              .Publish(dbEntityEventParam);
         }
     }
 }

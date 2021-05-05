@@ -8,15 +8,17 @@ using System.Windows;
 using DataLayer;
 using Prism.Events;
 using WpfApp.Commands;
+using WpfApp.Events;
+using WpfApp.Interfaces;
 using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamBuiltTechViewModel : NotifyDataErrorInfoBase, IParamViewModel
+    public class ParamBuiltTechViewModel : NotifyDataErrorInfoBase, IParamViewModel, IPublishEventDbEntityEvent
     {
-        public ParamBuiltTechViewModel(IEventAggregator eventAggregator)
+        public ParamBuiltTechViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = ApplicationService.Instance.EventAggregator;
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
         }
@@ -77,6 +79,7 @@ namespace WpfApp.ViewModels
                 {
                     context.BuiltTeches.Add(NewItem);
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Create, Dict.ParamBuiltTech, NewItem.id_built_tech));
                     Fill();
                 }
             }
@@ -97,6 +100,7 @@ namespace WpfApp.ViewModels
                     {
                         context.BuiltTeches.Remove(item);
                         context.SaveChanges();
+                        PublishDbEntityEvent(new DbEntityEventParam(EventType.Delete, Dict.ParamBuiltTech, Selected.id_built_tech));
                         Fill();
                     }
                 }
@@ -121,6 +125,7 @@ namespace WpfApp.ViewModels
                 {
                     context.Entry(Selected).State = System.Data.Entity.EntityState.Modified; ;
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Update, Dict.ParamBuiltTech, Selected.id_built_tech));
                     Fill();
                 }
             }
@@ -139,6 +144,13 @@ namespace WpfApp.ViewModels
         public bool ExistInDb()
         { 
             return Selected != null && Selected?.id_built_tech > 0; 
+        }
+
+        public void PublishDbEntityEvent(DbEntityEventParam dbEntityEventParam)
+        {
+            _eventAggregator
+              .GetEvent<DbEntityEvent>()
+              .Publish(dbEntityEventParam);
         }
     }
 }

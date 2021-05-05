@@ -95,6 +95,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="ApplicationService.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\AccessLevelParse.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
@@ -102,10 +103,16 @@
     <Compile Include="Converters\IntAccessLevelDescriptionConverter.cs" />
     <Compile Include="Converters\EnumToItemsSource.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="Events\DbEntityEventParam.cs" />
+    <Compile Include="Events\Dict.cs" />
+    <Compile Include="Events\EventType.cs" />
+    <Compile Include="Events\DbEntityEvent.cs" />
     <Compile Include="Helpers\Dict.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Interfaces\ICloseView.cs" />
+    <Compile Include="Interfaces\IPublishEventDbEntityEvent.cs" />
+    <Compile Include="Interfaces\IPublishEvent.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\DbConnectionSetting.cs" />
     <Compile Include="Models\LaType.cs" />

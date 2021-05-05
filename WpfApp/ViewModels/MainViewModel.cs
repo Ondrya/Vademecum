@@ -1,10 +1,12 @@
 ﻿using DataLayer;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using WpfApp.Commands;
+using WpfApp.Events;
 using WpfApp.Models;
 using WpfApp.Validators;
 using WpfApp.Views;

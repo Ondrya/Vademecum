@@ -1,29 +1,31 @@
 ﻿using DataLayer;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using WpfApp.Validators;
-using System.Runtime.CompilerServices;
 using WpfApp.Commands;
 using WpfApp.Models;
 using System.Collections.ObjectModel;
 using WpfApp.Views;
 using Prism.Events;
+using WpfApp.Events;
 
 namespace WpfApp.ViewModels
 {
     public class ItemViewModel : NotifyDataErrorInfoBase
     {
-        public ItemViewModel(IEventAggregator eventAggregator)
+        public ItemViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = ApplicationService.Instance.EventAggregator;
+            // подписываемся на сообщения
+            _eventAggregator
+                .GetEvent<DbEntityEvent>()
+                .Subscribe(HandleParamEvent);
+
             DeviceTypeCollection = new ObservableCollection<DeviceType>();
         }
 
-        private IEventAggregator _eventAggregator;
+        IEventAggregator _eventAggregator;
         private Device _currentDevice;
         private Producer _currentDeviceProducer;
         private int _currentDeviceId;
@@ -213,6 +215,16 @@ namespace WpfApp.ViewModels
                 }
                 
             }
+        }
+
+        /// <summary>
+        /// Обработка входящего сообщения от словарей
+        /// </summary>
+        /// <param name="paramEvent"></param>
+        private void HandleParamEvent(DbEntityEventParam msg)
+        {
+            // todo обработать параметр - обновить нужную Collection - add, remove, update
+            MessageBox.Show($"{msg.Crud} - {msg.Item} - {msg.EntityId}");
         }
     }
 }

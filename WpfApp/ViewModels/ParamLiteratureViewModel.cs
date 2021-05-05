@@ -9,16 +9,18 @@ using System.Windows;
 using DataLayer;
 using Prism.Events;
 using WpfApp.Commands;
+using WpfApp.Events;
 using WpfApp.Helpers;
+using WpfApp.Interfaces;
 using WpfApp.Validators;
 
 namespace WpfApp.ViewModels
 {
-    public class ParamLiteratureViewModel : NotifyDataErrorInfoBase, IParamViewModel
+    public class ParamLiteratureViewModel : NotifyDataErrorInfoBase, IParamViewModel, IPublishEventDbEntityEvent
     {
-        public ParamLiteratureViewModel(IEventAggregator eventAggregator)
+        public ParamLiteratureViewModel()
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = ApplicationService.Instance.EventAggregator;
             cn = ((App)Application.Current).CurrentDb.ToString();
             Fill();
         }
@@ -111,6 +113,7 @@ namespace WpfApp.ViewModels
                     if (FilePath != null) Selected.lit_file = File.ReadAllBytes(FilePath);
                     context.Literatures.Add(Selected);
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Create, Events.Dict.ParamLiterature, NewItem.id_lit));
                     Fill();
                 }
             }
@@ -130,6 +133,7 @@ namespace WpfApp.ViewModels
                     {
                         context.Literatures.Remove(item);
                         context.SaveChanges();
+                        PublishDbEntityEvent(new DbEntityEventParam(EventType.Delete, Events.Dict.ParamLiterature, Selected.id_lit));
                         Fill();
                     }
                 }
@@ -149,6 +153,7 @@ namespace WpfApp.ViewModels
                 {
                     context.Entry(Selected).State = System.Data.Entity.EntityState.Modified; ;
                     context.SaveChanges();
+                    PublishDbEntityEvent(new DbEntityEventParam(EventType.Update, Events.Dict.ParamLiterature, Selected.id_lit));
                     Fill();
                 }
             }
@@ -180,6 +185,13 @@ namespace WpfApp.ViewModels
         public bool ExistInDb()
         {
             return Selected != null && Selected?.id_lit > 0;
+        }
+
+        public void PublishDbEntityEvent(DbEntityEventParam dbEntityEventParam)
+        {
+            _eventAggregator
+              .GetEvent<DbEntityEvent>()
+              .Publish(dbEntityEventParam);
         }
     }
 }
