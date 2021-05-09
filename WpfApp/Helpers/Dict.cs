@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using DataLayer;
@@ -26,5 +27,7 @@ namespace WpfApp.Helpers
         public static List<BuiltTech> GetBuiltTeches() => new DataContext(cn).BuiltTeches.ToList();
         public static List<Measure> GetMeasures() => new DataContext(cn).Measures.ToList();
         public static List<Measure_Dims> GetMeasureDims() => new DataContext(cn).Measure_Dims.ToList();
+        public static List<Enviroment> GetEnviroments() => new DataContext(cn).Enviroments.ToList();
+        internal static List<Producer> GetProdusers() => new DataContext(cn).Producers.ToList();
     }
 }

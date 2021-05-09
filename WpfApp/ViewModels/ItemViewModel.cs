@@ -35,11 +35,11 @@ namespace WpfApp.ViewModels
             BuiltTechCollection = new ObservableCollection<BuiltTech>();
             MeasureCollection = new ObservableCollection<Measure>();
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
+            EnviromentCollection = new ObservableCollection<Enviroment>();
         }
 
         IEventAggregator _eventAggregator;
         private Device _currentDevice;
-        private Producer _currentDeviceProducer;
         private int _currentDeviceId;
         private string cn;
         private LaType LaType;
@@ -59,6 +59,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<BuiltTech> _builtTechCollection;
         private ObservableCollection<Measure> _measureCollection;
         private ObservableCollection<Measure_Dims> _measureDimCollection;
+        private ObservableCollection<Enviroment> _enviromentCollection;
         private string _buttonName;
 
 
@@ -171,6 +172,19 @@ namespace WpfApp.ViewModels
         }
         private Measure_Processing _selectedMeasureProcessing;
 
+        public Enviroment SelectedEnviroment
+        {
+            get => _selectedEnviroment;
+            set 
+            { 
+                _selectedEnviroment = value;
+                OnPropertyChanged(nameof(SelectedEnviroment));
+                // todo нет поля в Dev.Device
+            }
+        }
+        private Enviroment _selectedEnviroment;
+
+
         public BuiltTech SelectedBuiltTech
         {
             get => _selectedBuiltTech;
@@ -209,7 +223,26 @@ namespace WpfApp.ViewModels
         private Measure_Dims _selectedMeasureDim;
 
 
+        private ObservableCollection<Producer> _producerCollection;
 
+        public ObservableCollection<Producer> ProducerCollection
+        {
+            get => _producerCollection;
+            set 
+            { 
+                _producerCollection = value;
+                OnPropertyChanged(nameof(ProducerCollection));
+            }
+        }
+        public ObservableCollection<Enviroment> EnviromentCollection
+        {
+            get => _enviromentCollection;
+            set 
+            { 
+                _enviromentCollection = value;
+                OnPropertyChanged(nameof(EnviromentCollection));
+            }
+        }
         public ObservableCollection<DeviceType> DeviceTypeCollection
         {
             get => _deviceTypeCollection;
@@ -328,21 +361,25 @@ namespace WpfApp.ViewModels
                 SelectedMeasureProcessing = MeasureProcessingCollection.FirstOrDefault(x => x.id_measure_proc == value?.id_measure_proc);
                 SelectedBuiltTech = BuiltTechCollection.FirstOrDefault(x => x.id_built_tech == value?.id_built_tech);
                 SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
+                SelectedProducer = ProducerCollection.FirstOrDefault(x => x.id_prod == value?.id_prod);
 
                 // todo обсудить правку таблицы Devices
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
             }
         }
-        public Producer CurrentDeviceProducer
+        public Producer SelectedProducer
         {
-            get => _currentDeviceProducer;
+            get => _selectedProducer;
             set 
             { 
-                _currentDeviceProducer = value;
-                OnPropertyChanged(nameof(CurrentDeviceProducer));
+                _selectedProducer = value;
+                OnPropertyChanged(nameof(SelectedProducer));
+                CurrentDevice.id_prod = value?.id_prod;
             }
         }
+        private Producer _selectedProducer;
+
         public int CurrentDeviceId
         {
             get => _currentDeviceId;
@@ -373,6 +410,8 @@ namespace WpfApp.ViewModels
             BuiltTechCollection = new ObservableCollection<BuiltTech>(Helpers.Dict.GetBuiltTeches());
             MeasureCollection = new ObservableCollection<Measure>(Helpers.Dict.GetMeasures());
             MeasureDimCollection = new ObservableCollection<Measure_Dims>(Helpers.Dict.GetMeasureDims());
+            EnviromentCollection = new ObservableCollection<Enviroment>(Helpers.Dict.GetEnviroments());
+            ProducerCollection = new ObservableCollection<Producer>(Helpers.Dict.GetProdusers());
 
 
             using (var context = new DataContext(cn))
@@ -381,10 +420,13 @@ namespace WpfApp.ViewModels
                 CurrentDevice = CurrentDeviceId == 0 ? new Device() { id_LA = (int)LaType } : context.Devices.Find(CurrentDeviceId);
 
                 // данные для вкладки ПРОИЗВОДИТЕЛЬ
-                CurrentDeviceProducer = CurrentDevice == null ? new Producer() : context.Producers.Find(CurrentDevice.Producer);
-                RawImageDataSchema = CurrentDevice.schema;
-                RawImageDataView = CurrentDevice.view;
+                //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : context.Producers.Find(CurrentDevice.Producer);
+                
             }
+
+            //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : ProducerCollection.First(x => x.id_prod == CurrentDevice.id_prod);
+            RawImageDataSchema = CurrentDevice.schema;
+            RawImageDataView = CurrentDevice.view;
         }
 
         public RelayCommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(obj =>

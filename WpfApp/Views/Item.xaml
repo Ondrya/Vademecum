@@ -425,19 +425,24 @@
                     <DataGrid 
                         IsReadOnly="True" 
                         SelectionMode="Single" 
+                        ItemsSource="{Binding EnviromentCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedEnviroment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        DisplayMemberPath="name_envi"
                         AutoGenerateColumns="False" 
                         Margin="5"
                         Grid.Row="0">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование"/>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Path=name_envi, UpdateSourceTrigger=PropertyChanged}" 
+                    Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <GroupBox Header="Описание среды" Grid.Row="1">
                         <TextBlock 
+                            Text="{Binding SelectedEnviroment.spec_envi, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             TextWrapping="Wrap" 
                             Margin="5" 
                             ScrollViewer.CanContentScroll="True" 
-                            Height="250"/>
+                            Height="150"/>
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -448,22 +453,42 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+
+                        <RowDefinition Height="240"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="Адрес"/>
                     <Label Grid.Row="2" Grid.Column="0" Content="Телефон"/>
                     <Label Grid.Row="3" Grid.Column="0" Content="Веб сайт"/>
                     <Label Grid.Row="4" Grid.Column="0" Content="E-mail"/>
-                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding CurrentDeviceProducer.name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentDeviceProducer.address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentDeviceProducer.phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentDeviceProducer.web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    <Label Grid.Row="4" Grid.Column="1" Content="{Binding CurrentDeviceProducer.email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedProducer.name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedProducer.address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedProducer.phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="3" Grid.Column="1" Content="{Binding SelectedProducer.web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Label Grid.Row="4" Grid.Column="1" Content="{Binding SelectedProducer.email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+                    <DataGrid 
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                        IsReadOnly="True" 
+                        SelectionMode="Single" 
+                        ItemsSource="{Binding ProducerCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedProducer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        DisplayMemberPath="name_envi"
+                        AutoGenerateColumns="False" 
+                        Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn 
+                                Header="Наименование" 
+                                Binding="{Binding Path=name_prod, UpdateSourceTrigger=PropertyChanged}" 
+                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
