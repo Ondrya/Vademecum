@@ -98,6 +98,7 @@
     <Compile Include="ApplicationService.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\AccessLevelParse.cs" />
+    <Compile Include="Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\IntAccessLevelDescriptionConverter.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="ViewModels\ParamBuiltTechViewModel.cs" />
     <Compile Include="ViewModels\ParamEnviromentViewModel.cs" />
     <Compile Include="ViewModels\ParamProducerViewModel.cs" />
+    <Compile Include="ViewModels\PopUpImageViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\SelectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -186,6 +188,9 @@
     </Compile>
     <Compile Include="Views\ParamProducer.xaml.cs">
       <DependentUpon>ParamProducer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PopUpImage.xaml.cs">
+      <DependentUpon>PopUpImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
@@ -266,6 +271,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ParamProducer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PopUpImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -410,7 +419,9 @@
     <Resource Include="Resources\Images\avia.jpg" />
     <Resource Include="Resources\Images\space.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\noimage.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -29,12 +29,15 @@
             </Grid.RowDefinitions>
 
             <TextBox
+                x:Name="LoginTextBox"
                 Grid.Row="0"
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 VerticalAlignment="Top"
                 Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"
-                materialDesign:HintAssist.Hint="Логин" />
+                materialDesign:HintAssist.Hint="Логин" 
+                MouseDoubleClick="LoginTextBox_MouseDoubleClick"/>
             <TextBox
+                x:Name="PasswordTextBox"
                 Grid.Row="1"
                 Style="{StaticResource MaterialDesignFilledTextBox}"
                 VerticalAlignment="Top"
@@ -42,6 +45,7 @@
                 materialDesign:HintAssist.Hint="Пароль" />
 
             <Button 
+                x:Name="ButtonLogIn"
                 Grid.Row="2"
                 Margin="2"
                 IsDefault="True"

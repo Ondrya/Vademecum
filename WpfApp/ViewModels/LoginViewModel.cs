@@ -129,7 +129,7 @@ namespace WpfApp.ViewModels
             DoLogin(UserLogin, UserPassword);
         }, (obj) => Db != null && !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword)));
 
-        private void DoLogin(string login, string password)
+        internal void DoLogin(string login, string password)
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             var cn = Db.ToString();

@@ -4,12 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views" 
-        xmlns:vm="clr-namespace:WpfApp.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:WpfApp.Converters"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:vm="clr-namespace:WpfApp.ViewModels"
         mc:Ignorable="d"
         Title="Добавить или изменить информацию о датчике/устройстве" Height="500" Width="800">
     <Window.DataContext>
         <vm:ItemViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <converters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter"/>
+    </Window.Resources>
     <StackPanel>
         <DockPanel>
             <Label 
@@ -347,12 +352,33 @@
                         Grid.Column="0" Margin="2">
                         <StackPanel>
                             <Border BorderBrush="Black" BorderThickness="1">
-                                <Image Width="160" Height="160" Source="../Images/noimage.jpg"/>
+                                <Image 
+                                    Width="160" Height="160" 
+                                    Source="{Binding RawImageDataSchema, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ByteArrayToBitmapImageConverter}}"/>
                             </Border>
-                            <Button 
-                                Width="250"
-                                Margin="5"
-                                Content="Полный размер изображения" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button 
+                                    Margin="5"
+                                    Background="Green"
+                                    Content="Полный размер" 
+                                    Command="{Binding ShowImageCommand}"
+                                    CommandParameter="Schema"/>
+                                <Button 
+                                    Margin="5"
+                                    Background="Gold"
+                                    Foreground="Black"
+                                    Content="Загрузить" 
+                                    Command="{Binding UploadImageCommand}"
+                                    CommandParameter="Schema"/>
+                                <Button 
+                                    Background="Red" Margin="5"
+                                    Command="{Binding DeleteImageCommand}"
+                                    CommandParameter="Schema"
+                                    ToolTip="Удалить">
+                                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                                </Button>
+                            </StackPanel>
+                            
                         </StackPanel>
                     </GroupBox>
                     <GroupBox 
@@ -360,12 +386,32 @@
                         Grid.Column="1" Margin="1">
                         <StackPanel >
                             <Border BorderBrush="Black" BorderThickness="1">
-                                <Image Width="160" Height="160" Source="../Images/noimage.jpg"/>
+                                <Image 
+                                    Width="160" Height="160" 
+                                    Source="{Binding CurrentDevice.view, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ByteArrayToBitmapImageConverter}}"/>
                             </Border>
-                            <Button 
-                                Width="250"
-                                Margin="5"
-                                Content="Полный размер изображения" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button 
+                                    Margin="5"
+                                    Background="Green"
+                                    Content="Полный размер" 
+                                    Command="{Binding ShowImageCommand}"
+                                    CommandParameter="View"/>
+                                <Button 
+                                    Margin="5"
+                                    Background="Gold"
+                                    Foreground="Black"
+                                    Content="Загрузить" 
+                                    Command="{Binding UploadImageCommand}"
+                                    CommandParameter="View"/>
+                                <Button 
+                                    Background="Red" Margin="5"
+                                    Command="{Binding DeleteImageCommand}"
+                                    CommandParameter="View"
+                                    ToolTip="Удалить">
+                                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </Grid>

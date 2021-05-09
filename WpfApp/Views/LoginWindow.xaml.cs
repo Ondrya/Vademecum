@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp.ViewModels;
 
 namespace WpfApp.Views
 {
@@ -36,6 +37,15 @@ namespace WpfApp.Views
                 ((App)Application.Current).CurrentDb.Clear();
             }
             ((App)Application.Current).CurrentDb.Save();
+        }
+
+        private void LoginTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+#if DEBUG
+            LoginTextBox.Text = "admin1";
+            PasswordTextBox.Text = "admin1";
+            ((LoginViewModel)this.DataContext).DoLogin(LoginTextBox.Text, PasswordTextBox.Text);
+#endif
         }
     }
 }

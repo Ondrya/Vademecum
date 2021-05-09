@@ -9,6 +9,9 @@ using System.Collections.ObjectModel;
 using WpfApp.Views;
 using Prism.Events;
 using WpfApp.Events;
+using Microsoft.Win32;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace WpfApp.ViewModels
 {
@@ -42,7 +45,10 @@ namespace WpfApp.ViewModels
         private LaType LaType;
         private RelayCommand _saveCommand;
         private RelayCommand _openParamWindowCommand;
-        
+        private RelayCommand _uploadImageCommand;
+        private RelayCommand _showImageCommand;
+        private RelayCommand _deleteImageCommand;
+
         private ObservableCollection<DeviceType> _deviceTypeCollection;
         private ObservableCollection<DataLayer.Type> _typeCollection;
         private ObservableCollection<Function> _functionCollection;
@@ -54,6 +60,32 @@ namespace WpfApp.ViewModels
         private ObservableCollection<Measure> _measureCollection;
         private ObservableCollection<Measure_Dims> _measureDimCollection;
         private string _buttonName;
+
+
+        private byte[] _rawImageDataSchema;
+        public byte[] RawImageDataSchema
+        {
+            get { return _rawImageDataSchema; }
+            set
+            {
+                _rawImageDataSchema = value;
+                OnPropertyChanged(nameof(RawImageDataSchema));
+                CurrentDevice.schema = value;
+            }
+        }
+
+
+        private byte[] _rawImageDataView;
+        public byte[] RawImageDataView
+        {
+            get { return _rawImageDataView; }
+            set
+            {
+                _rawImageDataView = value;
+                OnPropertyChanged(nameof(RawImageDataView));
+                CurrentDevice.view = value;
+            }
+        }
 
         public DeviceType SelectedDeviceType
         {
@@ -350,6 +382,8 @@ namespace WpfApp.ViewModels
 
                 // данные для вкладки ПРОИЗВОДИТЕЛЬ
                 CurrentDeviceProducer = CurrentDevice == null ? new Producer() : context.Producers.Find(CurrentDevice.Producer);
+                RawImageDataSchema = CurrentDevice.schema;
+                RawImageDataView = CurrentDevice.view;
             }
         }
 
@@ -420,6 +454,101 @@ namespace WpfApp.ViewModels
                         break;
                 }
             }));
+        public RelayCommand UploadImageCommand => _uploadImageCommand ?? (_uploadImageCommand = new RelayCommand(obj => 
+        {
+            var target = obj.ToString();
+            switch (target)
+            {
+                case "Schema":
+                    RawImageDataSchema = SelectImage();
+                    break;
+                case "View":
+                    RawImageDataView = SelectImage();
+                    break;
+                default:
+                    break;
+            }
+        }));
+
+        public RelayCommand DeleteImageCommand => _deleteImageCommand ?? (_deleteImageCommand = new RelayCommand(obj =>
+        {
+            var target = obj.ToString();
+            switch (target)
+            {
+                case "Schema":
+                    RawImageDataSchema = null;
+                    break;
+                case "View":
+                    RawImageDataView = null;
+                    break;
+                default:
+                    break;
+            }
+        }, (obj) => CanDelete(obj.ToString())));
+
+        private bool CanDelete(string target)
+        {
+            switch (target)
+            {
+                case "Schema":
+                    return RawImageDataSchema != null;
+                case "View":
+                    return RawImageDataView != null;
+                default:
+                    return false;
+            }
+        }
+
+        public RelayCommand ShowImageCommand => 
+            _showImageCommand ?? (_showImageCommand = new RelayCommand(obj => 
+            {
+                var target = obj.ToString();
+                switch (target)
+                {
+                    case "Schema":
+                        ShowImage(RawImageDataSchema);
+                        break;
+                    case "View":
+                        ShowImage(RawImageDataView);
+                        break;
+                    default:
+                        break;
+                }
+            }, (obj) => CanShowImage(obj.ToString())));
+
+        private bool CanShowImage(string target)
+        {
+            switch (target)
+            {
+                case "Schema":
+                    return RawImageDataSchema != null;
+                case "View":
+                    return RawImageDataView != null;
+                default:
+                    return false;
+            }
+        }
+
+        private void ShowImage(byte[] rawImageDataSchema)
+        {
+            var showImageWindow = new PopUpImage(rawImageDataSchema);
+            showImageWindow.Show();
+        }
+
+        private byte[] SelectImage()
+        {
+            var dialog = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                Multiselect = false,
+                Filter = "Images (*.jpg,*.png)|*.jpg;*.png|All Files(*.*)|*.*"
+                //Filter = "Images (*.jpg)|*.jpg;|All Files(*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() != true) { return null; }
+
+            return File.ReadAllBytes(dialog.FileName);
+        }
 
         private bool CanSave()
         {
