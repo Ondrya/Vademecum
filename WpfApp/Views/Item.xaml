@@ -308,12 +308,6 @@
             </TabItem>
             <TabItem Header="Литература">
                 <StackPanel>
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование"/>
-                        </DataGrid.Columns>
-
-                    </DataGrid>
                     <GroupBox Header="Подробная информация">
                         <StackPanel>
                             <Grid>
@@ -339,6 +333,22 @@
                             </Grid>
                         </StackPanel>
                     </GroupBox>
+                    <DataGrid 
+                        IsReadOnly="True" 
+                        SelectionMode="Single" 
+                        ItemsSource="{Binding LiteratureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedLiterature, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        DisplayMemberPath="name_envi"
+                        AutoGenerateColumns="False" 
+                        Height="250"
+                        Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn 
+                                Header="Наименование" 
+                                Binding="{Binding Path=name_prod, UpdateSourceTrigger=PropertyChanged}" 
+                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Изображения">

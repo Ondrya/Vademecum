@@ -12,7 +12,7 @@ namespace WpfApp.Converters
 {
     public class EnumDescriptionConverter : IValueConverter
     {
-        private string GetEnumDescription(Enum enumObj)
+        internal string GetEnumDescription(Enum enumObj)
         {
             FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
 

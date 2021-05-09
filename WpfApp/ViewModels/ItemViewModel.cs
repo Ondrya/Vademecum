@@ -12,6 +12,7 @@ using WpfApp.Events;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.IO;
+using WpfApp.Converters;
 
 namespace WpfApp.ViewModels
 {
@@ -36,6 +37,7 @@ namespace WpfApp.ViewModels
             MeasureCollection = new ObservableCollection<Measure>();
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
             EnviromentCollection = new ObservableCollection<Enviroment>();
+            LiteratureCollection = new ObservableCollection<Literature>();
         }
 
         IEventAggregator _eventAggregator;
@@ -60,6 +62,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<Measure> _measureCollection;
         private ObservableCollection<Measure_Dims> _measureDimCollection;
         private ObservableCollection<Enviroment> _enviromentCollection;
+        private ObservableCollection<Literature> _literatureCollection;
         private string _buttonName;
 
 
@@ -99,6 +102,17 @@ namespace WpfApp.ViewModels
             }
         }
         private DeviceType _selectedDeviceType;
+
+        public Literature SelectedLiterature
+        {
+            get => _selectedLiterature;
+            set 
+            { 
+                _selectedLiterature = value;
+                OnPropertyChanged(nameof(SelectedLiterature));
+            }
+        }
+        private Literature _selectedLiterature;
 
         public DataLayer.Type SelectedType
         {
@@ -333,6 +347,16 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(MeasureDimCollection));
             }
         }
+        public ObservableCollection<Literature> LiteratureCollection
+        {
+            get => _literatureCollection;
+            set 
+            { 
+                _literatureCollection = value;
+                OnPropertyChanged(nameof(LiteratureCollection));
+            }
+        }
+
 
         public string ButtonName
         {
@@ -412,6 +436,7 @@ namespace WpfApp.ViewModels
             MeasureDimCollection = new ObservableCollection<Measure_Dims>(Helpers.Dict.GetMeasureDims());
             EnviromentCollection = new ObservableCollection<Enviroment>(Helpers.Dict.GetEnviroments());
             ProducerCollection = new ObservableCollection<Producer>(Helpers.Dict.GetProdusers());
+            LiteratureCollection = new ObservableCollection<Literature>(Helpers.Dict.GetLiterature());
 
 
             using (var context = new DataContext(cn))
@@ -650,8 +675,63 @@ namespace WpfApp.ViewModels
         /// <param name="paramEvent"></param>
         private void HandleParamEvent(DbEntityEventParam msg)
         {
-            // todo обработать параметр - обновить нужную Collection - add, remove, update на основе Dict
-            MessageBox.Show($"{msg.Crud} - {msg.Item} - {msg.EntityId}");
+            // обработать параметр - обновить нужную Collection - add, remove, update на основе Dict
+            // обрабатываем только добавление, в остальных случаях выводим сообщение, что данные изменились и, возможно,  
+            // требуется перезагрузка формы
+
+            switch (msg.Crud)
+            {
+                case EventType.Create:
+                    using (var context = new DataContext(cn))
+                    {
+                        switch (msg.Item)
+                        {
+                            case Dict.ParamType:
+                                TypeCollection.Add(context.Types.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamFunction:
+                                FunctionCollection.Add(context.Functions.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamSensElement:
+                                SensElementCollection.Add(context.Sens_Element.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamKind:
+                                KindCollection.Add(context.Kinds.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamControlType:
+                                ControlCollection.Add(context.Controls.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamMeasureProccessing:
+                                MeasureProcessingCollection.Add(context.Measure_Processing.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamBuiltTech:
+                                BuiltTechCollection.Add(context.BuiltTeches.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamMeasure:
+                                MeasureCollection.Add(context.Measures.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamMeasureDims:
+                                MeasureDimCollection.Add(context.Measure_Dims.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamProducer:
+                                ProducerCollection.Add(context.Producers.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamLiterature:
+                                LiteratureCollection.Add(context.Literatures.Find(msg.EntityId));
+                                break;
+                            case Dict.ParamEnviroment:
+                                EnviromentCollection.Add(context.Enviroments.Find(msg.EntityId));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    var converter = new EnumDescriptionConverter();
+                    MessageBox.Show($"Данные справочника {converter.GetEnumDescription(msg.Item)} обновлены, возможно требуется перезагрузить форму");
+                    break;
+            }
         }
     }
 }
