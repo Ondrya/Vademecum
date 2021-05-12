@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp.ViewModels;
+using DataLayer;
+using System.Collections;
 
 namespace WpfApp.Views
 {
@@ -25,5 +27,17 @@ namespace WpfApp.Views
             InitializeComponent();
             ((ItemViewModel)(this.DataContext)).CurrentDeviceId = id;
         }
+
+
+        //private void EnviromentListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var selectedEnviroments = new List<Enviroment>();
+
+        //    foreach (var item in EnviromentListBox.SelectedItems)
+        //    {
+        //        selectedEnviroments.Add((Enviroment)item);
+        //        ((ItemViewModel)(DataContext)).SelectedEnviroments = selectedEnviroments;
+        //    }
+        //}
     }
 }

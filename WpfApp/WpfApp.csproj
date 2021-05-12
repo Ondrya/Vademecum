@@ -115,6 +115,7 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Helpers\ListBoxHelper.cs" />
+    <Compile Include="Helpers\MultiSelectBindingHelper.cs" />
     <Compile Include="Interfaces\ICloseView.cs" />
     <Compile Include="Interfaces\IPublishEventDbEntityEvent.cs" />
     <Compile Include="Interfaces\IPublishEvent.cs" />

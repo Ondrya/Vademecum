@@ -436,11 +436,9 @@
                     <!--helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
                     <ListBox 
                         x:Name="EnviromentListBox"
-                        
-                        SelectionMode="Multiple"
+                        SelectionMode="Extended"
                         ItemsSource="{Binding EnviromentCollection}"
-                        helpers:ListBoxHelper.SelectedItems ="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        
+                        helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments}"
                         Margin="5"
                         ScrollViewer.CanContentScroll="True" 
                         Grid.Row="0">
