@@ -65,6 +65,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=4.0.0.2422, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.4.0.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.8.0.0.1909\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -111,6 +114,7 @@
     <Compile Include="Helpers\Dict.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Functions.cs" />
+    <Compile Include="Helpers\ListBoxHelper.cs" />
     <Compile Include="Interfaces\ICloseView.cs" />
     <Compile Include="Interfaces\IPublishEventDbEntityEvent.cs" />
     <Compile Include="Interfaces\IPublishEvent.cs" />

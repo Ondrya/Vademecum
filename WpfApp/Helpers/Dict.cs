@@ -30,5 +30,7 @@ namespace WpfApp.Helpers
         public static List<Enviroment> GetEnviroments() => new DataContext(cn).Enviroments.ToList();
         public static List<Producer> GetProdusers() => new DataContext(cn).Producers.ToList();
         public static List<Literature> GetLiterature() => new DataContext(cn).Literatures.ToList();
+
+        public static List<int> GetDeviceEnviroments(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId).Enviroments.Select(x => x.id_envi).ToList();
     }
 }

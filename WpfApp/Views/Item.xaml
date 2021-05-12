@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views" 
         xmlns:converters="clr-namespace:WpfApp.Converters"
+        xmlns:helpers="clr-namespace:WpfApp.Helpers"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        xmlns:vm="clr-namespace:WpfApp.ViewModels"
+        xmlns:vm="clr-namespace:WpfApp.ViewModels" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Добавить или изменить информацию о датчике/устройстве" Height="500" Width="800">
     <Window.DataContext>
@@ -429,31 +430,57 @@
             <TabItem Header="Среда измерения">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition MinHeight="200"/>
+                        <!--<RowDefinition Height="*"/>-->
                     </Grid.RowDefinitions>
-                    <DataGrid 
-                        IsReadOnly="True" 
-                        SelectionMode="Single" 
-                        ItemsSource="{Binding EnviromentCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        SelectedItem="{Binding SelectedEnviroment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        DisplayMemberPath="name_envi"
-                        AutoGenerateColumns="False" 
+                    <!--helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
+                    <ListBox 
+                        x:Name="EnviromentListBox"
+                        
+                        SelectionMode="Multiple"
+                        ItemsSource="{Binding EnviromentCollection}"
+                        helpers:ListBoxHelper.SelectedItems ="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        
                         Margin="5"
+                        ScrollViewer.CanContentScroll="True" 
                         Grid.Row="0">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование" Binding="{Binding Path=name_envi, UpdateSourceTrigger=PropertyChanged}" 
-                    Width="*"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <GroupBox Header="Описание среды" Grid.Row="1">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Path=name_envi}" Foreground="#000000"  
+                                       Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                                       FontSize="14" FontWeight="Bold" Height="50" Width="220"
+                                       HorizontalContentAlignment="Center" 
+                                       VerticalContentAlignment="Center"
+                                       BorderBrush="#FF8200" BorderThickness="3"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <!--<Setter Property="IsSelected" Value="{Binding IsSelected}"/>-->
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF8200"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter Property="Background" Value="#FFFFFF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                    <!--<GroupBox Header="Описание среды" Grid.Row="1">
                         <TextBlock 
                             Text="{Binding SelectedEnviroment.spec_envi, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             TextWrapping="Wrap" 
                             Margin="5" 
-                            ScrollViewer.CanContentScroll="True" 
+                            
                             Height="150"/>
-                    </GroupBox>
+                    </GroupBox>-->
                 </Grid>
             </TabItem>
             <TabItem Header="Производитель">

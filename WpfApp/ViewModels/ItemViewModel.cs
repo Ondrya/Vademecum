@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.IO;
 using WpfApp.Converters;
+using System.Collections.Generic;
 
 namespace WpfApp.ViewModels
 {
@@ -38,6 +39,8 @@ namespace WpfApp.ViewModels
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
             EnviromentCollection = new ObservableCollection<Enviroment>();
             LiteratureCollection = new ObservableCollection<Literature>();
+
+            SelectedEnviroments = new List<Enviroment>();
         }
 
         IEventAggregator _eventAggregator;
@@ -186,17 +189,16 @@ namespace WpfApp.ViewModels
         }
         private Measure_Processing _selectedMeasureProcessing;
 
-        public Enviroment SelectedEnviroment
+        public List<Enviroment> SelectedEnviroments
         {
-            get => _selectedEnviroment;
+            get => _selectedEnviroments;
             set 
             { 
-                _selectedEnviroment = value;
-                OnPropertyChanged(nameof(SelectedEnviroment));
-                // todo нет поля в Dev.Device
+                _selectedEnviroments = value;
+                OnPropertyChanged(nameof(SelectedEnviroments));
             }
         }
-        private Enviroment _selectedEnviroment;
+        private List<Enviroment> _selectedEnviroments;
 
 
         public BuiltTech SelectedBuiltTech
@@ -387,7 +389,12 @@ namespace WpfApp.ViewModels
                 SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
                 SelectedProducer = ProducerCollection.FirstOrDefault(x => x.id_prod == value?.id_prod);
 
-                // todo обсудить правку таблицы Devices
+                SelectedEnviroments = new List<Enviroment>();
+                foreach (var item in Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId))
+                {
+                    SelectedEnviroments.Add(EnviromentCollection.First(x => x.id_envi == item));
+                }
+
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
             }
@@ -438,15 +445,9 @@ namespace WpfApp.ViewModels
             ProducerCollection = new ObservableCollection<Producer>(Helpers.Dict.GetProdusers());
             LiteratureCollection = new ObservableCollection<Literature>(Helpers.Dict.GetLiterature());
 
-
             using (var context = new DataContext(cn))
             {
-
                 CurrentDevice = CurrentDeviceId == 0 ? new Device() { id_LA = (int)LaType } : context.Devices.Find(CurrentDeviceId);
-
-                // данные для вкладки ПРОИЗВОДИТЕЛЬ
-                //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : context.Producers.Find(CurrentDevice.Producer);
-                
             }
 
             //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : ProducerCollection.First(x => x.id_prod == CurrentDevice.id_prod);
