@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using DataLayer;
+using WpfApp.Models;
 
 namespace WpfApp.Helpers
 {
@@ -28,6 +29,12 @@ namespace WpfApp.Helpers
         public static List<Measure> GetMeasures() => new DataContext(cn).Measures.ToList();
         public static List<Measure_Dims> GetMeasureDims() => new DataContext(cn).Measure_Dims.ToList();
         public static List<Enviroment> GetEnviroments() => new DataContext(cn).Enviroments.ToList();
+        //public static List<EnviromentViewModel> GetEnviromentViewModels() => 
+        //    new DataContext(cn)
+        //    .Enviroments
+        //    .Select(x => new EnviromentViewModel(x, false))
+        //    .ToList();
+        
         public static List<Producer> GetProdusers() => new DataContext(cn).Producers.ToList();
         public static List<Literature> GetLiterature() => new DataContext(cn).Literatures.ToList();
 

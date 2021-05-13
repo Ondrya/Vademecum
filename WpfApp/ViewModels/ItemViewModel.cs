@@ -37,7 +37,7 @@ namespace WpfApp.ViewModels
             BuiltTechCollection = new ObservableCollection<BuiltTech>();
             MeasureCollection = new ObservableCollection<Measure>();
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
-            EnviromentCollection = new ObservableCollection<Enviroment>();
+            EnviromentCollection = new ObservableCollection<EnviromentViewModel>();
             LiteratureCollection = new ObservableCollection<Literature>();
 
             SelectedEnviroments = new List<Enviroment>();
@@ -64,7 +64,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<BuiltTech> _builtTechCollection;
         private ObservableCollection<Measure> _measureCollection;
         private ObservableCollection<Measure_Dims> _measureDimCollection;
-        private ObservableCollection<Enviroment> _enviromentCollection;
+        private ObservableCollection<EnviromentViewModel> _enviromentCollection;
         private ObservableCollection<Literature> _literatureCollection;
         private string _buttonName;
 
@@ -250,7 +250,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(ProducerCollection));
             }
         }
-        public ObservableCollection<Enviroment> EnviromentCollection
+        public ObservableCollection<EnviromentViewModel> EnviromentCollection
         {
             get => _enviromentCollection;
             set 
@@ -389,10 +389,14 @@ namespace WpfApp.ViewModels
                 SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
                 SelectedProducer = ProducerCollection.FirstOrDefault(x => x.id_prod == value?.id_prod);
 
-                SelectedEnviroments = new List<Enviroment>();
-                foreach (var item in Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId))
+                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
+
+                foreach (var enviId in enviIds)
                 {
-                    SelectedEnviroments.Add(EnviromentCollection.First(x => x.id_envi == item));
+                    foreach (var envi in EnviromentCollection)
+                    {
+                        if (envi.id_envi == enviId) envi.IsSelected = true;
+                    }
                 }
 
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
@@ -441,7 +445,7 @@ namespace WpfApp.ViewModels
             BuiltTechCollection = new ObservableCollection<BuiltTech>(Helpers.Dict.GetBuiltTeches());
             MeasureCollection = new ObservableCollection<Measure>(Helpers.Dict.GetMeasures());
             MeasureDimCollection = new ObservableCollection<Measure_Dims>(Helpers.Dict.GetMeasureDims());
-            EnviromentCollection = new ObservableCollection<Enviroment>(Helpers.Dict.GetEnviroments());
+            EnviromentCollection = new ObservableCollection<EnviromentViewModel>(Helpers.Dict.GetEnviroments().Select(x => new EnviromentViewModel(x, false)));
             ProducerCollection = new ObservableCollection<Producer>(Helpers.Dict.GetProdusers());
             LiteratureCollection = new ObservableCollection<Literature>(Helpers.Dict.GetLiterature());
 
@@ -629,14 +633,69 @@ namespace WpfApp.ViewModels
             {
                 try
                 {
-                    context.Entry(CurrentDevice).State = System.Data.Entity.EntityState.Modified; ;
+                    var selectedEnvies = EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi);
+                    var envies = context.Enviroments.Where(x => selectedEnvies.Contains(x.id_envi)).ToList(); // возмжные среды
+                    var device = context.Devices.Find(CurrentDevice.id_device);
+                    var deviceEnvies = device.Enviroments.ToList();
+
+                    foreach (var item in deviceEnvies)
+                    {
+                        device.Enviroments.Remove(item);
+                    }
+
+                    foreach (var item in envies)
+                    {
+                        device.Enviroments.Add(item);
+                    }
+
                     context.SaveChanges();
-                    MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CloseWindow();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                    MessageBox.Show(e.ToString(), "Обновление списка сред");
+                }
+
+            }
+
+
+            using (var context = new DataContext(cn))
+            {
+                try
+                {
+                    context.Entry(CurrentDevice).State = System.Data.Entity.EntityState.Modified; ;
+
+                    //var envies = Helpers.Dict.GetEnviroments()
+                    //    .Where(x => EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi).Contains(x.id_envi)).ToList();
+                    //var deviceEnvies = context.Devices.Find(CurrentDevice.id_device).Enviroments.ToList();
+
+                    //for (int i = 0; i < deviceEnvies.Count; i++)
+                    //    if (!envies.Contains(deviceEnvies[i]))
+                    //        deviceEnvies.Remove(deviceEnvies[i]);
+
+                    //for (int i = 0; i < envies.Count; i++)
+                    //    if (!deviceEnvies.Contains(envies[i]))
+                    //        deviceEnvies.Add(envies[i]);
+
+                    context.SaveChanges();
+
+                    // обновляем среды
+                    //var device = context.Devices.Find(CurrentDevice.id_device);
+
+                    //var tempEnviroments = Helpers.Dict.GetEnviroments()
+                    //    .Where(x => EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi).Contains(x.id_envi)).ToList();
+
+                    //device.Enviroments = (ICollection<Enviroment>)tempEnviroments;
+                    //context.SaveChanges();
+
+
+                    MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+#if !DEBUG
+                    CloseWindow();
+#endif
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "Обновление остновных параметров");
                 }
 
             }
@@ -721,7 +780,7 @@ namespace WpfApp.ViewModels
                                 LiteratureCollection.Add(context.Literatures.Find(msg.EntityId));
                                 break;
                             case Dict.ParamEnviroment:
-                                EnviromentCollection.Add(context.Enviroments.Find(msg.EntityId));
+                                EnviromentCollection.Add(new EnviromentViewModel(context.Enviroments.Find(msg.EntityId), false));
                                 break;
                             default:
                                 break;

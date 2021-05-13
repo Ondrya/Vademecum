@@ -436,10 +436,9 @@
                     <!--helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
                     <ListBox 
                         x:Name="EnviromentListBox"
-                        SelectionMode="Extended"
-                        ItemsSource="{Binding EnviromentCollection}"
-                        helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments}"
+                        ItemsSource="{Binding EnviromentCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Margin="5"
+                        SelectionMode="Multiple"
                         ScrollViewer.CanContentScroll="True" 
                         Grid.Row="0">
                         <ListBox.ItemsPanel>
@@ -449,17 +448,20 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Path=name_envi}" Foreground="#000000"  
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                                    <Label Content="{Binding Path=name_envi}" Foreground="#000000"  
                                        Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                        FontSize="14" FontWeight="Bold" Height="50" Width="220"
                                        HorizontalContentAlignment="Center" 
                                        VerticalContentAlignment="Center"
                                        BorderBrush="#FF8200" BorderThickness="3"/>
+                                </DockPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <!--<Setter Property="IsSelected" Value="{Binding IsSelected}"/>-->
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#FF8200"/>
