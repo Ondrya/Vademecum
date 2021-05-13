@@ -27,17 +27,5 @@ namespace WpfApp.Views
             InitializeComponent();
             ((ItemViewModel)(this.DataContext)).CurrentDeviceId = id;
         }
-
-
-        //private void EnviromentListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    var selectedEnviroments = new List<Enviroment>();
-
-        //    foreach (var item in EnviromentListBox.SelectedItems)
-        //    {
-        //        selectedEnviroments.Add((Enviroment)item);
-        //        ((ItemViewModel)(DataContext)).SelectedEnviroments = selectedEnviroments;
-        //    }
-        //}
     }
 }

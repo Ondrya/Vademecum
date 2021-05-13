@@ -307,49 +307,62 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Литература">
+            <TabItem Header="Литература" Visibility="{Binding DeviceCreated, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel>
-                    <GroupBox Header="Подробная информация">
-                        <StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Content="Наименование"/>
-                                <Label Grid.Row="1" Grid.Column="0" Content="Автор"/>
-                                <Label Grid.Row="2" Grid.Column="0" Content="Издательство"/>
-                                <Label Grid.Row="3" Grid.Column="0" Content="Год"/>
-
-                                <Label Grid.Row="0" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="1" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="2" Grid.Column="1" Margin="1" />
-                                <Label Grid.Row="3" Grid.Column="1" Margin="1" />
-                            </Grid>
-                        </StackPanel>
-                    </GroupBox>
-                    <DataGrid 
-                        IsReadOnly="True" 
-                        SelectionMode="Single" 
+                    <ListBox 
+                        x:Name="LiteratureListBox"
                         ItemsSource="{Binding LiteratureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        SelectedItem="{Binding SelectedLiterature, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        DisplayMemberPath="name_envi"
-                        AutoGenerateColumns="False" 
-                        Height="250"
-                        Margin="5">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn 
-                                Header="Наименование" 
-                                Binding="{Binding Path=name_prod, UpdateSourceTrigger=PropertyChanged}" 
-                                Width="*"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        Margin="5"
+                        Height="360"
+                        SelectionMode="Multiple"
+                        ScrollViewer.CanContentScroll="True" 
+                        Grid.Row="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#FF8200" BorderThickness="1">
+                                    <Grid
+                                    Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                                    Height="80" Width="350"
+                                    >
+                                        <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0" Content="Название" Foreground="#000000"/>
+                                    <Label Grid.Row="1" Grid.Column="0" Content="Автор" Foreground="#000000"/>
+                                    <Label Grid.Row="2" Grid.Column="0" Content="Год издания" Foreground="#000000"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=lit_name}" Foreground="#000000" FontStyle="Italic"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=lit_author}" Foreground="#000000" FontStyle="Italic"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Content="{Binding Path=lit_date}" Foreground="#000000" FontStyle="Italic"/>
+                                </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF8200"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter Property="Background" Value="#FFFFFF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Изображения">
@@ -427,7 +440,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Среда измерения">
+            <TabItem Header="Среда измерения" Visibility="{Binding DeviceCreated, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="200"/>
@@ -461,7 +474,7 @@
                         </ListBox.ItemTemplate>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#FF8200"/>

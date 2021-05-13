@@ -38,9 +38,7 @@ namespace WpfApp.ViewModels
             MeasureCollection = new ObservableCollection<Measure>();
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
             EnviromentCollection = new ObservableCollection<EnviromentViewModel>();
-            LiteratureCollection = new ObservableCollection<Literature>();
-
-            SelectedEnviroments = new List<Enviroment>();
+            LiteratureCollection = new ObservableCollection<LiteratureViewModel>();
         }
 
         IEventAggregator _eventAggregator;
@@ -65,8 +63,24 @@ namespace WpfApp.ViewModels
         private ObservableCollection<Measure> _measureCollection;
         private ObservableCollection<Measure_Dims> _measureDimCollection;
         private ObservableCollection<EnviromentViewModel> _enviromentCollection;
-        private ObservableCollection<Literature> _literatureCollection;
+        private ObservableCollection<LiteratureViewModel> _literatureCollection;
         private string _buttonName;
+
+        // при сохранении присваивается id и данные перезагружаются, поэтому Collections перезагружаются и обнуляются
+
+
+        private bool _deviceCreated;
+
+        public bool DeviceCreated
+        {
+            get => _deviceCreated;
+            set 
+            { 
+                _deviceCreated = value;
+                OnPropertyChanged(nameof(DeviceCreated));
+            }
+        }
+
 
 
         private byte[] _rawImageDataSchema;
@@ -105,17 +119,6 @@ namespace WpfApp.ViewModels
             }
         }
         private DeviceType _selectedDeviceType;
-
-        public Literature SelectedLiterature
-        {
-            get => _selectedLiterature;
-            set 
-            { 
-                _selectedLiterature = value;
-                OnPropertyChanged(nameof(SelectedLiterature));
-            }
-        }
-        private Literature _selectedLiterature;
 
         public DataLayer.Type SelectedType
         {
@@ -187,19 +190,7 @@ namespace WpfApp.ViewModels
                 CurrentDevice.id_measure_proc = value?.id_measure_proc;
             }
         }
-        private Measure_Processing _selectedMeasureProcessing;
-
-        public List<Enviroment> SelectedEnviroments
-        {
-            get => _selectedEnviroments;
-            set 
-            { 
-                _selectedEnviroments = value;
-                OnPropertyChanged(nameof(SelectedEnviroments));
-            }
-        }
-        private List<Enviroment> _selectedEnviroments;
-
+        private Measure_Processing _selectedMeasureProcessing;      
 
         public BuiltTech SelectedBuiltTech
         {
@@ -349,7 +340,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(MeasureDimCollection));
             }
         }
-        public ObservableCollection<Literature> LiteratureCollection
+        public ObservableCollection<LiteratureViewModel> LiteratureCollection
         {
             get => _literatureCollection;
             set 
@@ -389,16 +380,6 @@ namespace WpfApp.ViewModels
                 SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
                 SelectedProducer = ProducerCollection.FirstOrDefault(x => x.id_prod == value?.id_prod);
 
-                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
-
-                foreach (var enviId in enviIds)
-                {
-                    foreach (var envi in EnviromentCollection)
-                    {
-                        if (envi.id_envi == enviId) envi.IsSelected = true;
-                    }
-                }
-
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
             }
@@ -422,6 +403,7 @@ namespace WpfApp.ViewModels
             { 
                 _currentDeviceId = value;
                 OnPropertyChanged(nameof(CurrentDeviceId));
+                DeviceCreated = value > 0;
                 Fill();
             }
         }
@@ -447,7 +429,7 @@ namespace WpfApp.ViewModels
             MeasureDimCollection = new ObservableCollection<Measure_Dims>(Helpers.Dict.GetMeasureDims());
             EnviromentCollection = new ObservableCollection<EnviromentViewModel>(Helpers.Dict.GetEnviroments().Select(x => new EnviromentViewModel(x, false)));
             ProducerCollection = new ObservableCollection<Producer>(Helpers.Dict.GetProdusers());
-            LiteratureCollection = new ObservableCollection<Literature>(Helpers.Dict.GetLiterature());
+            LiteratureCollection = new ObservableCollection<LiteratureViewModel>(Helpers.Dict.GetLiterature().Select(x => new LiteratureViewModel(x, false)));
 
             using (var context = new DataContext(cn))
             {
@@ -457,6 +439,24 @@ namespace WpfApp.ViewModels
             //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : ProducerCollection.First(x => x.id_prod == CurrentDevice.id_prod);
             RawImageDataSchema = CurrentDevice.schema;
             RawImageDataView = CurrentDevice.view;
+
+            var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
+            var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId);
+
+            if (enviIds != null) foreach (var enviId in enviIds)
+                {
+                    foreach (var envi in EnviromentCollection)
+                    {
+                        if (envi.id_envi == enviId) envi.IsSelected = true;
+                    }
+                }
+            if (litIds != null) foreach (var litId in litIds)
+                {
+                    foreach (var lit in LiteratureCollection)
+                    {
+                        if (lit.id_lit == litId) lit.IsSelected = true;
+                    }
+                }
         }
 
         public RelayCommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(obj =>
@@ -633,62 +633,8 @@ namespace WpfApp.ViewModels
             {
                 try
                 {
-                    var selectedEnvies = EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi);
-                    var envies = context.Enviroments.Where(x => selectedEnvies.Contains(x.id_envi)).ToList(); // возмжные среды
-                    var device = context.Devices.Find(CurrentDevice.id_device);
-                    var deviceEnvies = device.Enviroments.ToList();
-
-                    foreach (var item in deviceEnvies)
-                    {
-                        device.Enviroments.Remove(item);
-                    }
-
-                    foreach (var item in envies)
-                    {
-                        device.Enviroments.Add(item);
-                    }
-
-                    context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString(), "Обновление списка сред");
-                }
-
-            }
-
-
-            using (var context = new DataContext(cn))
-            {
-                try
-                {
                     context.Entry(CurrentDevice).State = System.Data.Entity.EntityState.Modified; ;
-
-                    //var envies = Helpers.Dict.GetEnviroments()
-                    //    .Where(x => EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi).Contains(x.id_envi)).ToList();
-                    //var deviceEnvies = context.Devices.Find(CurrentDevice.id_device).Enviroments.ToList();
-
-                    //for (int i = 0; i < deviceEnvies.Count; i++)
-                    //    if (!envies.Contains(deviceEnvies[i]))
-                    //        deviceEnvies.Remove(deviceEnvies[i]);
-
-                    //for (int i = 0; i < envies.Count; i++)
-                    //    if (!deviceEnvies.Contains(envies[i]))
-                    //        deviceEnvies.Add(envies[i]);
-
                     context.SaveChanges();
-
-                    // обновляем среды
-                    //var device = context.Devices.Find(CurrentDevice.id_device);
-
-                    //var tempEnviroments = Helpers.Dict.GetEnviroments()
-                    //    .Where(x => EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi).Contains(x.id_envi)).ToList();
-
-                    //device.Enviroments = (ICollection<Enviroment>)tempEnviroments;
-                    //context.SaveChanges();
-
-
-                    MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
 #if !DEBUG
                     CloseWindow();
 #endif
@@ -699,6 +645,48 @@ namespace WpfApp.ViewModels
                 }
 
             }
+            using (var context = new DataContext(cn))
+            {
+                try
+                {
+                    var selectedEnvies = EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi);
+                    var envies = context.Enviroments.Where(x => selectedEnvies.Contains(x.id_envi)).ToList(); // возмжные среды
+                    var device = context.Devices.Find(CurrentDevice.id_device);
+                    var deviceEnvies = device.Enviroments.ToList();
+
+                    foreach (var item in deviceEnvies) device.Enviroments.Remove(item);
+                    foreach (var item in envies) device.Enviroments.Add(item);
+
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "Обновление списка сред");
+                }
+
+            }
+            using (var context = new DataContext(cn))
+            {
+                try
+                {
+                    var selectedLits = LiteratureCollection.Where(e => e.IsSelected).Select(e => e.id_lit);
+                    var lits = context.Literatures.Where(x => selectedLits.Contains(x.id_lit)).ToList(); // список литературы
+                    var device = context.Devices.Find(CurrentDeviceId);
+                    var deviceLits = device.Literatures.ToList();
+
+                    foreach (var item in deviceLits) device.Literatures.Remove(item);
+                    foreach (var item in lits) device.Literatures.Add(item);
+
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "Обновление списка литературы");
+                }
+
+            }
+
+            MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void DeviceCreate()
@@ -711,9 +699,6 @@ namespace WpfApp.ViewModels
                     context.Devices.Add(CurrentDevice);
                     context.SaveChanges();
                     CurrentDeviceId = CurrentDevice.id;
-                    MessageBox.Show($"id: {CurrentDevice.id}", "Устройство сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
-                    MessageBox.Show($"Устройство ДОБАВЛЕНО в базу данных - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CloseWindow();
                 }
                 catch (Exception e)
                 {
@@ -721,6 +706,11 @@ namespace WpfApp.ViewModels
                 }
                 
             }
+
+            MessageBox.Show($"id: {CurrentDevice.id}", "Устройство сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
+#if !DEBUG
+            CloseWindow();
+#endif
         }
 
         private void CloseWindow()
@@ -777,7 +767,7 @@ namespace WpfApp.ViewModels
                                 ProducerCollection.Add(context.Producers.Find(msg.EntityId));
                                 break;
                             case Dict.ParamLiterature:
-                                LiteratureCollection.Add(context.Literatures.Find(msg.EntityId));
+                                LiteratureCollection.Add(new LiteratureViewModel(context.Literatures.Find(msg.EntityId), false));
                                 break;
                             case Dict.ParamEnviroment:
                                 EnviromentCollection.Add(new EnviromentViewModel(context.Enviroments.Find(msg.EntityId), false));

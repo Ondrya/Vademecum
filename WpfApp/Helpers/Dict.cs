@@ -29,15 +29,11 @@ namespace WpfApp.Helpers
         public static List<Measure> GetMeasures() => new DataContext(cn).Measures.ToList();
         public static List<Measure_Dims> GetMeasureDims() => new DataContext(cn).Measure_Dims.ToList();
         public static List<Enviroment> GetEnviroments() => new DataContext(cn).Enviroments.ToList();
-        //public static List<EnviromentViewModel> GetEnviromentViewModels() => 
-        //    new DataContext(cn)
-        //    .Enviroments
-        //    .Select(x => new EnviromentViewModel(x, false))
-        //    .ToList();
-        
+       
         public static List<Producer> GetProdusers() => new DataContext(cn).Producers.ToList();
         public static List<Literature> GetLiterature() => new DataContext(cn).Literatures.ToList();
 
-        public static List<int> GetDeviceEnviroments(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId).Enviroments.Select(x => x.id_envi).ToList();
+        public static List<int> GetDeviceEnviroments(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Enviroments.Select(x => x.id_envi).ToList();
+        public static List<int> GetDeviceLiteratures(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Literatures.Select(x => x.id_lit).ToList();
     }
 }

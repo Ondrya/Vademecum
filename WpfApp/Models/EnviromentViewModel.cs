@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using System.ComponentModel.DataAnnotations;
 
 namespace WpfApp.Models
 {
@@ -17,7 +18,10 @@ namespace WpfApp.Models
         }
 
         public int id_envi { get; set; }
+
+        [StringLength(100)]
         public string name_envi { get; set; }
+
         public string spec_envi { get; set; }
         public bool IsSelected { get; set; }
     }

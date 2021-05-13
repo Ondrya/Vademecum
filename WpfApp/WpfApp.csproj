@@ -121,6 +121,7 @@
     <Compile Include="Interfaces\IPublishEvent.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\DbConnectionSetting.cs" />
+    <Compile Include="Models\LiteratureViewModel.cs" />
     <Compile Include="Models\EnviromentViewModel.cs" />
     <Compile Include="Models\LaType.cs" />
     <Compile Include="Models\SessionSetting.cs" />
