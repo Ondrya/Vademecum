@@ -8,7 +8,7 @@ namespace DataLayer
     public partial class DataContext : DbContext
     {
         public DataContext()
-            : base("name=DataContext")
+            : base("name=DataLayer")
         {
         }
 
@@ -53,7 +53,7 @@ namespace DataLayer
             modelBuilder.Entity<Device>()
                 .HasMany(e => e.Enviroments)
                 .WithMany(e => e.Devices)
-                .Map(m => m.ToTable("Device_Envi", "Dev").MapLeftKey("id").MapRightKey("id_envi"));
+                .Map(m => m.ToTable("DeviceEnvi", "Dev").MapLeftKey("id").MapRightKey("id_envi"));
 
             modelBuilder.Entity<Device>()
                 .HasMany(e => e.Literatures)

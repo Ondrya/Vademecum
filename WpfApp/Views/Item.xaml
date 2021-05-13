@@ -446,7 +446,6 @@
                         <RowDefinition MinHeight="200"/>
                         <!--<RowDefinition Height="*"/>-->
                     </Grid.RowDefinitions>
-                    <!--helpers:ListBoxHelper.SelectedItems="{Binding SelectedEnviroments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
                     <ListBox 
                         x:Name="EnviromentListBox"
                         ItemsSource="{Binding EnviromentCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -462,7 +461,6 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <CheckBox IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"/>
                                     <Label Content="{Binding Path=name_envi}" Foreground="#000000"  
                                        Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                                        FontSize="14" FontWeight="Bold" Height="50" Width="220"

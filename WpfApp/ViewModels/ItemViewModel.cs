@@ -384,8 +384,8 @@ namespace WpfApp.ViewModels
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
 
 
-                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
-                var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId);
+                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId).ToList();
+                var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId).ToList();
 
                 if (enviIds != null) foreach (var enviId in enviIds)
                     {
@@ -650,9 +650,9 @@ namespace WpfApp.ViewModels
             {
                 try
                 {
-                    var selectedEnvies = EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi);
+                    var selectedEnvies = EnviromentCollection.Where(e => e.IsSelected).Select(e => e.id_envi).ToList();
                     var envies = context.Enviroments.Where(x => selectedEnvies.Contains(x.id_envi)).ToList(); // возмжные среды
-                    var device = context.Devices.Find(CurrentDevice.id_device);
+                    var device = context.Devices.Find(CurrentDeviceId);
                     var deviceEnvies = device.Enviroments.ToList();
 
                     foreach (var item in deviceEnvies) device.Enviroments.Remove(item);
