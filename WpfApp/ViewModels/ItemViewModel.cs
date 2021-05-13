@@ -382,6 +382,25 @@ namespace WpfApp.ViewModels
 
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
+
+
+                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
+                var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId);
+
+                if (enviIds != null) foreach (var enviId in enviIds)
+                    {
+                        foreach (var envi in EnviromentCollection)
+                        {
+                            if (envi.id_envi == enviId) envi.IsSelected = true;
+                        }
+                    }
+                if (litIds != null) foreach (var litId in litIds)
+                    {
+                        foreach (var lit in LiteratureCollection)
+                        {
+                            if (lit.id_lit == litId) lit.IsSelected = true;
+                        }
+                    }
             }
         }
         public Producer SelectedProducer
@@ -439,24 +458,6 @@ namespace WpfApp.ViewModels
             //CurrentDeviceProducer = CurrentDevice == null ? new Producer() : ProducerCollection.First(x => x.id_prod == CurrentDevice.id_prod);
             RawImageDataSchema = CurrentDevice.schema;
             RawImageDataView = CurrentDevice.view;
-
-            var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId);
-            var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId);
-
-            if (enviIds != null) foreach (var enviId in enviIds)
-                {
-                    foreach (var envi in EnviromentCollection)
-                    {
-                        if (envi.id_envi == enviId) envi.IsSelected = true;
-                    }
-                }
-            if (litIds != null) foreach (var litId in litIds)
-                {
-                    foreach (var lit in LiteratureCollection)
-                    {
-                        if (lit.id_lit == litId) lit.IsSelected = true;
-                    }
-                }
         }
 
         public RelayCommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(obj =>
