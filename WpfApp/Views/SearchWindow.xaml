@@ -1,12 +1,172 @@
 ﻿<Window x:Class="WpfApp.Views.SearchWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp.Views"
         mc:Ignorable="d"
-        Title="SearchWindow" Height="450" Width="800">
+        Title="Поиск оборудования" 
+        Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <sys:Int32 x:Key="LabelWidth">150</sys:Int32>
+    </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Результаты поиска оборудования" Grid.Row="0"/>
+            <Grid Grid.Row="1">
+                <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                </DataGrid>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <GroupBox Header="Основные параметры" Grid.Row="0" Grid.Column="0" Margin="1">
+                <StackPanel>
+                    <DockPanel>
+                        <Label Content="Название" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <TextBox Text="{Binding DeviceName}" MinWidth="150"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <!-- датчика/устройства-->
+                        <Label Content="Тип" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding TypeCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_type"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Назначение" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding FunctionCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedFunction, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_func"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Чувствительный элемент" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding SensElementCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedSensElement, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_se"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Принцип действия" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding KindCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedKind, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_kind"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Метод управления" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding ControlCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_control"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Действие с информацией" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding MeasureProcessingCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedMeasureProcessing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_measure_proc"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Технология изготовления" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding BuiltTechCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedBuiltTech, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="built_tech"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox 
+                Header="Параметры изменений"
+                Margin="1">
+                <StackPanel>
+                    <DockPanel>
+                        <Label Content="Измеряемая величина" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding MeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_measure"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <Label Content="Диапазон измерений" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="от" Grid.Column="0" HorizontalAlignment="Center"/>
+                            <TextBox 
+                                Text="{Binding DeviceMinMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                BorderThickness="1" Margin="1"
+                                Grid.Column="1"/>
+                            <Label Content="до" Grid.Column="2" HorizontalAlignment="Center"/>
+                            <TextBox 
+                                Text="{Binding DeviceMaxMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                BorderThickness="1" Margin="1"
+                                Grid.Column="3"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <Label Content="Единицы измерений" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedMeasureDim, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="dim_measure"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <Label Content="Погрешность, %" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <ComboBox 
+                            ItemsSource="{Binding MeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DisplayMemberPath="name_measure"
+                            Padding="2"
+                            BorderThickness="1" Margin="1"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        
         
     </Grid>
 </Window>
