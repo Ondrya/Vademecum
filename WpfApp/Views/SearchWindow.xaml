@@ -10,6 +10,7 @@
         Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <sys:Int32 x:Key="LabelWidth">150</sys:Int32>
+        <sys:Int32 x:Key="LabelWidthMGH">50</sys:Int32>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,22 +19,26 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
-        <Grid
-            Grid.Column="1" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Content="Результаты поиска оборудования" Grid.Row="0"/>
+        <GroupBox 
+            Header="Результаты поиска оборудования"
+            Grid.Column="1" Grid.Row="0" Margin="1">
             <Grid Grid.Row="1">
-                <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
+                <DataGrid 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch"
+                    IsReadOnly="True"
+                    AutoGenerateColumns="False" 
+                    ItemsSource="{Binding DeviceCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    <DataGridTextColumn 
+                        Header="Наименование" 
+                        Binding="{Binding Path=name, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataGrid>
             </Grid>
-        </Grid>
+        </GroupBox>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
             <GroupBox Header="Основные параметры" Grid.Row="0" Grid.Column="0" Margin="1">
@@ -157,13 +162,92 @@
                     <DockPanel>
                         <Label Content="Погрешность, %" Width="{Binding Source={StaticResource LabelWidth}}"/>
                         <ComboBox 
-                            ItemsSource="{Binding MeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedItem="{Binding SelectedMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            DisplayMemberPath="name_measure"
+                            ItemsSource="{Binding ErrorMeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedErrorMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             Padding="2"
                             BorderThickness="1" Margin="1"/>
                     </DockPanel>
                 </StackPanel>
+            </GroupBox>
+            <GroupBox 
+                Header="МГХ"
+                Margin="1">
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Величина" Grid.Row="0" Grid.Column="0"/>
+                    <Label Content="от" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center"/>
+                    <Label Content="до" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"/>
+                    <Label Content="ед.изм." Grid.Row="0" Grid.Column="3"/>
+
+                    <Label Content="Вес" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Weight.Min}" />
+                    <TextBox Grid.Row="1" Grid.Column="2"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Weight.Max}" />
+                    <ComboBox Grid.Row="1" Grid.Column="3"
+                              ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedMeasureDimWeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              DisplayMemberPath="dim_measure"
+                              BorderThickness="1" Margin="1"/>
+                    
+                    <Label Content="Длина" Grid.Row="2" Grid.Column="0"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Length.Min}" />
+                    <TextBox Grid.Row="2" Grid.Column="2"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Length.Max}" />
+
+                    <Label Content="Ширина" Grid.Row="3" Grid.Column="0"/>
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Width.Min}" />
+                    <TextBox Grid.Row="3" Grid.Column="2"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Width.Max}" />
+                    <Label Content="Высота" Grid.Row="4" Grid.Column="0"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Height.Min}" />
+                    <TextBox Grid.Row="4" Grid.Column="2"
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding Search.Height.Max}" />
+                    <ComboBox Grid.Row="4" Grid.Column="3"
+                              ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedMeasureDimLWH, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              DisplayMemberPath="dim_measure"
+                              BorderThickness="1" Margin="1"/>
+                            
+                    
+                    
+                    
+                    
+                </Grid>
             </GroupBox>
         </StackPanel>
         
