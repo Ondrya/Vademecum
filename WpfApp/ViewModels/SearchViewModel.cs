@@ -282,6 +282,7 @@ namespace WpfApp.ViewModels
             {
                 _selectedMeasure = value;
                 OnPropertyChanged(nameof(SelectedMeasure));
+                UpdateCollection();
             }
         }
         private Measure _selectedMeasure;
@@ -346,7 +347,12 @@ namespace WpfApp.ViewModels
                 if (SelectedBuiltTech != null)
                     if (item.id_built_tech != SelectedBuiltTech.id_built_tech) continue;
 
+                if (SelectedMeasure != null)
+                    if (!item.Measures.Select(x => x.id_measure).Contains(SelectedMeasure.id_measure)) continue;
+
                 
+
+
                 DeviceCollection.Add(item);
             }
         }

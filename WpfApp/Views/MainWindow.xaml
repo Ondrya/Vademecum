@@ -167,10 +167,10 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Margin="3 5 3 0" Header="{Binding HeaderList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <GroupBox Height="300" Margin="3 5 3 0" Header="{Binding HeaderList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <DataGrid
+                        VerticalScrollBarVisibility="Auto"
                         Grid.Row="0"
-                        MinHeight="240"
                         IsReadOnly="True"
                         ItemsSource="{Binding DataGridCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

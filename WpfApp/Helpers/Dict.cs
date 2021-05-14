@@ -36,7 +36,8 @@ namespace WpfApp.Helpers
 
         public static List<int> GetDeviceEnviroments(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Enviroments.Select(x => x.id_envi).ToList();
         public static List<int> GetDeviceLiteratures(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Literatures.Select(x => x.id_lit).ToList();
-
+        public static List<int> GetDeviceMeasures(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Measures.Select(x => x.id_measure).ToList();
+     
         public static List<Device> GetDevices() => new DataContext(cn).Devices.ToList();
     }
 }

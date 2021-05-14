@@ -211,8 +211,6 @@ namespace WpfApp.ViewModels
             {
                 _selectedMeasure = value;
                 OnPropertyChanged(nameof(SelectedMeasure));
-                // todo переопределить
-                //CurrentDevice.id_device = value?.id_measure;
             }
         }
         private Measure _selectedMeasure;
@@ -382,6 +380,16 @@ namespace WpfApp.ViewModels
 
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
+                var measureIds = Helpers.Dict.GetDeviceMeasures(CurrentDeviceId)?.ToList();
+                if (measureIds != null && measureIds.Count>0)
+                {
+                    var measureId = measureIds[0];
+                    SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == measureId);
+                }
+                    
+
+                    
+                        
 
                 if (CurrentDeviceId > 0)
                 {
@@ -666,8 +674,8 @@ namespace WpfApp.ViewModels
                 {
                     MessageBox.Show(e.ToString(), "Обновление списка сред");
                 }
-
             }
+
             using (var context = new DataContext(cn))
             {
                 try
@@ -685,6 +693,26 @@ namespace WpfApp.ViewModels
                 catch (Exception e)
                 {
                     MessageBox.Show(e.ToString(), "Обновление списка литературы");
+                }
+            }
+
+            using (var context = new DataContext(cn))
+            {
+                if (SelectedMeasure == null) return;
+                try
+                {
+                    var device = context.Devices.Find(CurrentDeviceId);
+                    var measures= context.Measures.First(x => SelectedMeasure.id_measure==x.id_measure); // список измерений
+                    var deviceMeasures = device.Measures.ToList();
+
+                    foreach (var item in deviceMeasures) device.Measures.Remove(item);
+                    device.Measures.Add(measures);
+
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "Обновление списка сред");
                 }
 
             }
