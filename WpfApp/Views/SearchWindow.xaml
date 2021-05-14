@@ -4,14 +4,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp.Views"
+        xmlns:local="clr-namespace:WpfApp.Views" 
+        xmlns:vm="clr-namespace:WpfApp.ViewModels"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Поиск оборудования" 
         Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <sys:Int32 x:Key="LabelWidth">150</sys:Int32>
-        <sys:Int32 x:Key="LabelWidthMGH">50</sys:Int32>
     </Window.Resources>
+    <Window.DataContext>
+        <vm:SearchViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -26,17 +30,19 @@
             Header="Результаты поиска оборудования"
             Grid.Column="1" Grid.Row="0" Margin="1">
             <Grid Grid.Row="1">
-                <DataGrid 
+                <ListBox 
+                    x:Name="DeviceLis"
                     HorizontalAlignment="Stretch" 
                     VerticalAlignment="Stretch"
-                    IsReadOnly="True"
-                    AutoGenerateColumns="False" 
+                    DisplayMemberPath="name"
+                    MouseDoubleClick="DeviceLis_MouseDoubleClick"
                     ItemsSource="{Binding DeviceCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    <DataGridTextColumn 
-                        Header="Наименование" 
-                        Binding="{Binding Path=name, UpdateSourceTrigger=PropertyChanged}"/>
-                </DataGrid>
+                    SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <!--<b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseDoubleClick">
+                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>-->
             </Grid>
         </GroupBox>
 
@@ -45,11 +51,16 @@
                 <StackPanel>
                     <DockPanel>
                         <Label Content="Название" Width="{Binding Source={StaticResource LabelWidth}}"/>
-                        <TextBox Text="{Binding DeviceName}" MinWidth="150"/>
+                        <TextBox 
+                            Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                            HorizontalContentAlignment="Center"
+                            MinWidth="150"
+                            BorderThickness="1" Margin="1"/>
                     </DockPanel>
                     <DockPanel>
-                        <!-- датчика/устройства-->
-                        <Label Content="Тип" Width="{Binding Source={StaticResource LabelWidth}}"/>
+                        <Label 
+                            Content="Тип" 
+                            Width="{Binding Source={StaticResource LabelWidth}}"/>
                         <ComboBox 
                             ItemsSource="{Binding TypeCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -242,11 +253,6 @@
                               SelectedItem="{Binding SelectedMeasureDimLWH, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               DisplayMemberPath="dim_measure"
                               BorderThickness="1" Margin="1"/>
-                            
-                    
-                    
-                    
-                    
                 </Grid>
             </GroupBox>
         </StackPanel>

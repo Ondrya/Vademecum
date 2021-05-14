@@ -113,6 +113,7 @@
     <Compile Include="Events\DbEntityEvent.cs" />
     <Compile Include="Helpers\Dict.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\Functions.cs" />
     <Compile Include="Helpers\ListBoxHelper.cs" />
     <Compile Include="Helpers\MultiSelectBindingHelper.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="ViewModels\ParamProducerViewModel.cs" />
     <Compile Include="ViewModels\PopUpImageViewModel.cs" />
     <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\SelectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\Item.xaml.cs">

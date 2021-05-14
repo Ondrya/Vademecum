@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp.ViewModels;
 
 namespace WpfApp.Views
 {
@@ -22,6 +23,11 @@ namespace WpfApp.Views
         public SearchWindow()
         {
             InitializeComponent();
+        }
+
+        private void DeviceLis_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((this.DataContext) as SearchViewModel).UpdateItem();
         }
     }
 }

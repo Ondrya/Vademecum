@@ -383,24 +383,26 @@ namespace WpfApp.ViewModels
                 // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
                 //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
 
+                if (CurrentDeviceId > 0)
+                {
+                    var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId).ToList();
+                    var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId).ToList();
 
-                var enviIds = Helpers.Dict.GetDeviceEnviroments(CurrentDeviceId).ToList();
-                var litIds = Helpers.Dict.GetDeviceLiteratures(CurrentDeviceId).ToList();
-
-                if (enviIds != null) foreach (var enviId in enviIds)
-                    {
-                        foreach (var envi in EnviromentCollection)
+                    if (enviIds != null) foreach (var enviId in enviIds)
                         {
-                            if (envi.id_envi == enviId) envi.IsSelected = true;
+                            foreach (var envi in EnviromentCollection)
+                            {
+                                if (envi.id_envi == enviId) envi.IsSelected = true;
+                            }
                         }
-                    }
-                if (litIds != null) foreach (var litId in litIds)
-                    {
-                        foreach (var lit in LiteratureCollection)
+                    if (litIds != null) foreach (var litId in litIds)
                         {
-                            if (lit.id_lit == litId) lit.IsSelected = true;
+                            foreach (var lit in LiteratureCollection)
+                            {
+                                if (lit.id_lit == litId) lit.IsSelected = true;
+                            }
                         }
-                    }
+                }
             }
         }
         public Producer SelectedProducer
