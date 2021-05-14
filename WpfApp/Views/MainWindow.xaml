@@ -85,8 +85,11 @@
             </Grid.ColumnDefinitions>
             <Button 
                 Content="Поиск"
+                Background="LightGreen"
+                Foreground="Black"
                 Margin="3"
-                Grid.Row="0" Grid.Column="0"/>
+                Grid.Row="0" Grid.Column="0"
+                Command="{Binding OpenSearchWindowCommand}"/>
             <!-- будет осуществляться прямой доступ к таблицам БД с информацией о разных параметрах 
             (среды измерения, измеряемые величины, типы датчиков/оборудования, производители, назначение и т.д.); -->
             <Button 

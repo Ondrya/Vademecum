@@ -156,7 +156,14 @@ namespace WpfApp.ViewModels
         private RelayCommand _refreshCommand;
         private RelayCommand _showAdminWindowCommand;
         private RelayCommand _parametersCommand;
+        private RelayCommand _openSearchWindowCommand;
 
+        public RelayCommand OpenSearchWindowCommand => 
+            _openSearchWindowCommand ?? (_openSearchWindowCommand = new RelayCommand(obj => 
+            {
+                var popUpWindow = new SearchWindow();
+                popUpWindow.Show();
+            }));
         public RelayCommand ParametersCommand => _parametersCommand ?? (_parametersCommand = new RelayCommand(obj =>
         {
             var popUpWindow = new ParametersWindow();
