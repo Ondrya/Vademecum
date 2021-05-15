@@ -7,11 +7,13 @@
         xmlns:local="clr-namespace:WpfApp.Views" 
         xmlns:vm="clr-namespace:WpfApp.ViewModels"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:converters="clr-namespace:WpfApp.Converters"
         mc:Ignorable="d"
         Title="Поиск оборудования" 
         Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <sys:Int32 x:Key="LabelWidth">150</sys:Int32>
+        <converters:FloatToStringConverter x:Key="FlotToStringConverter" />
     </Window.Resources>
     <Window.DataContext>
         <vm:SearchViewModel/>
@@ -149,12 +151,12 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="от" Grid.Column="0" HorizontalAlignment="Center"/>
                             <TextBox 
-                                Text="{Binding DeviceMinMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                Text="{Binding MeasureValueMin, Converter={StaticResource FlotToStringConverter}}" 
                                 BorderThickness="1" Margin="1"
                                 Grid.Column="1"/>
                             <Label Content="до" Grid.Column="2" HorizontalAlignment="Center"/>
                             <TextBox 
-                                Text="{Binding DeviceMaxMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                Text="{Binding MeasureValueMax, Converter={StaticResource FlotToStringConverter}}" 
                                 BorderThickness="1" Margin="1"
                                 Grid.Column="3"/>
                         </Grid>
@@ -163,6 +165,7 @@
                     <DockPanel>
                         <Label Content="Единицы измерений" Width="{Binding Source={StaticResource LabelWidth}}"/>
                         <ComboBox 
+                            Background="red"
                             ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             SelectedItem="{Binding SelectedMeasureDim, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             DisplayMemberPath="dim_measure"
@@ -172,11 +175,10 @@
 
                     <DockPanel>
                         <Label Content="Погрешность, %" Width="{Binding Source={StaticResource LabelWidth}}"/>
-                        <ComboBox 
-                            ItemsSource="{Binding ErrorMeasureCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedItem="{Binding SelectedErrorMeasure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            Padding="2"
-                            BorderThickness="1" Margin="1"/>
+                        <TextBox 
+                             BorderThickness="1" Margin="1"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding ErrorMeasure, Converter={StaticResource FlotToStringConverter}}" />
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
@@ -209,12 +211,13 @@
                     <TextBox Grid.Row="1" Grid.Column="1"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Weight.Min}" />
+                             Text="{Binding WeightMin, Converter={StaticResource FlotToStringConverter}}" />
                     <TextBox Grid.Row="1" Grid.Column="2"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Weight.Max}" />
+                             Text="{Binding WeightMax, Converter={StaticResource FlotToStringConverter}}" />
                     <ComboBox Grid.Row="1" Grid.Column="3"
+                              Background="Red"
                               ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               SelectedItem="{Binding SelectedMeasureDimWeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               DisplayMemberPath="dim_measure"
@@ -224,31 +227,32 @@
                     <TextBox Grid.Row="2" Grid.Column="1"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Length.Min}" />
+                             Text="{Binding LengthMin, Converter={StaticResource FlotToStringConverter}}" />
                     <TextBox Grid.Row="2" Grid.Column="2"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Length.Max}" />
+                             Text="{Binding LengthMax, Converter={StaticResource FlotToStringConverter}}" />
 
                     <Label Content="Ширина" Grid.Row="3" Grid.Column="0"/>
                     <TextBox Grid.Row="3" Grid.Column="1"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Width.Min}" />
+                             Text="{Binding WidthMin, Converter={StaticResource FlotToStringConverter}}" />
                     <TextBox Grid.Row="3" Grid.Column="2"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Width.Max}" />
+                             Text="{Binding WidthMax, Converter={StaticResource FlotToStringConverter}}" />
                     <Label Content="Высота" Grid.Row="4" Grid.Column="0"/>
                     <TextBox Grid.Row="4" Grid.Column="1"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Height.Min}" />
+                             Text="{Binding HeightMin, Converter={StaticResource FlotToStringConverter}}" />
                     <TextBox Grid.Row="4" Grid.Column="2"
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding Search.Height.Max}" />
+                             Text="{Binding HeightMax, Converter={StaticResource FlotToStringConverter}}" />
                     <ComboBox Grid.Row="4" Grid.Column="3"
+                              Background="Red"
                               ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               SelectedItem="{Binding SelectedMeasureDimLWH, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               DisplayMemberPath="dim_measure"

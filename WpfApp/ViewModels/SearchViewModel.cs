@@ -275,6 +275,9 @@ namespace WpfApp.ViewModels
         }
         private BuiltTech _selectedBuiltTech;
 
+
+        #region Параметры измерений
+
         public Measure SelectedMeasure
         {
             get => _selectedMeasure;
@@ -297,6 +300,146 @@ namespace WpfApp.ViewModels
             }
         }
         private Measure_Dims _selectedMeasureDim;
+
+        public float? MeasureValueMin
+        {
+            get => _measureValueMin;
+            set
+            {
+                _measureValueMin = value;
+                OnPropertyChanged(nameof(MeasureValueMin));
+                UpdateCollection();
+            }
+        }
+        private float? _measureValueMin;
+
+        public float? MeasureValueMax
+        {
+            get => _measureValueMax;
+            set
+            {
+                _measureValueMax = value;
+                OnPropertyChanged(nameof(MeasureValueMax));
+                UpdateCollection();
+            }
+        }
+        private float? _measureValueMax;
+
+        public float? ErrorMeasure
+        {
+            get => _errorMeasure;
+            set
+            {
+                _errorMeasure = value;
+                OnPropertyChanged(nameof(ErrorMeasure));
+                UpdateCollection();
+            }
+        }
+        private float? _errorMeasure;
+        
+
+        #endregion
+
+        #region МГХ
+        public float? WeightMin
+        {
+            get => _weightMin;
+            set 
+            { 
+                _weightMin = value;
+                OnPropertyChanged(nameof(WeightMin));
+                UpdateCollection();
+            }
+        }
+        private float? _weightMin;
+
+        public float? WeightMax
+        {
+            get => _weightMax;
+            set
+            {
+                _weightMax = value;
+                OnPropertyChanged(nameof(WeightMax));
+                UpdateCollection();
+            }
+        }
+        private float? _weightMax;
+
+        public float? LengthMin
+        {
+            get => _lengthMin;
+            set
+            {
+                _lengthMin = value;
+                OnPropertyChanged(nameof(LengthMin));
+                UpdateCollection();
+            }
+        }
+        private float? _lengthMin;
+
+        public float? LengthMax
+        {
+            get => _lengthMax;
+            set
+            {
+                _lengthMax = value;
+                OnPropertyChanged(nameof(LengthMax));
+                UpdateCollection();
+            }
+        }
+        private float? _lengthMax;
+
+        public float? WidthMin
+        {
+            get => _widthMin;
+            set
+            {
+                _widthMin = value;
+                OnPropertyChanged(nameof(WidthMin));
+                UpdateCollection();
+            }
+        }
+        private float? _widthMin;
+
+        public float? WidthMax
+        {
+            get => _widthMax;
+            set
+            {
+                _widthMax = value;
+                OnPropertyChanged(nameof(WidthMax));
+                UpdateCollection();
+            }
+        }
+        private float? _widthMax;
+
+        public float? HeightMin
+        {
+            get => _heightMin;
+            set
+            {
+                _heightMin = value;
+                OnPropertyChanged(nameof(HeightMin));
+                UpdateCollection();
+            }
+        }
+        private float? _heightMin;
+
+        public float? HeightMax
+        {
+            get => _heightMax;
+            set
+            {
+                _heightMax = value;
+                OnPropertyChanged(nameof(HeightMax));
+                UpdateCollection();
+            }
+        }
+        private float? _heightMax;
+
+        
+        #endregion
+
 
         public Device SelectedItem
         {
@@ -349,8 +492,34 @@ namespace WpfApp.ViewModels
 
                 if (SelectedMeasure != null)
                     if (!item.Measures.Select(x => x.id_measure).Contains(SelectedMeasure.id_measure)) continue;
-
+                if (MeasureValueMin != null)
+                    if (item.min_measure == null || item.min_measure < MeasureValueMin) continue;
+                if (MeasureValueMax != null)
+                    if (item.max_measure == null || item.max_measure > MeasureValueMax) continue;
+                if (ErrorMeasure != null)
+                    if (item.error_measure == null || item.error_measure > ErrorMeasure) continue;
                 
+
+
+
+
+                if (WeightMin != null)
+                    if (item.weight == null || item.weight < WeightMin) continue;
+                if (WeightMax != null)
+                    if (item.weight == null || item.weight > WeightMax) continue;
+                if (LengthMin != null)
+                    if (item.length == null || item.length < LengthMin) continue;
+                if (LengthMax != null)
+                    if (item.length == null || item.length > LengthMax) continue;
+                if (WidthMin != null)
+                    if (item.width == null || item.width < WidthMin) continue;
+                if (WidthMax != null)
+                    if (item.width == null || item.width > WidthMax) continue;
+                if (HeightMin != null)
+                    if (item.height == null || item.height < HeightMin) continue;
+                if (HeightMax != null)
+                    if (item.height == null || item.height > HeightMax) continue;
+
 
 
                 DeviceCollection.Add(item);
