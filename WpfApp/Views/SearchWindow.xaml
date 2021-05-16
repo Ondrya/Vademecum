@@ -165,7 +165,6 @@
                     <DockPanel>
                         <Label Content="Единицы измерений" Width="{Binding Source={StaticResource LabelWidth}}"/>
                         <ComboBox 
-                            Background="red"
                             ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             SelectedItem="{Binding SelectedMeasureDim, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             DisplayMemberPath="dim_measure"
@@ -216,12 +215,10 @@
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
                              Text="{Binding WeightMax, Converter={StaticResource FlotToStringConverter}}" />
-                    <ComboBox Grid.Row="1" Grid.Column="3"
-                              Background="Red"
-                              ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              SelectedItem="{Binding SelectedMeasureDimWeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              DisplayMemberPath="dim_measure"
-                              BorderThickness="1" Margin="1"/>
+                    <TextBox Grid.Row="1" Grid.Column="3"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding WeightDim}"
+                             BorderThickness="1" Margin="1"/>
                     
                     <Label Content="Длина" Grid.Row="2" Grid.Column="0"/>
                     <TextBox Grid.Row="2" Grid.Column="1"
@@ -251,12 +248,10 @@
                              BorderThickness="1" Margin="1"
                              HorizontalContentAlignment="Center"
                              Text="{Binding HeightMax, Converter={StaticResource FlotToStringConverter}}" />
-                    <ComboBox Grid.Row="4" Grid.Column="3"
-                              Background="Red"
-                              ItemsSource="{Binding MeasureDimCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              SelectedItem="{Binding SelectedMeasureDimLWH, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              DisplayMemberPath="dim_measure"
-                              BorderThickness="1" Margin="1"/>
+                    <TextBox Grid.Row="4" Grid.Column="3"
+                             HorizontalContentAlignment="Center"
+                             Text="{Binding WeightUnit}"
+                             BorderThickness="1" Margin="1"/>
                 </Grid>
             </GroupBox>
         </StackPanel>

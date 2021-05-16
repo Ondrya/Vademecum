@@ -297,6 +297,7 @@ namespace WpfApp.ViewModels
             {
                 _selectedMeasureDim = value;
                 OnPropertyChanged(nameof(SelectedMeasureDim));
+                UpdateCollection();
             }
         }
         private Measure_Dims _selectedMeasureDim;
@@ -437,7 +438,31 @@ namespace WpfApp.ViewModels
         }
         private float? _heightMax;
 
-        
+
+        public string UnitDim
+        {
+            get => _unitDim;
+            set
+            {
+                _unitDim = value;
+                OnPropertyChanged(nameof(UnitDim));
+                UpdateCollection();
+            }
+        }
+        private string _unitDim;
+
+        public string WeightDim
+        {
+            get => _weightDim;
+            set
+            {
+                _weightDim = value;
+                OnPropertyChanged(nameof(WeightDim));
+                UpdateCollection();
+            }
+        }
+        private string _weightDim;
+
         #endregion
 
 
@@ -496,13 +521,12 @@ namespace WpfApp.ViewModels
                     if (item.min_measure == null || item.min_measure < MeasureValueMin) continue;
                 if (MeasureValueMax != null)
                     if (item.max_measure == null || item.max_measure > MeasureValueMax) continue;
+                if (SelectedMeasureDim != null)
+                    if (item.id_dim_measure != SelectedMeasureDim.id_dim_measure) continue;
+                
                 if (ErrorMeasure != null)
                     if (item.error_measure == null || item.error_measure > ErrorMeasure) continue;
                 
-
-
-
-
                 if (WeightMin != null)
                     if (item.weight == null || item.weight < WeightMin) continue;
                 if (WeightMax != null)
@@ -520,6 +544,10 @@ namespace WpfApp.ViewModels
                 if (HeightMax != null)
                     if (item.height == null || item.height > HeightMax) continue;
 
+                if (string.IsNullOrWhiteSpace(WeightDim))
+                    if (string.IsNullOrWhiteSpace(item.dim_weight) || !item.dim_weight.CaseInsensitiveContains(WeightDim)) continue;
+                if (string.IsNullOrWhiteSpace(UnitDim))
+                    if (string.IsNullOrWhiteSpace(item.dim_unit) || !item.dim_unit.CaseInsensitiveContains(UnitDim)) continue;
 
 
                 DeviceCollection.Add(item);
