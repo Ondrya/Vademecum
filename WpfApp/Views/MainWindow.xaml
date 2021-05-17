@@ -93,7 +93,7 @@
             <!-- будет осуществляться прямой доступ к таблицам БД с информацией о разных параметрах 
             (среды измерения, измеряемые величины, типы датчиков/оборудования, производители, назначение и т.д.); -->
             <Button 
-                Content="Правка параметров"
+                Content="Справочники"
                 Background="LightGreen"
                 Foreground="Black"
                 Margin="3"
@@ -136,10 +136,7 @@
                 Margin="3"
                 Grid.Row="1" Grid.Column="2"
                 Command="{Binding FilterDeviceCommand}"/>
-            <Button 
-                Content="Электронные ресурсы"
-                Margin="3"
-                Grid.Row="1" Grid.Column="3"/>
+            
             <StackPanel VerticalAlignment="Stretch"
                 Grid.Row="2" Grid.ColumnSpan="4">
 

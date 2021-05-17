@@ -63,41 +63,7 @@
                     <TextBox Text="{Binding email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
                 </DockPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button 
-                Background="Red" Margin="10"
-                Command="{Binding DeleteCommand}">
-                    <DockPanel>
-                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
-                        <Label Content="Удалить"/>
-                    </DockPanel>
-                </Button>
-                <Button 
-                Background="Gold" Margin="10"
-                Command="{Binding UpdateCommand}">
-                    <DockPanel>
-                        <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
-                        <Label Content="Редактировать"/>
-                    </DockPanel>
-                </Button>
-
-                <Button 
-                Background="Green" Margin="10"
-                Command="{Binding AddCommand}">
-                    <DockPanel>
-                        <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
-                    </DockPanel>
-                </Button>
-
-                <Button 
-                Background="Green" Margin="10"
-                Command="{Binding CreateCommand}">
-                    <DockPanel>
-                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
-                        <Label Content="Сохранить"/>
-                    </DockPanel>
-                </Button>
-            </StackPanel>
+            <local:ParamActionButtons />
 
 
 

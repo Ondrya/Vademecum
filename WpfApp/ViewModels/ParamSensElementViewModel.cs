@@ -23,6 +23,8 @@ namespace WpfApp.ViewModels
             Fill();
         }
 
+        public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+
         public void Fill()
         {
             using (var context = new DataContext(cn))

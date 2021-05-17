@@ -158,6 +158,9 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ParamActionButtons.xaml.cs">
+      <DependentUpon>ParamActionButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ParamControlType.xaml.cs">
       <DependentUpon>ParamControlType.xaml</DependentUpon>
     </Compile>
@@ -229,6 +232,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParamActionButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

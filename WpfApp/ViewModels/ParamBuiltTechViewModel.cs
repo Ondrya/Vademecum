@@ -33,6 +33,8 @@ namespace WpfApp.ViewModels
             }
         }
 
+        public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+
         private ObservableCollection<BuiltTech> _dataCollection;
         private BuiltTech _selected;
         private BuiltTech _newItem;

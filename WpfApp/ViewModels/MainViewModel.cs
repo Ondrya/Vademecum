@@ -160,7 +160,7 @@ namespace WpfApp.ViewModels
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
-        }, (obj) => isAdmin));
+        }));
         public RelayCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(obj => { Fill(); }));
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(obj =>
         {
