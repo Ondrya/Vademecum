@@ -52,6 +52,7 @@ namespace WpfApp.ViewModels
         private RelayCommand _selectFileCommand;
         private RelayCommand _deleteFileCommand;
         private RelayCommand _downloadLiteratureCommand;
+        private RelayCommand _openUrlCommand;
         private string _filePath;
         private bool _fileDel;
 
@@ -151,6 +152,21 @@ namespace WpfApp.ViewModels
                 MessageBox.Show($"{e.Message} => {e}", "Не удалось удалить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }, (obj) => ExistInDb()));
+
+        public RelayCommand OpenUrlCommand => _openUrlCommand ?? (_openUrlCommand = new RelayCommand(obj =>
+            {
+                OpenUrl(Selected.lit_web);
+            }, (obj) => Selected != null && !string.IsNullOrWhiteSpace(Selected.lit_web)));
+
+
+        /// <summary>
+        /// Открыть ссылку в браузере по умолчанию
+        /// </summary>
+        /// <param name="url"></param>
+        private void OpenUrl(string url)
+        {
+            System.Diagnostics.Process.Start(url);
+        }
 
         public RelayCommand DownloadLiteratureCommand => _downloadLiteratureCommand ?? (_downloadLiteratureCommand = new RelayCommand(obj => 
         {

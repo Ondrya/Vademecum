@@ -48,7 +48,19 @@
                 <TextBox Text="{Binding Path=Selected.lit_date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
             </DockPanel>
             <DockPanel>
-                <Label Content="Адрес в интренете" Width="120" />
+                <Label Content="Адрес в интренете" Width="120" VerticalContentAlignment="Center"/>
+                <Button 
+                    Background="LightGreen"
+                    Foreground="Black"
+                    DockPanel.Dock="Right"
+                    Padding="10"
+                    Width="80"
+                    Height="35"
+                    Command="{Binding OpenUrlCommand}">
+                    <DockPanel VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Web" VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Button>
                 <TextBox Text="{Binding Path=Selected.lit_web, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
             </DockPanel>
             <Button 
