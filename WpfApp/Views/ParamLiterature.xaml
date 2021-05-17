@@ -51,6 +51,15 @@
                 <Label Content="Адрес в интренете" Width="120" />
                 <TextBox Text="{Binding Path=Selected.lit_web, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
             </DockPanel>
+            <Button 
+                Background="LightGreen" Margin="10"
+                Foreground="Black"
+                Command="{Binding DownloadLiteratureCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Download" VerticalAlignment="Center"/>
+                    <Label Content="Скачать документ"/>
+                </DockPanel>
+            </Button>
             <DockPanel>
                 <Label Content="Прикрепить файл" Width="120" VerticalContentAlignment="Center"/>
                 <DockPanel Height="40">

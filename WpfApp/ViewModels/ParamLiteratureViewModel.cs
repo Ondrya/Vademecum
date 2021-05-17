@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using DataLayer;
+using Microsoft.Win32;
 using Prism.Events;
 using WpfApp.Commands;
 using WpfApp.Events;
@@ -50,6 +51,7 @@ namespace WpfApp.ViewModels
         private RelayCommand _updateCommand;
         private RelayCommand _selectFileCommand;
         private RelayCommand _deleteFileCommand;
+        private RelayCommand _downloadLiteratureCommand;
         private string _filePath;
         private bool _fileDel;
 
@@ -112,7 +114,11 @@ namespace WpfApp.ViewModels
             {
                 using (var context = new DataContext(cn))
                 {
-                    if (FilePath != null) Selected.lit_file = File.ReadAllBytes(FilePath);
+                    if (FilePath != null)
+                    {
+                        Selected.lit_file = File.ReadAllBytes(FilePath);
+                        Selected.file_name = Path.GetFileName(FilePath);
+                    }
                     context.Literatures.Add(Selected);
                     context.SaveChanges();
                     PublishDbEntityEvent(new DbEntityEventParam(EventType.Create, Events.Dict.ParamLiterature, NewItem.id_lit));
@@ -145,6 +151,35 @@ namespace WpfApp.ViewModels
                 MessageBox.Show($"{e.Message} => {e}", "Не удалось удалить запись!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }, (obj) => ExistInDb()));
+
+        public RelayCommand DownloadLiteratureCommand => _downloadLiteratureCommand ?? (_downloadLiteratureCommand = new RelayCommand(obj => 
+        {
+            DownloadLiterature(Selected);
+        }, (obj) => Selected != null && Selected.lit_file != null));
+
+        /// <summary>
+        /// Скачать файл
+        /// </summary>
+        /// <param name="id_lit"></param>
+        private void DownloadLiterature(Literature book)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.FileName = book.file_name;
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    File.WriteAllBytes(saveFileDialog.FileName, book.lit_file);
+                    MessageBox.Show("Файл сохранён.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
+        }
+
         public RelayCommand UpdateCommand => _updateCommand ?? (new RelayCommand(obj =>
         {
             try
