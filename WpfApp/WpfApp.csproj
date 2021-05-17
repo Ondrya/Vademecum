@@ -112,6 +112,7 @@
     <Compile Include="Events\Dict.cs" />
     <Compile Include="Events\EventType.cs" />
     <Compile Include="Events\DbEntityEvent.cs" />
+    <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\Dict.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />

@@ -14,6 +14,7 @@ namespace WpfApp.Helpers
     public class Dict
     {
         private static string cn = ((App)Application.Current).CurrentDb.ToString();
+        private static int laType = (int)((App)Application.Current).CurrentSession.SelectedLaType;
 
         /// <summary>
         /// Полуить список типов устройств
@@ -38,6 +39,6 @@ namespace WpfApp.Helpers
         public static List<int> GetDeviceLiteratures(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Literatures.Select(x => x.id_lit).ToList();
         //public static List<int> GetDeviceMeasures(int currentDeviceId) => new DataContext(cn).Devices.Find(currentDeviceId)?.Measures.Select(x => x.id_measure).ToList();
      
-        public static List<Device> GetDevices() => new DataContext(cn).Devices.ToList();
+        public static List<Device> GetDevices() => new DataContext(cn).Devices.Where(x => x.id_LA == laType).ToList();
     }
 }

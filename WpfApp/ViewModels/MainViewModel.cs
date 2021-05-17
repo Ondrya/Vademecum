@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using WpfApp.Commands;
 using WpfApp.Events;
+using WpfApp.Helpers;
 using WpfApp.Models;
 using WpfApp.Validators;
 using WpfApp.Views;
@@ -20,25 +21,14 @@ namespace WpfApp.ViewModels
             CurrentSession = ((App)Application.Current).CurrentSession;
             ShowDevices = true;
             ShowSensors = true;
-            isAdmin = CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+            isAdmin = Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
             Fill();
         }
 
-        private bool CheckIsAdmin(AccessLevel level)
-        {
-            switch (level)
-            {
-                case AccessLevel.Administrator:
-                    return true;
-                case AccessLevel.Developer:
-                    return true;
-                case AccessLevel.Student:
-                case AccessLevel.Guest:
-                default:
-                    return false;
-            }
-        }
+        public string GoToItemName => isAdmin ? "Редактировать" : "Просмотр";
+
         private string cn;
+        private int laType;
 
         private void Fill()
         {
@@ -46,7 +36,7 @@ namespace WpfApp.ViewModels
             cn = ((App)Application.Current).CurrentDb.ToString();
             using (var context = new DataContext(cn))
             {
-                var result = context.Devices.ToList();
+                var result = Helpers.Dict.GetDevices().OrderByDescending(x => x.id);//context.Devices.ToList();
 
                 _items = new List<DeviceSensorLookUp>();
 
@@ -178,7 +168,7 @@ namespace WpfApp.ViewModels
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
-        }, (obj) => SelectedItem != null && isAdmin));
+        }, (obj) => SelectedItem != null));
         public RelayCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(obj =>
         {
             var res = MessageBox.Show("Удалить выбранный элемент?", "Требуется подтверждение.", MessageBoxButton.YesNo, MessageBoxImage.Question);
