@@ -11,6 +11,11 @@
     <Window.DataContext>
         <vm:ParamControlTypeViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsReadOnly" Value="{Binding CanEditTextBox}" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

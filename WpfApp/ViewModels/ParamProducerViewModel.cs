@@ -24,6 +24,7 @@ namespace WpfApp.ViewModels
         }
 
         public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+        public bool CanEditTextBox => !IsAdmin;
         public void Fill()
         {
             using (var context = new DataContext(cn))

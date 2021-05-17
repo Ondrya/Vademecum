@@ -39,11 +39,10 @@ namespace WpfApp.ViewModels
             MeasureDimCollection = new ObservableCollection<Measure_Dims>();
             EnviromentCollection = new ObservableCollection<EnviromentViewModel>();
             LiteratureCollection = new ObservableCollection<LiteratureViewModel>();
-            isAdmin = Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
         }
 
-        public bool IsAdmin => isAdmin;
-        private bool isAdmin;
+        public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+        public bool CanEditTextBox => !IsAdmin;
 
         IEventAggregator _eventAggregator;
         private Device _currentDevice;

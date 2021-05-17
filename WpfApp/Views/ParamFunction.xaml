@@ -11,6 +11,11 @@
     <Window.DataContext>
         <vm:ParamFunctionViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsReadOnly" Value="{Binding CanEditTextBox}" />
+        </Style>
+    </Window.Resources>
     <StackPanel Margin="5">
         <DataGrid 
             ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 

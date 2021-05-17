@@ -15,6 +15,9 @@
     </Window.DataContext>
     <Window.Resources>
         <converters:ByteArrayToBitmapImageConverter x:Key="ByteArrayToBitmapImageConverter"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsReadOnly" Value="{Binding CanEditTextBox}" />
+        </Style>
     </Window.Resources>
     <StackPanel>
         <DockPanel>
