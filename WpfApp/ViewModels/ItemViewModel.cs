@@ -211,6 +211,7 @@ namespace WpfApp.ViewModels
             {
                 _selectedMeasure = value;
                 OnPropertyChanged(nameof(SelectedMeasure));
+                CurrentDevice.id_measure = value?.id_measure;
             }
         }
         private Measure _selectedMeasure;
@@ -377,18 +378,7 @@ namespace WpfApp.ViewModels
                 SelectedBuiltTech = BuiltTechCollection.FirstOrDefault(x => x.id_built_tech == value?.id_built_tech);
                 SelectedMeasureDim = MeasureDimCollection.FirstOrDefault(x => x.id_dim_measure == value?.id_dim_measure);
                 SelectedProducer = ProducerCollection.FirstOrDefault(x => x.id_prod == value?.id_prod);
-
-                // было в связанную таблицу Device_Measurе - изменю на прямое добавление как пункты выше(удалю таблицу-связь, добавлю id_measure в главную таблицу Device)
-                //SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
-                var measureIds = Helpers.Dict.GetDeviceMeasures(CurrentDeviceId)?.ToList();
-                if (measureIds != null && measureIds.Count>0)
-                {
-                    var measureId = measureIds[0];
-                    SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == measureId);
-                }
-                    
-
-                    
+                SelectedMeasure = MeasureCollection.FirstOrDefault(x => x.id_measure == value?.id_measure);
                         
 
                 if (CurrentDeviceId > 0)
@@ -694,27 +684,6 @@ namespace WpfApp.ViewModels
                 {
                     MessageBox.Show(e.ToString(), "Обновление списка литературы");
                 }
-            }
-
-            using (var context = new DataContext(cn))
-            {
-                if (SelectedMeasure == null) return;
-                try
-                {
-                    var device = context.Devices.Find(CurrentDeviceId);
-                    var measures= context.Measures.First(x => SelectedMeasure.id_measure==x.id_measure); // список измерений
-                    var deviceMeasures = device.Measures.ToList();
-
-                    foreach (var item in deviceMeasures) device.Measures.Remove(item);
-                    device.Measures.Add(measures);
-
-                    context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString(), "Обновление списка сред");
-                }
-
             }
 
             MessageBox.Show($"Устройство ОБНОВЛЕНО - id: {CurrentDevice.id}", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);

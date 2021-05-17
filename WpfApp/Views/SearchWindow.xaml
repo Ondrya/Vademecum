@@ -10,7 +10,7 @@
         xmlns:converters="clr-namespace:WpfApp.Converters"
         mc:Ignorable="d"
         Title="Поиск оборудования" 
-        Width="Auto" Height="Auto" SizeToContent="WidthAndHeight">
+        Width="700" Height="Auto" SizeToContent="Height">
     <Window.Resources>
         <sys:Int32 x:Key="LabelWidth">150</sys:Int32>
         <converters:FloatToStringConverter x:Key="FlotToStringConverter" />
@@ -56,7 +56,6 @@
                         <TextBox 
                             Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                             HorizontalContentAlignment="Center"
-                            MinWidth="150"
                             BorderThickness="1" Margin="1"/>
                     </DockPanel>
                     <DockPanel>
@@ -250,10 +249,15 @@
                              Text="{Binding HeightMax, Converter={StaticResource FlotToStringConverter}}" />
                     <TextBox Grid.Row="4" Grid.Column="3"
                              HorizontalContentAlignment="Center"
-                             Text="{Binding WeightUnit}"
+                             Text="{Binding UnitDim}"
                              BorderThickness="1" Margin="1"/>
                 </Grid>
             </GroupBox>
+            <Button 
+                Margin="5"
+                Content="Очистить фильтры" 
+                Command="{Binding ClearFilterCommand}"
+                Background="OrangeRed"/>
         </StackPanel>
         
         

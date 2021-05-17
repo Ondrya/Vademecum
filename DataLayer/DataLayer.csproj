@@ -61,9 +61,9 @@
     <Compile Include="Enviroment.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Kind.cs" />
-    <Compile Include="LAType.cs" />
+    <Compile Include="LA_Type.cs" />
     <Compile Include="Literature.cs" />
-    <Compile Include="LvlAccess.cs" />
+    <Compile Include="Lvl_Access.cs" />
     <Compile Include="Measure.cs" />
     <Compile Include="Measure_Dims.cs" />
     <Compile Include="Measure_Processing.cs" />

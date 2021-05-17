@@ -8,7 +8,7 @@ namespace DataLayer
     public partial class DataContext : DbContext
     {
         public DataContext()
-            : base("name=DataLayer")
+            : base("name=DataContext")
         {
         }
 
@@ -16,7 +16,7 @@ namespace DataLayer
         {
         }
 
-        public virtual DbSet<LvlAccess> LvlAccesses { get; set; }
+        public virtual DbSet<Lvl_Access> Lvl_Access { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
@@ -26,7 +26,7 @@ namespace DataLayer
         public virtual DbSet<Enviroment> Enviroments { get; set; }
         public virtual DbSet<Function> Functions { get; set; }
         public virtual DbSet<Kind> Kinds { get; set; }
-        public virtual DbSet<LAType> LATypes { get; set; }
+        public virtual DbSet<LA_Type> LA_Type { get; set; }
         public virtual DbSet<Literature> Literatures { get; set; }
         public virtual DbSet<Measure> Measures { get; set; }
         public virtual DbSet<Measure_Dims> Measure_Dims { get; set; }
@@ -37,9 +37,10 @@ namespace DataLayer
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LvlAccess>()
+            modelBuilder.Entity<Lvl_Access>()
                 .HasMany(e => e.Users)
-                .WithOptional(e => e.LvlAccess)
+                .WithOptional(e => e.Lvl_Access1)
+                .HasForeignKey(e => e.lvl_access)
                 .WillCascadeOnDelete();
 
             modelBuilder.Entity<Device>()
@@ -59,11 +60,6 @@ namespace DataLayer
                 .HasMany(e => e.Literatures)
                 .WithMany(e => e.Devices)
                 .Map(m => m.ToTable("DeviceLit", "Dev").MapLeftKey("id").MapRightKey("id_lit"));
-
-            modelBuilder.Entity<Device>()
-                .HasMany(e => e.Measures)
-                .WithMany(e => e.Devices)
-                .Map(m => m.ToTable("DeviceMeasure", "Dev").MapLeftKey("id").MapRightKey("id_measure"));
 
             modelBuilder.Entity<BuiltTech>()
                 .Property(e => e.built_tech)
@@ -113,11 +109,11 @@ namespace DataLayer
             modelBuilder.Entity<Kind>()
                 .HasMany(e => e.Types)
                 .WithMany(e => e.Kinds)
-                .Map(m => m.ToTable("TypeKind", "Param").MapLeftKey("id_kind").MapRightKey("id_type"));
+                .Map(m => m.ToTable("Type_Kind", "Param").MapLeftKey("id_kind").MapRightKey("id_type"));
 
-            modelBuilder.Entity<LAType>()
+            modelBuilder.Entity<LA_Type>()
                 .HasMany(e => e.Devices)
-                .WithOptional(e => e.LAType)
+                .WithOptional(e => e.LA_Type)
                 .WillCascadeOnDelete();
 
             modelBuilder.Entity<Literature>()
@@ -143,6 +139,11 @@ namespace DataLayer
             modelBuilder.Entity<Measure>()
                 .Property(e => e.name_measure)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Measure>()
+                .HasMany(e => e.Devices)
+                .WithOptional(e => e.Measure)
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<Measure_Dims>()
                 .HasMany(e => e.Devices)

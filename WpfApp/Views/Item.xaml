@@ -36,7 +36,7 @@
                 VerticalContentAlignment="Center"/>
         </DockPanel>
         <TabControl>
-            <TabItem Header="Описание" IsSelected="True">
+            <TabItem Header="Описание">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -50,7 +50,7 @@
                         Grid.Row="0"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Параметры">
+            <TabItem Header="Параметры" IsSelected="True">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

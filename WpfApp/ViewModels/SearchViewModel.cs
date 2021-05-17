@@ -25,8 +25,8 @@ namespace WpfApp.ViewModels
         private List<Device> devices;
         private Device _selectedItem;
         private bool isAdmin;
-        private string _searchName;
         private RelayCommand _updateCommand;
+        private RelayCommand _clearFilterCommand;
         private ObservableCollection<Device> _deviceCollection;
         private ObservableCollection<DataLayer.Type> _typeCollection;
         private ObservableCollection<Producer> _producerCollection;
@@ -168,7 +168,19 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(LiteratureCollection));
             }
         }
-        
+
+        public string SearchName
+        {
+            get => _searchName;
+            set
+            {
+                _searchName = value;
+                OnPropertyChanged(nameof(SearchName));
+                UpdateCollection();
+            }
+        }
+        private string _searchName;
+
         public Producer SelectedProducer
         {
             get => _selectedProducer;
@@ -478,19 +490,7 @@ namespace WpfApp.ViewModels
 
 
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(obj => UpdateItem(), (obj) => SelectedItem != null));
-
-
-
-        public string SearchName
-        {
-            get => _searchName;
-            set 
-            { 
-                _searchName = value;
-                OnPropertyChanged(nameof(SearchName));
-                UpdateCollection();
-            }
-        }
+        public RelayCommand ClearFilterCommand => _clearFilterCommand ?? (_clearFilterCommand = new RelayCommand(obj => ClearFilter()));
 
         private void UpdateCollection()
         {
@@ -516,42 +516,76 @@ namespace WpfApp.ViewModels
                     if (item.id_built_tech != SelectedBuiltTech.id_built_tech) continue;
 
                 if (SelectedMeasure != null)
-                    if (!item.Measures.Select(x => x.id_measure).Contains(SelectedMeasure.id_measure)) continue;
+                    if (item.id_measure != SelectedMeasure.id_measure) continue;
                 if (MeasureValueMin != null)
                     if (item.min_measure == null || item.min_measure < MeasureValueMin) continue;
                 if (MeasureValueMax != null)
                     if (item.max_measure == null || item.max_measure > MeasureValueMax) continue;
                 if (SelectedMeasureDim != null)
                     if (item.id_dim_measure != SelectedMeasureDim.id_dim_measure) continue;
-                
+
                 if (ErrorMeasure != null)
                     if (item.error_measure == null || item.error_measure > ErrorMeasure) continue;
-                
+
                 if (WeightMin != null)
                     if (item.weight == null || item.weight < WeightMin) continue;
                 if (WeightMax != null)
                     if (item.weight == null || item.weight > WeightMax) continue;
+
                 if (LengthMin != null)
                     if (item.length == null || item.length < LengthMin) continue;
                 if (LengthMax != null)
                     if (item.length == null || item.length > LengthMax) continue;
+
                 if (WidthMin != null)
                     if (item.width == null || item.width < WidthMin) continue;
                 if (WidthMax != null)
                     if (item.width == null || item.width > WidthMax) continue;
+
                 if (HeightMin != null)
                     if (item.height == null || item.height < HeightMin) continue;
                 if (HeightMax != null)
                     if (item.height == null || item.height > HeightMax) continue;
 
-                if (string.IsNullOrWhiteSpace(WeightDim))
-                    if (string.IsNullOrWhiteSpace(item.dim_weight) || !item.dim_weight.CaseInsensitiveContains(WeightDim)) continue;
-                if (string.IsNullOrWhiteSpace(UnitDim))
-                    if (string.IsNullOrWhiteSpace(item.dim_unit) || !item.dim_unit.CaseInsensitiveContains(UnitDim)) continue;
+                //if (string.IsNullOrWhiteSpace(WeightDim))
+                //    if (string.IsNullOrWhiteSpace(item.dim_weight) || !item.dim_weight.CaseInsensitiveContains(WeightDim)) continue;
+                //if (string.IsNullOrWhiteSpace(UnitDim))
+                //    if (string.IsNullOrWhiteSpace(item.dim_unit) || !item.dim_unit.CaseInsensitiveContains(UnitDim)) continue;
 
 
                 DeviceCollection.Add(item);
             }
+        }
+        private void ClearFilter()
+        {
+            SearchName = null;
+            SelectedBuiltTech = null;
+            SelectedControl = null;
+            SelectedDeviceType = null;
+            SelectedFunction = null;
+            SelectedItem = null;
+            SelectedKind = null;
+            SelectedMeasure = null;
+            SelectedMeasureDim = null;
+            SelectedMeasureProcessing = null;
+            SelectedProducer = null;
+            SelectedSensElement = null;
+            SelectedType = null;
+
+            MeasureValueMin = null;
+            MeasureValueMax = null;
+            ErrorMeasure = null;
+
+            WeightMin = null;
+            WeightMax = null;
+            WeightDim = null;
+            LengthMin = null;
+            LengthMax = null;
+            WidthMin = null;
+            WidthMax = null;
+            HeightMin = null;
+            HeightMax = null;
+            UnitDim = null;
         }
 
 

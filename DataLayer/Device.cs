@@ -14,7 +14,6 @@ namespace DataLayer
         {
             Enviroments = new HashSet<Enviroment>();
             Literatures = new HashSet<Literature>();
-            Measures = new HashSet<Measure>();
         }
 
         public int id { get; set; }
@@ -39,6 +38,8 @@ namespace DataLayer
         public int? id_measure_proc { get; set; }
 
         public int? id_prod { get; set; }
+
+        public int? id_measure { get; set; }
 
         public float? min_measure { get; set; }
 
@@ -95,7 +96,9 @@ namespace DataLayer
 
         public virtual Kind Kind { get; set; }
 
-        public virtual LAType LAType { get; set; }
+        public virtual LA_Type LA_Type { get; set; }
+
+        public virtual Measure Measure { get; set; }
 
         public virtual Measure_Dims Measure_Dims { get; set; }
 
@@ -106,8 +109,5 @@ namespace DataLayer
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Literature> Literatures { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Measure> Measures { get; set; }
     }
 }
