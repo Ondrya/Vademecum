@@ -164,11 +164,17 @@ namespace WpfApp.ViewModels
         public RelayCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(obj => { Fill(); }));
         public RelayCommand UpdateCommand => _updateCommand ?? (_updateCommand = new RelayCommand(obj =>
         {
+            UpdateItem();
+        }, (obj) => SelectedItem != null));
+
+        internal void UpdateItem()
+        {
             var popUpWindow = new Item(SelectedItem.Id);
             popUpWindow.Show();
             foreach (Window item in Application.Current.Windows)
                 if (item.DataContext == this) popUpWindow.Owner = item;
-        }, (obj) => SelectedItem != null));
+        }
+
         public RelayCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(obj =>
         {
             var res = MessageBox.Show("Удалить выбранный элемент?", "Требуется подтверждение.", MessageBoxButton.YesNo, MessageBoxImage.Question);

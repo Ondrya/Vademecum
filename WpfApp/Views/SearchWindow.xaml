@@ -40,11 +40,6 @@
                     MouseDoubleClick="DeviceLis_MouseDoubleClick"
                     ItemsSource="{Binding DeviceCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <!--<b:Interaction.Triggers>
-                    <b:EventTrigger EventName="MouseDoubleClick">
-                        <b:InvokeCommandAction Command="{Binding UpdateCommand}" />
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>-->
             </Grid>
         </GroupBox>
 
