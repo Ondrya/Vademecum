@@ -42,8 +42,11 @@
                 <StackPanel Grid.Column="0">
                     <Label Content="* Наименование: "/>
                 </StackPanel>
-                <StackPanel Grid.Column="1" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    <TextBox Text="{Binding Path=name_control, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="26" BorderThickness="1" />
+                <StackPanel Grid.Column="1">
+                    <TextBox 
+                        Text="{Binding Path=Selected.name_control, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                        Height="26" 
+                        BorderThickness="1" />
                 </StackPanel>
             </Grid>
             <local:ParamActionButtons />

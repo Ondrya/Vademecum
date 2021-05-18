@@ -29,10 +29,10 @@
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Margin="2" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+        <StackPanel Margin="2">
             <DockPanel>
                 <Label Content="* Наименование: "/>
-                <TextBox Text="{Binding Path=dim_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Path=Selected.dim_measure, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             </DockPanel>
         </StackPanel>
 

@@ -23,6 +23,9 @@ namespace WpfApp.ViewModels
             Fill();
         }
 
+        public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
+        public bool CanEditTextBox => !IsAdmin;
+
         public void Fill()
         {
             using (var context = new DataContext(cn))
@@ -32,9 +35,6 @@ namespace WpfApp.ViewModels
                 Selected = null;
             }
         }
-
-        public bool IsAdmin => Helpers.Common.CheckIsAdmin(((App)Application.Current).CurrentUser.Level);
-        public bool CanEditTextBox => !IsAdmin;
 
         private ObservableCollection<BuiltTech> _dataCollection;
         private BuiltTech _selected;

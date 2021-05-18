@@ -46,26 +46,26 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1">
-            <StackPanel DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <StackPanel>
                 <DockPanel>
                     <Label Content="* Наименование: " VerticalContentAlignment="Center" Width="100"/>
-                    <TextBox Text="{Binding name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
+                    <TextBox Text="{Binding Selected.name_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1" />
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Адрес: " VerticalContentAlignment="Center" Width="100"/>
-                    <TextBox Text="{Binding address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                    <TextBox Text="{Binding Selected.address_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Телефон: " VerticalContentAlignment="Center" Width="100"/>
-                    <TextBox Text="{Binding phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                    <TextBox Text="{Binding Selected.phone_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Веб адрес:" VerticalContentAlignment="Center" Width="100"/>
-                    <TextBox Text="{Binding web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                    <TextBox Text="{Binding Selected.web_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="E-mail:" VerticalContentAlignment="Center" Width="100"/>
-                    <TextBox Text="{Binding email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
+                    <TextBox Text="{Binding Selected.email_prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" BorderThickness="1"/>
                 </DockPanel>
             </StackPanel>
             <local:ParamActionButtons />

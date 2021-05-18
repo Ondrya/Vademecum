@@ -32,14 +32,14 @@
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Margin="2" DataContext="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+        <StackPanel Margin="2">
             <DockPanel>
                 <Label Content="* Наименование: "/>
-                <TextBox Text="{Binding Path=name_measure_proc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBox Text="{Binding Path=Selected.name_measure_proc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             </DockPanel>
             <Label Content="Описание:"/>
             <TextBox 
-                Text="{Binding Path=spec_measure_proc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                Text="{Binding Path=Selected.spec_measure_proc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                 Height="60" TextWrapping="Wrap"
                 MinLines="4"
                 BorderThickness="1"
