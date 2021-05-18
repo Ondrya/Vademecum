@@ -172,7 +172,7 @@ namespace WpfApp.ViewModels
         public RelayCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(obj =>
         {
             var res = MessageBox.Show("Удалить выбранный элемент?", "Требуется подтверждение.", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (res == MessageBoxResult.OK) DeleteItem(SelectedItem);
+            if (res == MessageBoxResult.Yes) DeleteItem(SelectedItem);
         }, (obj) => SelectedItem != null && isAdmin));
         public RelayCommand CreateCommand => _createCommand ?? (_createCommand = new RelayCommand(obj =>
         {
@@ -184,7 +184,24 @@ namespace WpfApp.ViewModels
 
         private void DeleteItem(DeviceSensorLookUp selectedItem)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var context = new DataContext(cn))
+                {
+                    var item = context.Devices.Find(selectedItem.Id);
+                    if (item != null)
+                    {
+                        context.Devices.Remove(item);
+                        context.SaveChanges();
+                        DataGridCollection.Remove(selectedItem);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
         }
 
         public RelayCommand ShowAdminWindowCommand => _showAdminWindowCommand ?? (_showAdminWindowCommand = new RelayCommand(obj =>
