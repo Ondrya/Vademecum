@@ -35,6 +35,30 @@
                 Command="{Binding SaveCommand}"
                 DockPanel.Dock="Right" Height="30" Margin="1"
                 Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Button 
+                DockPanel.Dock="Right"
+                Margin="5 0"
+                Background="Blue" 
+                Command="{Binding CreateDocumentCommand}"
+                CommandParameter="Word"
+                Visibility="{Binding DeviceCreated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="FileWord" VerticalAlignment="Center"/>
+                    <Label Content="Word" Foreground="White"/>
+                </DockPanel>
+            </Button>
+            <!--<Button 
+                DockPanel.Dock="Right"
+                Margin="5 0"
+                Background="Green" 
+                Command="{Binding CreateDocumentCommand}"
+                CommandParameter="Excel"
+                Visibility="{Binding IsCreated, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="FileExcel" VerticalAlignment="Center"/>
+                    <Label Content="Excel" Foreground="White"/>
+                </DockPanel>
+            </Button>-->
             <TextBox 
                 Text="{Binding CurrentDevice.name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 VerticalContentAlignment="Center"/>

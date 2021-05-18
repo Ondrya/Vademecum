@@ -14,6 +14,10 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using WpfApp.Converters;
 using System.Collections.Generic;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Windows.Input;
 
 namespace WpfApp.ViewModels
 {
@@ -32,7 +36,7 @@ namespace WpfApp.ViewModels
             FunctionCollection = new ObservableCollection<Function>();
             SensElementCollection = new ObservableCollection<Sens_Element>();
             KindCollection = new ObservableCollection<Kind>();
-            ControlCollection = new ObservableCollection<Control>();
+            ControlCollection = new ObservableCollection<DataLayer.Control>();
             MeasureProcessingCollection = new ObservableCollection<Measure_Processing>();
             BuiltTechCollection = new ObservableCollection<BuiltTech>();
             MeasureCollection = new ObservableCollection<Measure>();
@@ -60,7 +64,7 @@ namespace WpfApp.ViewModels
         private ObservableCollection<Function> _functionCollection;
         private ObservableCollection<Sens_Element> _sensElementCollection;
         private ObservableCollection<Kind> _kindCollection;
-        private ObservableCollection<Control> _controlCollection;
+        private ObservableCollection<DataLayer.Control> _controlCollection;
         private ObservableCollection<Measure_Processing> _measureProcessingCollection;
         private ObservableCollection<BuiltTech> _builtTechCollection;
         private ObservableCollection<Measure> _measureCollection;
@@ -171,7 +175,7 @@ namespace WpfApp.ViewModels
         }
         private Kind _selectedKind;
 
-        public Control SelectedControl
+        public DataLayer.Control SelectedControl
         {
             get => _selectedControl;
             set
@@ -181,7 +185,7 @@ namespace WpfApp.ViewModels
                 CurrentDevice.id_control = value?.id_control;
             }
         }
-        private Control _selectedControl;
+        private DataLayer.Control _selectedControl;
 
         public Measure_Processing SelectedMeasureProcessing
         {
@@ -297,7 +301,7 @@ namespace WpfApp.ViewModels
                 OnPropertyChanged(nameof(KindCollection));
             }
         }
-        public ObservableCollection<Control> ControlCollection
+        public ObservableCollection<DataLayer.Control> ControlCollection
         {
             get => _controlCollection;
             set
@@ -444,7 +448,7 @@ namespace WpfApp.ViewModels
             FunctionCollection = new ObservableCollection<Function>(Helpers.Dict.GetFunctions());
             SensElementCollection = new ObservableCollection<Sens_Element>(Helpers.Dict.GetSensElements());
             KindCollection = new ObservableCollection<Kind>(Helpers.Dict.GetKinds());
-            ControlCollection = new ObservableCollection<Control>(Helpers.Dict.GetControls());
+            ControlCollection = new ObservableCollection<DataLayer.Control>(Helpers.Dict.GetControls());
             MeasureProcessingCollection = new ObservableCollection<Measure_Processing>(Helpers.Dict.GetMeasureProcessing());
             BuiltTechCollection = new ObservableCollection<BuiltTech>(Helpers.Dict.GetBuiltTeches());
             MeasureCollection = new ObservableCollection<Measure>(Helpers.Dict.GetMeasures());
@@ -591,6 +595,87 @@ namespace WpfApp.ViewModels
                         break;
                 }
             }, (obj) => CanShowImage(obj.ToString())));
+
+        private RelayCommand _createDocumentCommand;
+
+        public RelayCommand CreateDocumentCommand => _createDocumentCommand ?? (_createDocumentCommand = new RelayCommand(obj => 
+        {
+            switch ((string)obj)
+            {
+                case "Word":
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.FileName = $"{CurrentDevice.id}.docx";
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        Mouse.OverrideCursor = Cursors.Wait;
+                        try
+                        {
+                            using (
+                            WordprocessingDocument wordDocument = WordprocessingDocument.Create(
+                                saveFileDialog.FileName,
+                                WordprocessingDocumentType.Document))
+                            {
+                                // Add a main document part. 
+                                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+
+                                // Create the document structure and add some text.
+                                mainPart.Document = new Document();
+                                Body body = mainPart.Document.AppendChild(new Body());
+                                foreach (var item in PrepareContentWord(CurrentDevice))
+                                {
+                                    Paragraph para = body.AppendChild(new Paragraph());
+                                    Run run = para.AppendChild(new Run());
+                                    run.AppendChild(new Text(item));
+                                }
+
+                                MessageBox.Show("Файл сохранён.");
+                            }
+                        }
+                        finally
+                        {
+                            Mouse.OverrideCursor = null;
+                        }
+                        
+                    }
+                    break;
+                //case "excel":
+                //    break;
+                default:
+                    break;
+            }
+        }));
+
+        private List<string> PrepareContentWord(Device currentDevice)
+        {
+            var res = new List<string>();
+
+            res.Add($"Название: {CurrentDevice.name}");
+            res.Add($"");
+            res.Add($"  Устройство – {SelectedDeviceType?.device_type}");
+            res.Add($"  Тип – {SelectedType?.name_type}");
+            res.Add($"  Принцип – {SelectedKind?.name_kind}");
+            res.Add($"  Чувствительный элемент – {SelectedSensElement?.name_se}");
+            res.Add($"  Метод управления – {SelectedControl?.name_control}");
+            res.Add($"  Действие с информацией – {SelectedMeasureProcessing?.name_measure_proc}");
+            res.Add($"");
+            res.Add($"Параметры измерений");
+            res.Add($"  Измеряемая величина - {SelectedMeasure?.name_measure}");
+            res.Add($"  Диапазон измерений от {CurrentDevice.min_measure} до {CurrentDevice.max_measure} ({SelectedMeasureDim?.dim_measure})");
+            res.Add($"  Погрешность измерений - {CurrentDevice.error_measure} %");
+            res.Add($"  Рабочая температура от {CurrentDevice.min_temp} до {CurrentDevice.max_temp} ({CurrentDevice.temp_unit})");
+            res.Add($"");
+            res.Add($"МГХ");
+            res.Add($"  Вес - {CurrentDevice.weight}, {CurrentDevice.dim_weight}");
+            res.Add($"  Длина - {CurrentDevice.length}");
+            res.Add($"  Ширина - {CurrentDevice.width}");
+            res.Add($"  Высота - {CurrentDevice.height}");
+            res.Add($"");
+            res.Add($"Описание:");
+            res.Add($"{CurrentDevice.spec}");
+            
+            return res;
+            //return string.Join(Environment.NewLine, res.ToArray());
+        }
 
         private bool CanShowImage(string target)
         {
