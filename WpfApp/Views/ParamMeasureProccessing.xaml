@@ -16,23 +16,27 @@
             <Setter Property="IsReadOnly" Value="{Binding CanEditTextBox}" />
         </Style>
     </Window.Resources>
-    <StackPanel Margin="5">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <DataGrid 
+            Grid.Row="0"
             ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             IsReadOnly="True" 
-            AutoGenerateColumns="False" 
-            Height="220" >
-            <DataGrid.Columns>
-                <DataGridTextColumn 
+            AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
                     Header="Наименование" Binding="{Binding Path=name_measure_proc, UpdateSourceTrigger=PropertyChanged}" 
                     Width="200"/>
-                <DataGridTextColumn 
+                    <DataGridTextColumn 
                     Header="Описание" Binding="{Binding Path=spec_measure_proc, UpdateSourceTrigger=PropertyChanged}" 
                     Width="*"/>
-            </DataGrid.Columns>
+                </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Margin="2">
+        <StackPanel Margin="2" Grid.Row="1">
             <DockPanel>
                 <Label Content="* Наименование: "/>
                 <TextBox Text="{Binding Path=Selected.name_measure_proc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -47,5 +51,5 @@
         </StackPanel>
 
         <local:ParamActionButtons />
-    </StackPanel>
+    </Grid>
 </Window>

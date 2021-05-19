@@ -17,60 +17,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DockPanel 
-            Grid.Row="1" LastChildFill="False">
-            <Button 
-                Background="Green" Margin="5"
-                Command="{Binding CreateCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
-                    <Label Content="Добавить"/>
-                </DockPanel>
-            </Button>
-            <Button 
-                Background="Gold" Margin="5"
-                Command="{Binding UpdateCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Foreground="Black"/>
-                    <Label Content="{Binding GoToItemName}"/>
-                </DockPanel>
-            </Button>
-            <Button 
-                Background="Red" Margin="5"
-                Command="{Binding DeleteCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Foreground="Black"/>
-                    <Label Content="Удалить"/>
-                </DockPanel>
-            </Button>
-            <Button 
-                Background="LightGreen" Margin="5"
-                DockPanel.Dock="Right" 
-                Command="{Binding RefreshCommand}">
-                <DockPanel>
-                    <materialDesign:PackIcon Kind="RefreshCircle" VerticalAlignment="Center" Foreground="Black"/>
-                    <Label Content="Обновить"/>
-                </DockPanel>
-            </Button>
-        </DockPanel>
-        <StatusBar Grid.Row="2">
-            <StatusBarItem>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Текущий пользователь"/>
-                    <Label 
-                        Content="{Binding CurrentSession.CurrentUser.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        FontStyle="Italic"/>
-                </StackPanel>
-            </StatusBarItem>
-            <StatusBarItem>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Тип ЛА"/>
-                    <Label 
-                        Content="{Binding CurrentSession.SelectedLaType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        FontStyle="Italic"/>
-                </StackPanel>
-            </StatusBarItem>
-        </StatusBar>
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -136,35 +82,14 @@
                 Margin="3"
                 Grid.Row="1" Grid.Column="2"
                 Command="{Binding FilterDeviceCommand}"/>
-            
-            <StackPanel VerticalAlignment="Stretch"
-                Grid.Row="2" Grid.ColumnSpan="4">
 
-                <!--<GroupBox Margin="3 5 3 0" Header="Фильтры">
-                    <StackPanel>
-                        <DockPanel>
-                            <Button Content="Применить" DockPanel.Dock="Right" Width="150" Margin="5 0" Background="Green"/>
-                            <DockPanel LastChildFill="True">
-                                <Label Content="Измеряемая величина" Width="140" VerticalContentAlignment="Center"/>
-                                <ComboBox />
-                            </DockPanel>
-                        </DockPanel>
-                        <DockPanel>
-                            <Button Content="Сбросить" DockPanel.Dock="Right" Width="150" Margin="5 0" Background="Red"/>
-                            <DockPanel>
-                                <Label Content="Диапазон измерений" Width="140" VerticalContentAlignment="Center"/>
-                                <Label Content="От" Background="LightGray" VerticalContentAlignment="Center"/>
-                                <TextBox Text="" Width="50"/>
-                                <Label Content="До" Background="LightGray" VerticalContentAlignment="Center"/>
-                                <TextBox Text="" Width="50"/>
-                                <Label Content="Единица измерения" Background="LightGray" VerticalContentAlignment="Center"/>
-                                <ComboBox />
-                            </DockPanel>
-                        </DockPanel>
-                    </StackPanel>
-                </GroupBox>-->
+            <DockPanel Grid.Row="2" Grid.ColumnSpan="4"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
 
-                <GroupBox Height="300" Margin="3 5 3 0" Header="{Binding HeaderList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <GroupBox Margin="3 5 3 0" 
+                          DockPanel.Dock="Top"
+                          Header="{Binding HeaderList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     <DataGrid
                         x:Name="DeviceList"
                         VerticalScrollBarVisibility="Auto"
@@ -180,7 +105,60 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </GroupBox>
-            </StackPanel>
+            </DockPanel>
         </Grid>
+        <DockPanel Grid.Row="1" LastChildFill="False">
+            <Button 
+                Background="Green" Margin="5"
+                Command="{Binding CreateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="AddCircle" VerticalAlignment="Center"/>
+                    <Label Content="Добавить"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="Gold" Margin="5"
+                Command="{Binding UpdateCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="{Binding GoToItemName}"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="Red" Margin="5"
+                Command="{Binding DeleteCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="Удалить"/>
+                </DockPanel>
+            </Button>
+            <Button 
+                Background="LightGreen" Margin="5"
+                DockPanel.Dock="Right" 
+                Command="{Binding RefreshCommand}">
+                <DockPanel>
+                    <materialDesign:PackIcon Kind="RefreshCircle" VerticalAlignment="Center" Foreground="Black"/>
+                    <Label Content="Обновить"/>
+                </DockPanel>
+            </Button>
+        </DockPanel>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Текущий пользователь"/>
+                    <Label 
+                        Content="{Binding CurrentSession.CurrentUser.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        FontStyle="Italic"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Тип ЛА"/>
+                    <Label 
+                        Content="{Binding CurrentSession.SelectedLaType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        FontStyle="Italic"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
