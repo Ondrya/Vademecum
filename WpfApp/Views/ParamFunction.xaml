@@ -16,13 +16,18 @@
             <Setter Property="IsReadOnly" Value="{Binding CanEditTextBox}" />
         </Style>
     </Window.Resources>
-    <StackPanel Margin="5">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <DataGrid 
+            Grid.Row="0"
             ItemsSource="{Binding DataCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             SelectedItem="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             IsReadOnly="True" 
-            AutoGenerateColumns="False" 
-            Height="220" >
+            AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Header="Наименование" Binding="{Binding Path=name_func, UpdateSourceTrigger=PropertyChanged}" 
@@ -32,7 +37,7 @@
                     Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Margin="2">
+        <StackPanel Margin="2" Grid.Row="1">
             <DockPanel>
                 <Label Content="* Наименование: "/>
                 <TextBox Text="{Binding Path=Selected.name_func, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -46,6 +51,6 @@
                 Margin="1"/>
         </StackPanel>
 
-        <local:ParamActionButtons />
-    </StackPanel>
+        <local:ParamActionButtons Grid.Row="2" />
+    </Grid>
 </Window>
