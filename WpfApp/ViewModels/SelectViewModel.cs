@@ -44,7 +44,9 @@ namespace WpfApp.ViewModels
         }));
         public RelayCommand HelpCommand => _helpCommand ?? (_helpCommand = new RelayCommand(obj =>
         {
-            throw new NotImplementedException();
+            string path = System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName)
+             + "\\Resources\\Documents\\Help.docx";
+            System.Diagnostics.Process.Start(path);
         }));
         public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(obj =>
         {
